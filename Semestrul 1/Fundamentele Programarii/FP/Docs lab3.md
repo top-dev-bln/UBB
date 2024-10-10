@@ -2,8 +2,24 @@
 
 ### Scenarii de rulare
 
-| Program                           | Utilizator | Descriere |
-| --------------------------------- | ---------- | --------- |
-| Introd. lista                     | 1 4 5 9 6  |           |
-| Lista a fost citita<br>cu success |            |           |
-| Afisare meniu                     |            |           |
+| Iteratie | Feature                                                          |
+| -------- | ---------------------------------------------------------------- |
+| I1       | Introducere lista                                                |
+| I2       | gasire secv max in care doua nr. consecutive difera prin nr prim |
+| I3       | gasire secv max in care doua nr. consecutive difera prin nr semn |
+| I4       | F4. Iesire din program                                           |
+
+### Cazuri de testare
+#### Functia ce gaseste secv max unde oricare doua elemente consecutive difera printr-un numar prim
+
+| Date                                      | Rezultat               |
+| ----------------------------------------- | ---------------------- |
+| \[1,2,3,6,13,4,21,17,4,2,69,67,86,2,9,11] | \[17,4,2,69,67,86]<br> |
+
+
+#### Functia ce gaseste secv max unde oricare doua elemente consecutive sunt de semn contrar
+
+| Date                         | Rezultat              |
+| ---------------------------- | --------------------- |
+| \[1,2,-3,6,-2,15,-17,3,5,-8] | \[2,-3,6,-2,15,-17,3] |
+
