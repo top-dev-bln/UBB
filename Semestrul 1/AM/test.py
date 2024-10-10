@@ -1,1 +1,1 @@
-print(-3%-2)
+#o sa testez daca s-a schimbat ceva in .py
