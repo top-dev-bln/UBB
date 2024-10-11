@@ -1,0 +1,38 @@
+     1                                  bits 32
+     2                                  global start        
+     3                                  
+     4                                  extern exit
+     5                                  import exit msvcrt.dll
+     6                                  
+     7                                  
+     8                                  segment data use32 class=data ;(g+5)-a*d
+     9 00000000 03                      a db 3
+    10 00000001 02                      d db 2
+    11 00000002 4600                    g dw 70
+    12                                  
+    13                                  
+    14                                  segment code use32 class=code
+    15                                      start:  ;(g+5)-a*d
+    16                                      
+    17 00000000 B800000000                  MOV EAX,0
+    18                                      
+    19 00000005 668305[02000000]05          ADD WORD [g], 5   ;[g] = g+5
+    20 0000000D A0[00000000]                MOV AL,[a]        ;AL = a
+    21 00000012 F625[01000000]              MUL byte [d]      ;AX = a*d
+    22                                      
+    23                                      
+    24                                      ;;pentru ca vreau sa il vad in debugger o sa fac interschimbare
+    25 00000018 6689C2                      MOV DX,AX
+    26 0000001B 66A1[02000000]              MOV AX,[g]
+    27                                  
+    28 00000021 6629D0                      SUB AX,DX
+    29                                      
+    30                                      
+    31                                          
+    32                                          
+    33                                      
+    34                                  
+    35 00000024 6A00                            push    dword 0
+    36 00000026 FF15[00000000]                  call    [exit]
+    37                                  
+    38                                          
