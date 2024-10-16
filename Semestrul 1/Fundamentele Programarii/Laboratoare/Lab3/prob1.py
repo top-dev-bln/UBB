@@ -1,4 +1,5 @@
 def test():
+
     # Tests for oricare_doua_consecutive_difera_prin_nr_prim
     assert construire(oricare_doua_consecutive_difera_prin_nr_prim, [1, 2, 3, 6, 13, 4, 21, 17, 4, 2, 69, 67, 86, 2, 9, 11]) == [17, 4, 2, 69, 67, 86]
     assert construire(oricare_doua_consecutive_difera_prin_nr_prim, [5, 11, 15, 16]) == []  # fara diferente prime
@@ -17,12 +18,30 @@ def test():
     assert construire(oricare_doua_consecutive_difera_prin_semn, [1, -1, 1, -1, 1, -1]) == [1, -1, 1, -1, 1, -1]  # Toata lista are proprietatea
     assert construire(oricare_doua_consecutive_difera_prin_semn, [0, -1, 1, 0, -2, 2]) == [-1, 1]  # Include 0
     assert construire(oricare_doua_consecutive_difera_prin_semn, [10, -10, 20, -20, 30, -30, 40]) == [10, -10, 20, -20, 30, -30, 40]
+
+    # Tests pentru secventa de lungime maxima cu suma maxima
+
+    assert kad([1,2,3,-5,6,3])==[1,2,3,-5,6,3]
+    assert kad([1,2,3,-6,6,3])==[1,2,3,-6,6,3] 
+    assert kad([1,2,3,-7,6,3])==[6,3]
+    assert kad([1, 2, -3, 6, -2, 15, -17, 3, 5, -8])==[1, 2, -3, 6, -2, 15, -17, 3, 5, -8]
+    assert kad([-1, -2, -3, -4]) == []
+    assert kad([0, -1, 1, 0, -2, 2]) == [2]
+
+    
+
  
     print("All tests passed successfully!")
 
 
 
-def construire(functie,lista):
+def construire(functie:function,lista:list)->list:
+    '''
+    :param  : lista   =  este lista de numere pe care se cauta proprietatea
+    :param  : functie =  este functia de testare a proprietatii
+    :return : secventa = lista maxima gasita cu proprietatea functie
+    :rtype  : list
+    '''
 
     if len(lista) < 2: 
         return []
@@ -47,13 +66,50 @@ def construire(functie,lista):
 
     return secventa
 
-def oricare_doua_consecutive_difera_prin_nr_prim(a,b):
+def oricare_doua_consecutive_difera_prin_nr_prim(a:int,b:int)->bool:
+    '''
+    :param  : a = parametrul a este unul din numerele comparate pentru proprietate
+    :param  : b = parametrul b este celalalt numar comparat pentru proprietate
+    :return : returneaza valoarea de adevar a propozitiei prim(abs(abs(a)-abs(b)))
+    :rtype  : bool
+    '''
     return (prim(abs(abs(a)-abs(b))))
 
-def oricare_doua_consecutive_difera_prin_semn(a,b):
+def oricare_doua_consecutive_difera_prin_semn(a:int,b:int)->bool:
+    '''
+    :param  : a = parametrul a este unul din numerele comparate pentru proprietate
+    :param  : b = parametrul b este celalalt numar comparat pentru proprietate
+    :return : returneaza valoarea de adevar a propozitiei a*b<0 sau fals daca unul dintre termeni este 0
+    :rtype  : bool
+    '''
     if a==0 or b==0:
         return False
     return (a*b<0)
+
+def kad(lista:list) -> list:
+    '''
+    :param  : lista = parametrul lista este lista de numere pe care se cauta proprietatea
+    :return : secventa = lista maxima gasita
+    :rtype  : list
+    '''
+
+    sum=0
+    temp=[]
+    secventa=[]
+    for num in lista:
+        if sum+num>=0:
+            sum=sum+num
+            temp.append(num)
+        else:
+            sum = 0
+            secventa = temp.copy()
+            temp = []
+    if sum > 0:
+        secventa = temp.copy()
+
+
+    return secventa
+        
 
 
     
@@ -63,6 +119,7 @@ def meniu():
     print("---------Secventa de lungime maxima cu proprietatea----------------")
     print("2. oricare doua elemente consecutive difera printr-un numar prim")
     print("3. are oricare doua elemente consecutive sunt de semne contrare")
+    print("4. are suma maxima")
     print("-------------------------------------------------------------------")
     print("4. Iesire")
     while True:
@@ -114,5 +171,7 @@ while True:
     if(option==3):
         print(construire(oricare_doua_consecutive_difera_prin_semn,lista))
     if(option==4):
+        print(kad(lista))
+    if(option==5):
         break
 

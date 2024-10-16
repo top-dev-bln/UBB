@@ -27,17 +27,6 @@ segment code use32 class=code
         DIV DL
         
      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-
         push    dword 0
         call    [exit]
 

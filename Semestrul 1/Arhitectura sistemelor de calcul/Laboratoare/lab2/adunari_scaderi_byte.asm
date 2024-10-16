@@ -8,29 +8,24 @@ import exit msvcrt.dll
 
 
 segment data use32 class=data
-a resb 1
-b resb 1
-c resb 1
-d resb 1
+a db 3
+b db 4
+c db 1
+d db 2
 
 segment code use32 class=code
     start:
-        mov byte [a],3
-        mov byte [b],4
-        mov byte [c],1
-        mov byte [d],2
-        
-        
+
         mov EAX,0
         mov al,[a]
-        add byte al,[b]
-        add byte al,[d]
-        sub byte al,[c]
+        add al,[b]
+        add al,[d]
+        sub al,[c]
         
         mov dl,[d]
         sub byte [a],dl
         
-        sub byte al,[a]
+        sub al,[a]
         
 
         push    dword 0 

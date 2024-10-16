@@ -1,18 +1,22 @@
 {
   "main": {
-    "id": "936f81005d5f1711",
+    "id": "a5b6151dc6d7365f",
     "type": "split",
     "children": [
       {
-        "id": "ba6556baf508c8b7",
+        "id": "6a69008c6accfa6c",
         "type": "tabs",
         "children": [
           {
-            "id": "ebe4a607fc174cd4",
+            "id": "2b3ce5775a9ef027",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Curs 3.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -21,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "9801c6d9265922f8",
+    "id": "7f74124f4f2f93e3",
     "type": "split",
     "children": [
       {
-        "id": "94afa5b38f193716",
+        "id": "d40f45c7cda56390",
         "type": "tabs",
         "children": [
           {
-            "id": "0108531a8cd5c0c4",
+            "id": "7cb783a5a725bf83",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -39,7 +43,7 @@
             }
           },
           {
-            "id": "6d6c01b1ead1382d",
+            "id": "0d1e7b01b714d35a",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -54,7 +58,7 @@
             }
           },
           {
-            "id": "35398c21cbe64802",
+            "id": "e23b9fda0e5d0064",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -68,19 +72,20 @@
     "width": 300
   },
   "right": {
-    "id": "9b4e1c2014574d42",
+    "id": "4718a63f77164244",
     "type": "split",
     "children": [
       {
-        "id": "d239dc3685a0376d",
+        "id": "0ae2f6ef33919f35",
         "type": "tabs",
         "children": [
           {
-            "id": "18013526cfa07beb",
+            "id": "a0aabd17e33ca8fb",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Curs 3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -92,18 +97,19 @@
             }
           },
           {
-            "id": "367c26f1dc916dd1",
+            "id": "a29903a2495ba11a",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Curs 3.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "49f3e3e08b0b002f",
+            "id": "151d5afafcc57f29",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -114,11 +120,13 @@
             }
           },
           {
-            "id": "e561717acdc91e63",
+            "id": "af978b206a19b561",
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Curs 3.md"
+              }
             }
           }
         ]
@@ -138,9 +146,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ebe4a607fc174cd4",
+  "active": "2b3ce5775a9ef027",
   "lastOpenFiles": [
-    "Docs lab3.md",
-    "Seminar 1.md"
+    "Schema.jpg",
+    "Curs 3.md",
+    "Curs 2.md",
+    "Curs 1.md",
+    "Seminar 1.md",
+    "WhatsApp Image 2024-10-16 at 17.42.39_feb1f3af.jpg",
+    "WhatsApp Image 2024-10-09 at 15.42.07_4d0131ba.jpg",
+    "Lab1.md"
   ]
 }

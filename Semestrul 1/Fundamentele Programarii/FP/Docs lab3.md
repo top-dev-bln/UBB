@@ -1,13 +1,44 @@
 
 
-### Scenarii de rulare
+### Scenariu de rulare prop1
 
-| Iteratie | Feature                                                          |
-| -------- | ---------------------------------------------------------------- |
-| I1       | Introducere lista                                                |
-| I2       | gasire secv max in care doua nr. consecutive difera prin nr prim |
-| I3       | gasire secv max in care doua nr. consecutive difera prin nr semn |
-| I4       | F4. Iesire din program                                           |
+| Program                                                                                                                                                                        | Utilizator              | Descriere                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- | -------------------------------------------- |
+| meniu\*<br>1. Citire Lista<br>2. oricare doua elemente consecutive difera printr-un numar prim<br>3. are oricare doua elemente consecutive sunt de semne contrare<br>4. Iesire |                         | se afiseaza meniu                            |
+|                                                                                                                                                                                | 1                       | utilizatorul introduce 1 pentru citire lista |
+| introdu o lista de numere separate prin spatiu                                                                                                                                 |                         | mesaj ce confirma receptarea listei          |
+|                                                                                                                                                                                | 3 5 8 10 13 17 22 27 34 | lista introdusa la tastatura de utilizator   |
+| meniu*                                                                                                                                                                         |                         | se afiseaza meniu                            |
+|                                                                                                                                                                                | 2                       | utilizatorul introduce 2 pentru funct.1      |
+| \[3, 5, 8, 10, 13]                                                                                                                                                             |                         | rezultat afisat in consola                   |
+| meniu\*                                                                                                                                                                        |                         | se afiseaza meniu                            |
+|                                                                                                                                                                                | 1                       | utilizatorul introduce 1 pentru citire lista |
+| introdu o lista de numere separate prin spatiu                                                                                                                                 |                         | mesaj ce confirma receptarea listei          |
+|                                                                                                                                                                                | 5 11 15 16              | lista introdusa la tastatura de utilizator   |
+| meniu\*                                                                                                                                                                        |                         | se afiseaza meniu                            |
+|                                                                                                                                                                                | 2                       | utilizatorul introduce 2 pentru funct.1      |
+| \[]                                                                                                                                                                            |                         | rezultat afisat in consola                   |
+### Scenariu de rulare prop2
+
+| Program                                                                                                                                                                        | Utilizator                | Descriere                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- | -------------------------------------------- |
+| meniu\*<br>1. Citire Lista<br>2. oricare doua elemente consecutive difera printr-un numar prim<br>3. are oricare doua elemente consecutive sunt de semne contrare<br>4. Iesire |                           | se afiseaza meniu                            |
+|                                                                                                                                                                                | 1                         | utilizatorul introduce 1 pentru citire lista |
+| introdu o lista de numere separate prin spatiu                                                                                                                                 |                           | mesaj ce confirma receptarea listei          |
+|                                                                                                                                                                                | 1 2 -3 6 -2 15 -17 3 5 -8 | lista introdusa la tastatura de utilizator   |
+| meniu\*                                                                                                                                                                        |                           | se afiseaza meniu                            |
+|                                                                                                                                                                                | 3                         | utilizatorul introduce 3 pentru funct.2      |
+| \[2, -3, 6, -2, 15, -17, 3]                                                                                                                                                    |                           | rezultat afisat in consola                   |
+|                                                                                                                                                                                |                           | se afiseaza meniu                            |
+|                                                                                                                                                                                | 1                         | utilizatorul introduce 1 pentru citire lista |
+| introdu o lista de numere separate prin spatiu                                                                                                                                 |                           | mesaj ce confirma receptarea listei          |
+|                                                                                                                                                                                | 0 -1 1 0 -2 2             | lista introdusa la tastatura de utilizator   |
+| meniu\*                                                                                                                                                                        |                           | se afiseaza meniu                            |
+|                                                                                                                                                                                | 3                         | utilizatorul introduce 3 pentru funct.2      |
+| \[-1, 1]                                                                                                                                                                       |                           | rezultat afisat in consola                   |
+
+
+
 
 ### Cazuri de testare
 

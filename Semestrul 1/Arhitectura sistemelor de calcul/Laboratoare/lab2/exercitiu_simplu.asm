@@ -17,11 +17,7 @@ segment data use32 class=data
 segment code use32 class=code
     start:
         
-        
-        mov EAX,0
-        MOV EDX,0
         MOV AL,2
-        MOV DL,8
-        ADD AL,DL
+        ADD AL,8
         push    dword 0      ; push the parameter for exit onto the stack
         call    [exit]       ; call exit to terminate the program

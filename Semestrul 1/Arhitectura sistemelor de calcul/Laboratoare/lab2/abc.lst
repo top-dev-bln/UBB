@@ -4,38 +4,41 @@
      4                                  extern exit
      5                                  import exit msvcrt.dll
      6                                  
-     7                                  segment data use32 class=data ;[(a*b)-d]/(b+c)
-     8 00000000 03                      a db 3
-     9 00000001 04                      b db 4
-    10 00000002 01                      c db 1
-    11 00000003 0200                    d dw 2
-    12                                  segment code use32 class=code
-    13                                      start:  ;[(a*b)-d]/(b+c)
-    14                                          
+     7                                  
+     8                                  segment data use32 class=data ;[(a*b)-d]/(b+c)
+     9 00000000 03                      a db 3
+    10 00000001 04                      b db 4
+    11 00000002 01                      c db 1
+    12 00000003 0200                    d dw 2
+    13                                  segment code use32 class=code
+    14                                      start:  ;[(a*b)-d]/(b+c)
     15                                          
-    16 00000000 B800000000                      mov EAX,0
-    17 00000005 A0[00000000]                    mov AL,[a]
-    18 0000000A F625[01000000]                  MUL byte [b]
-    19                                          
-    20                                          ;AX = a*b
-    21 00000010 662B05[03000000]                SUB AX,[d]
-    22                                          ;AX = (a*b)-d
-    23                                          
-    24 00000017 8A15[02000000]                  mov DL, [c]
-    25 0000001D 0215[01000000]                  ADD DL, [b]
-    26 00000023 F6F2                            DIV DL
-    27                                          
+    16                                          
+    17 00000000 B800000000                      mov EAX,0
+    18 00000005 A0[00000000]                    mov AL,[a]
+    19 0000000A F625[01000000]                  MUL byte [b]
+    20                                          
+    21                                          ;AX = a*b
+    22 00000010 662B05[03000000]                SUB AX,[d]
+    23                                          ;AX = (a*b)-d
+    24                                          
+    25 00000017 8A15[02000000]                  mov DL, [c]
+    26 0000001D 0215[01000000]                  ADD DL, [b]
+    27 00000023 F6F2                            DIV DL
     28                                          
-    29                                          
+    29                                       
     30                                          
     31                                          
     32                                          
     33                                          
     34                                          
     35                                          
-    36                                      
-    37                                  
-    38 00000025 6A00                            push    dword 0
-    39 00000027 FF15[00000000]                  call    [exit]
+    36                                          
+    37                                          
+    38                                          
+    39                                      
     40                                  
-    41                                          
+    41 00000025 6A00                            push    dword 0
+    42 00000027 FF15[00000000]                  call    [exit]
+    43                                  
+    44                                          
