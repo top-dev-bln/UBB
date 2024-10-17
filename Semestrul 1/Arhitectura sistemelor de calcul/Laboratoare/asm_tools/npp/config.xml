@@ -7,14 +7,10 @@
         <Replace name="    " />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\adunari_scaderi_byte.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\exercitiu_simplu.exe" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\exercitiu_simplu.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\adunari_scaderi_word.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\inmultiri_impartiri_3.asm" />
-        <File filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\exercitiu_simplu.asm" />
-        <File filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\adunari_scaderi_byte.asm" />
-        <File filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\adunari_scaderi_word.asm" />
     </History>
     <GUIConfigs>
         <GUIConfig name="ToolBar" visible="yes">standard</GUIConfig>

@@ -8,11 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ebe4a607fc174cd4",
+            "id": "54f8f4206c301cb8",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Docs lab-uri/Docs Lab 4-6.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Docs Lab 4-6"
             }
           }
         ]
@@ -35,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -50,7 +58,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -58,14 +68,17 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "9b4e1c2014574d42",
@@ -81,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Docs lab-uri/Docs Lab 4-6.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,7 +102,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Docs Lab 4-6"
             }
           },
           {
@@ -97,9 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Docs lab-uri/Docs Lab 4-6.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Docs Lab 4-6"
             }
           },
           {
@@ -110,7 +129,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -118,7 +139,11 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Docs lab-uri/Docs Lab 4-6.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Docs Lab 4-6"
             }
           }
         ]
@@ -138,9 +163,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ebe4a607fc174cd4",
+  "active": "54f8f4206c301cb8",
   "lastOpenFiles": [
-    "Docs lab3.md",
-    "Seminar 1.md"
+    "Docs lab-uri/Docs lab3.md",
+    "Docs lab-uri/Docs Lab 4-6.md",
+    "Seminar 1.md",
+    "Curs 1.md",
+    "Curs 2.md",
+    "Docs lab-uri"
   ]
 }
