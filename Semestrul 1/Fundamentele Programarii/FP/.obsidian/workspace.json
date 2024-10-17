@@ -77,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "9b4e1c2014574d42",
@@ -163,7 +162,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "54f8f4206c301cb8",
+  "active": "0108531a8cd5c0c4",
   "lastOpenFiles": [
     "Docs lab-uri/Docs lab3.md",
     "Docs lab-uri/Docs Lab 4-6.md",
