@@ -51,9 +51,15 @@ Aplicația va permite:
 
 ##### Scenarii de rulare
 
-| Utilizator | Program | Descriere |
-| ---------- | ------- | --------- |
-|            |         |           |
+| Utilizator | Program           | Descriere                                                       |
+| ---------- | ----------------- | --------------------------------------------------------------- |
+|            | Meniu Principal*  | se afiseaza meniul principal din care se aleg functionalitatile |
+| 1          |                   | utilizatorul selecteaza adaugarea                               |
+|            | Meniu Adaugare \* | se afiseaza meniul                                              |
+| 1          |                   |                                                                 |
+|            |                   |                                                                 |
+|            |                   |                                                                 |
+|            |                   |                                                                 |
 
 Meniu Principal \*
 ```python
@@ -140,7 +146,7 @@ Meniu Filtrare \*
 - [ ] lista de taskuri
 
 ###### Initializare
-- [ ] Creare modul principal ( main.py ) ce v-a rula procesul
+- [x] Creare modul principal ( main.py ) ce v-a rula procesul
 - [ ] Creare modul de interfata ce creaza instante de pachete
 - [ ] Testare modul de interfata
 - [ ] Creare modul ( offer.py ) ce contine sablon de pachet 
