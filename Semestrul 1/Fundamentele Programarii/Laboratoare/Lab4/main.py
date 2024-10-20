@@ -436,6 +436,20 @@ class package_processor:
             avg_price = sum(prices) / len(prices)
             print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
+    def filter_by_budget(self):
+        """
+        Elimina ofertele care depasesc un buget dat sau au o destinatie diferita de cea data.
+        """
+        print("\033[33mEliminare oferte peste buget sau destinatie diferita\033[0m")
+        budget = float(input("Introduceti bugetul: "))
+        destination = input("Introduceti destinatia: ")
+        initial_count = len(self.__offers)
+        self.__offers = [
+            offer for offer in self.__offers if offer.price <= budget and offer.destination == destination
+        ]
+        removed_count = initial_count - len(self.__offers)
+        print(f"Au fost eliminate {removed_count} oferte.")
+
 
     def print_between_dates(self)->None:
         """
