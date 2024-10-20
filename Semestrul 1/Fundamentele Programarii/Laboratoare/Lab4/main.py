@@ -202,6 +202,21 @@ class package_processor:
             return
         self.__offers = [offer for offer in self.__offers if offer.get_destination() != fuzzy_destination]
         print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
+    def delete_by_price(self)->None:
+        """
+        Sterge ofertele care au un pret mai mare decat cel dat.
+        """
+        while True:
+            try:
+                price = float(input("Introduceți prețul maxim: "))
+                if price <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Preț invalid. Va rugam introduceti un numar pozitiv.")
+        self.__offers = [offer for offer in self.__offers if offer.price <= price]
+        print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
+
 
     def delete_between_dates(self)->None:
         """
