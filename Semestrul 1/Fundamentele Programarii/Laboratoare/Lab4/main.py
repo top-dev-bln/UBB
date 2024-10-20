@@ -19,6 +19,7 @@ class package_processor:
         """
         self.__running = False
         self.__offers = []
+        self.__history = [self.__offers[:]]
         self.__submenu_functions = {
             1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
             2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
@@ -105,9 +106,16 @@ class package_processor:
          else:
              return None
 
-    # TODO undo
+    def __save_state(self):
+        self.__history.append(self.__offers[:])
+
     def handle_undo(self):
-        print("\033[32mUndo realizat cu succes\033[0m") 
+        if len(self.__history) > 1:
+            self.__history.pop()  # Remove the current state
+            self.__offers = self.__history[-1][:]  # Set to a copy of the previous state
+            print("\033[32mUndo realizat cu succes\033[0m")
+        else:
+            print("\033[31mNu se poate realiza undo. Nu există o stare anterioară disponibilă.\033[0m")
 
     def get_date(self):
         """
@@ -159,6 +167,7 @@ class package_processor:
             except ValueError:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
         offer = Package(data[0], data[1], destination, price)
+        self.__save_state()
         self.__offers.append(offer)
         print("\033[32mPachet adaugat cu succes\033[0m") 
         print(str(self.__offers[-1]))
@@ -205,6 +214,7 @@ class package_processor:
             valid = input("Da sau Nu?  => ")
             if valid[0].lower() != "d":
                 return
+        self.__save_state()
         self.__offers = [offer for offer in self.__offers if offer.destination != fuzzy_destination]
         print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
 
@@ -217,6 +227,7 @@ class package_processor:
         if duration < 1:
             print("Durata invalidă")
             return
+        self.__save_state()
         self.__offers = [offer for offer in self.__offers if offer.end_date - offer.start_date <= timedelta(days=duration)]
         print(f"Ofertele cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
 
@@ -232,6 +243,7 @@ class package_processor:
                 break
             except ValueError:
                 print("Preț invalid. Va rugam introduceti un numar pozitiv.")
+        self.__save_state()
         self.__offers = [offer for offer in self.__offers if offer.price <= price]
         print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
 
