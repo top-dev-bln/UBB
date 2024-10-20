@@ -390,6 +390,21 @@ class package_processor:
         if not gasit:
             print(f"Nu exista pachete cu data de sfarsit inainte de {end_date.strftime('%Y-%m-%d')}.")
 
+    def report_offer_count(self):
+        """
+        Afiseaza numarul de oferte pentru o destinatie data.
+        """
+        print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
+        destination = input("Introduceti destinatia: ")
+        count = 0
+        for offer in self.__offers:
+            if offer.destination == destination:
+                count += 1
+        if count == 0:
+            print(f"Nu exista oferte pentru destinatia {destination}.")
+        else:
+            print(f"Exista {count} oferte pentru destinatia {destination}.")
+
 
     def print_between_dates(self)->None:
         """
