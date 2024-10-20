@@ -346,6 +346,21 @@ class package_processor:
         if not gasit:
             print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
+    def search_by_destination_price(self):
+        """
+        Cauta pachete in functie de destinatie si pret maxim.
+        """
+        print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
+        destination = input("Introduceti destinatia: ")
+        max_price = float(input("Introduceti pretul maxim: "))
+        gasit = False
+        for offer in self.__offers:
+            if offer.destination == destination and offer.price <= max_price:
+                print(offer)
+                gasit = True
+        if not gasit:
+            print(f"Nu exista pachete cu destinatia {destination} si pretul mai mic sau egal cu {max_price}.")
+
     def print_between_dates(self)->None:
         """
         Afișează ofertele dintr-un interval de date dat.
