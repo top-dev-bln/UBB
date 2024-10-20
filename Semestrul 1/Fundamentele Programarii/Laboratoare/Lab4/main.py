@@ -84,7 +84,8 @@ class package_processor:
         self.__offers.append(Package(datetime(2024, 7, 2), datetime(2024, 7, 12), "manastur", 87))
         self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "rwanda", 420))
         self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 9, 12), "manastur", 69))
-        
+    
+    #todo testing for fuzzy search
     def fuzzy_search_destination(self, query:str)->str:
          """
          Caută o destinație folosind căutare fuzzy.
@@ -135,18 +136,25 @@ class package_processor:
             else:
                 return data
 
-
-    def add_package(self):
-        print("\033[33mAdaugare pachet nou\033[0m")
+    
+    def add_package(self)->None:
+        """
+        Adaugă o ofertă nouă în lista de oferte.
+        """
         data=self.get_date()
-        destination=str(input("Destinatie: "))
-        price=float(input("Pret: "))
-
-        self.__offers.append(Package(data[0], data[1], destination, price))
-        
+        destination = input("Introduceti destinatia: ")
+        while True:
+            try:
+                price = float(input("Introduceti pretul: "))
+                if price <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Pret invalid. Va rugam introduceti un numar pozitiv.")
+        offer = Package(data[0], data[1], destination, price)
+        self.__offers.append(offer)
         print("\033[32mPachet adaugat cu succes\033[0m") 
         print(str(self.__offers[-1]))
-
 
  
     def modify_package(self):
@@ -172,25 +180,6 @@ class package_processor:
     
 # Delete
 
-    def add_offer(self)->None:
-        """
-        Adaugă o ofertă nouă în lista de oferte.
-        """
-        start_date = self.get_date()
-        end_date = self.get_date()
-        destination = input("Introduceti destinatia: ")
-        while True:
-            try:
-                price = float(input("Introduceti pretul: "))
-                if price <= 0:
-                    raise ValueError
-                break
-            except ValueError:
-                print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-        offer = Package(start_date, end_date, destination, price)
-        self.__offers.append(offer)
-        print("Oferta adaugata cu succes.")
-
     def delete_by_destination(self)->None:
         """
         Sterge ofertele cu o destinație dată.
@@ -201,7 +190,12 @@ class package_processor:
             print("Nu s-a gasit nicio destinatie similara.")
             return
         self.__offers = [offer for offer in self.__offers if offer.get_destination() != fuzzy_destination]
+
         print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
+
+
+
+        
     def delete_by_price(self)->None:
         """
         Sterge ofertele care au un pret mai mare decat cel dat.
@@ -451,7 +445,23 @@ class package_processor:
         if not found:
             print(f"Nu există oferte în intervalul {start_date.strftime('%Y-%m-%d')} - {end_date.strftime('%Y-%m-%d')}.")
 
-
+    def filter_by_month(self)->None:
+        """
+        Elimina ofertele care depasesc un lună dat sau au o destinatie diferita de cea data.
+        """
+        print("\033[33mEliminare oferte peste lună sau destinatie diferita\033[0m")
+        month = int(input("Introduceti luna: "))
+        if month < 1 or month > 12:
+            print("Luna invalida.")
+            return
+        destination = input("Introduceti destinatia: ")
+        initial_count = len(self.__offers)
+        self.__offers = [
+            offer for offer in self.__offers if offer.start_date.month == month and offer.destination == destination
+        ]
+        removed_count = initial_count - len(self.__offers)
+        print(f"Au fost eliminate {removed_count} oferte.")
+        
 
     
 
