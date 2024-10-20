@@ -189,6 +189,37 @@ Aplicația va permite:
 |            | Anul:                                                                                                                                                                                                                                                                                                                                    |                    |
 | 2024       |                                                                                                                                                                                                                                                                                                                                          |                    |
 |            | Pachetul cu destinația Cluj-Napoca are prețul 420 Euro și este disponibil între 2024-05-12 și 2024-08-12   <br>Pachetul cu destinația Grecia, Athena are prețul 420 Euro și este disponibil între 2024-05-12 și 2024-08-12<br>Pachetul cu destinația Grecia, Athena are prețul 69 Euro și este disponibil între 2024-05-04 și 2024-08-12 |                    |
+##### Rapoarte
+| Utilizator     | Program                                                                                                                                                                                                           | Descriere          |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+|                | Meniu Principal*                                                                                                                                                                                                  | se afiseaza meniul |
+| 4              |                                                                                                                                                                                                                   |                    |
+|                | Meniu Rapoarte \*                                                                                                                                                                                                 |                    |
+| 1              |                                                                                                                                                                                                                   |                    |
+|                | ==Afisare numar de oferte pentru o destinatie==<br>Introduceti o destinatie:                                                                                                                                      |                    |
+| Craiova        |                                                                                                                                                                                                                   |                    |
+|                | Exista 2 oferte pentru destinatia Craiova.                                                                                                                                                                        |                    |
+|                | Meniu Rapoarte \*                                                                                                                                                                                                 |                    |
+| 2              |                                                                                                                                                                                                                   |                    |
+|                | ==Afisare pachete disponibile intr-un interval de timp==<br>Introduceti data de inceput<br>Ziua:<br>                                                                                                              |                    |
+| 6              |                                                                                                                                                                                                                   |                    |
+|                | Luna:                                                                                                                                                                                                             |                    |
+| 6              |                                                                                                                                                                                                                   |                    |
+|                | Anul:                                                                                                                                                                                                             |                    |
+| 2024           |                                                                                                                                                                                                                   |                    |
+|                | Introduceti data de sfarsit<br>Ziua:                                                                                                                                                                              |                    |
+| 12             |                                                                                                                                                                                                                   |                    |
+|                | Luna:                                                                                                                                                                                                             |                    |
+| 7              |                                                                                                                                                                                                                   |                    |
+|                | Anul:                                                                                                                                                                                                             |                    |
+| 2024           |                                                                                                                                                                                                                   |                    |
+|                | Pachetul cu destinația Timisoara are prețul 87 Euro și este disponibil între 2024-07-02 și 2024-07-12<br><br>Pachetul cu destinația Craiova are prețul 100 Euro și este disponibil între 2024-06-16 și 2024-06-20 |                    |
+|                | Meniu Rapoarte \*                                                                                                                                                                                                 |                    |
+| 3              |                                                                                                                                                                                                                   |                    |
+|                | Afisare pret mediu pentru o destinatie<br>Introduceti destinatia:                                                                                                                                                 |                    |
+| Grecia, Athena |                                                                                                                                                                                                                   |                    |
+|                | Pretul mediu pentru destinatia Grecia, Athena este 244.50 Euro.                                                                                                                                                   |                    |
+
 
 
 
@@ -278,14 +309,14 @@ Meniu Filtrare \*
 	- [x] adaugare
 	- [x] Ștergere
 	- [x] Căutare
-	- [ ] Rapoarte
+	- [x] Rapoarte
 	- [ ] Filtrare
 	- [ ] Undo
 - [ ] lista de taskuri
 	- [x] adaugare
 	- [x] Ștergere
 	- [x] Căutare
-	- [ ] Rapoarte
+	- [x] Rapoarte
 	- [ ] Filtrare
 	- [ ] Undo
 
@@ -309,5 +340,8 @@ Meniu Filtrare \*
 
 ###### Rapoarte
 - [x] Tipărirea numărului de oferte pentru o destinație dată
-- [ ] Tipărirea tuturor pachetelor disponibile într-o anumită perioadă
-- [ ] Tipărirea mediei de preț pentru o destinație dată
+- [x] Tipărirea tuturor pachetelor disponibile într-o anumită perioadă
+- [x] Tipărirea mediei de preț pentru o destinație dată
+###### Rapoarte
+- [ ] Eliminare oferte cu preț mai mare citit și o destinație diferită de cea citită
+- [ ] Eliminarea ofertelor în care sejurul presupune zile dintr-o anumită lună

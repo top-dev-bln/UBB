@@ -20,14 +20,6 @@ class Package:
         self.destination = destination
         self.price = price
 
-    def get_destination(self) -> str:
-        """
-        Returnează destinația pachetului.
-
-        Returns:
-            str: Destinația pachetului.
-        """
-        return self.destination
 
     def __str__(self) -> str:
         """

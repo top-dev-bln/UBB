@@ -97,7 +97,7 @@ class package_processor:
          """
          Caută o destinație folosind căutare fuzzy.
          """
-         destinations = [offer.get_destination() for offer in self.__offers]
+         destinations = [offer.destination for offer in self.__offers]
          
          matches = difflib.get_close_matches(query, destinations, n=1, cutoff=0.4)
          if matches:
@@ -203,11 +203,11 @@ class package_processor:
         if destination != fuzzy_destination:
             print(f"ai vrut sa spui {fuzzy_destination}")
             valid = input("Da sau Nu?  => ")
-            if valid[0].lower() == "d":
-                self.__offers = [offer for offer in self.__offers if offer.get_destination() != fuzzy_destination]
-                print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
-            else:
-                print("Nu s-a sters nimic") 
+            if valid[0].lower() != "d":
+                return
+        self.__offers = [offer for offer in self.__offers if offer.destination != fuzzy_destination]
+        print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
+
     
     def delete_by_duration(self)->None:
         """
@@ -268,14 +268,15 @@ class package_processor:
         if destination != fuzzy_destination:
             print(f"ai vrut sa spui {fuzzy_destination}")
             valid = input("Da sau Nu?  => ")
-            if valid[0].lower() == "d":
-                gasit = False
-                for offer in self.__offers:
-                    if offer.destination == fuzzy_destination and offer.price <= max_price:
-                        print(offer)
-                        gasit = True
-                if not gasit:
-                    print(f"Nu exista pachete cu destinatia {fuzzy_destination} si pretul mai mic sau egal cu {max_price}.")
+            if valid[0].lower() != "d":
+                return
+        gasit = False
+        for offer in self.__offers:
+            if offer.destination == fuzzy_destination and offer.price <= max_price:
+                print(offer)
+                gasit = True
+        if not gasit:
+            print(f"Nu exista pachete cu destinatia {fuzzy_destination} si pretul mai mic sau egal cu {max_price}.")
 
     def search_by_end_date(self):
         """
@@ -320,15 +321,16 @@ class package_processor:
         if destination != fuzzy_destination:
             print(f"ai vrut sa spui {fuzzy_destination}")
             valid = input("Da sau Nu?  => ")
-            if valid[0].lower() == "d":
-                count = 0
-                for offer in self.__offers:
-                    if offer.destination == fuzzy_destination:
-                        count += 1
-                if count == 0:
-                    print(f"Nu exista oferte pentru destinatia {fuzzy_destination}.")
-                else:
-                    print(f"Exista {count} oferte pentru destinatia {fuzzy_destination}.")
+            if valid[0].lower() != "d":
+                return 
+        count = 0
+        for offer in self.__offers:
+            if offer.destination == fuzzy_destination:
+                count += 1
+        if count == 0:
+            print(f"Nu exista oferte pentru destinatia {fuzzy_destination}.")
+        else:
+            print(f"Exista {count} oferte pentru destinatia {fuzzy_destination}.")
 
     def report_packages_in_interval(self):
         """
@@ -336,15 +338,15 @@ class package_processor:
         """
         print("\033[33mAfisare pachete disponibile intr-un interval de timp\033[0m")
         data = self.get_date()
-        filtered_offers = [
-            offer for offer in self.__offers if data[0] <= offer.start_date <= data[1]
-        ]
-        filtered_offers.sort(key=lambda offer: offer.price)
+        filtered_offers = [offer for offer in self.__offers if data[0] <= offer.start_date <= data[1]]
+        
+
         if not filtered_offers:
             print(
                 f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}."
             )
         else:
+            filtered_offers.sort(key=lambda offer: offer.price)
             for offer in filtered_offers:
                 print(offer)
 
@@ -354,7 +356,16 @@ class package_processor:
         """
         print("\033[33mAfisare pret mediu pentru o destinatie\033[0m")
         destination = input("Introduceti destinatia: ")
-        prices = [offer.price for offer in self.__offers if offer.destination == destination]
+        fuzzy_destination = self.fuzzy_search_destination(destination)
+        if fuzzy_destination is None:
+            print("Nu s-a gasit nicio destinatie similara.")
+            return
+        if destination != fuzzy_destination:
+            print(f"ai vrut sa spui {fuzzy_destination}")
+            valid = input("Da sau Nu?  => ")
+            if valid[0].lower() != "d":
+                return
+        prices = [offer.price for offer in self.__offers if offer.destination == fuzzy_destination]
         if not prices:
             print(f"Nu exista oferte pentru destinatia {destination}.")
         else:
