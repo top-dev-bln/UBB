@@ -405,6 +405,24 @@ class package_processor:
         else:
             print(f"Exista {count} oferte pentru destinatia {destination}.")
 
+    def report_packages_in_interval(self):
+        """
+        Afiseaza toate pachetele disponibile intr-un interval de timp dat, sortate crescator dupa pret.
+        """
+        print("\033[33mAfisare pachete disponibile intr-un interval de timp\033[0m")
+        data = self.get_date()
+        filtered_offers = [
+            offer for offer in self.__offers if data[0] <= offer.start_date <= data[1]
+        ]
+        filtered_offers.sort(key=lambda offer: offer.price)
+        if not filtered_offers:
+            print(
+                f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}."
+            )
+        else:
+            for offer in filtered_offers:
+                print(offer)
+
 
     def print_between_dates(self)->None:
         """
