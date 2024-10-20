@@ -170,61 +170,156 @@ class package_processor:
 
 
     
-    # Delete
+# Delete
 
-    def delete_by_destination(self):
+    def add_offer(self)->None:
         """
-        Șterge toate ofertele cu o anumită destinație.
+        Adaugă o ofertă nouă în lista de oferte.
+        """
+        start_date = self.get_date()
+        end_date = self.get_date()
+        destination = input("Introduceti destinatia: ")
+        while True:
+            try:
+                price = float(input("Introduceti pretul: "))
+                if price <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Pret invalid. Va rugam introduceti un numar pozitiv.")
+        offer = Package(start_date, end_date, destination, price)
+        self.__offers.append(offer)
+        print("Oferta adaugata cu succes.")
+
+    def delete_by_destination(self)->None:
+        """
+        Sterge ofertele cu o destinație dată.
         """
         destination = input("Introduceți destinația de șters: ")
         fuzzy_destination = self.fuzzy_search_destination(destination)
-        if fuzzy_destination:
-            print(f"Did you mean '{fuzzy_destination}'?")
-            confirm = input("Yes/No: ")
-            if confirm.lower() == 'yes':
-                destination = fuzzy_destination
-        self.__offers = [offer for offer in self.__offers if offer.get_destination() != destination]
-        print(f"Toate ofertele cu destinația '{destination}' au fost șterse.")
+        if fuzzy_destination is None:
+            print("Nu s-a gasit nicio destinatie similara.")
+            return
+        self.__offers = [offer for offer in self.__offers if offer.get_destination() != fuzzy_destination]
+        print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
 
-    def delete_by_duration(self):
-        print("Deleting package by duration")
+    def delete_between_dates(self)->None:
+        """
+        Sterge ofertele dintr-un interval de date dat.
+        """
+        start_date = self.get_date()
+        end_date = self.get_date()
+        self.__offers = [offer for offer in self.__offers if not (start_date <= offer.start_date <= end_date)]
+        print(f"Ofertele din intervalul {start_date.strftime('%Y-%m-%d')} - {end_date.strftime('%Y-%m-%d')} au fost șterse.")
 
-    def delete_by_price(self):
-        print("Deleting package by price")
+    def increase_price(self)->None:
+        """
+        Mărește prețul ofertelor cu o destinație dată cu un procent dat.
+        """
+        destination = input("Introduceți destinația pentru care se mărește prețul: ")
+        fuzzy_destination = self.fuzzy_search_destination(destination)
+        if fuzzy_destination is None:
+            print("Nu s-a gasit nicio destinatie similara.")
+            return
+        while True:
+            try:
+                percentage = float(input("Introduceți procentul cu care se mărește prețul: "))
+                if percentage <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Procent invalid. Va rugam introduceti un numar pozitiv.")
+        for offer in self.__offers:
+            if offer.get_destination() == fuzzy_destination:
+                offer.price *= (1 + percentage / 100)
+        print(f"Prețul ofertelor cu destinația {fuzzy_destination} a fost mărit cu {percentage}%.")
 
-    # Search
+    def decrease_price(self)->None:
+        """
+        Micșorează prețul ofertelor cu o destinație dată cu un procent dat.
+        """
+        destination = input("Introduceți destinația pentru care se micșorează prețul: ")
+        fuzzy_destination = self.fuzzy_search_destination(destination)
+        if fuzzy_destination is None:
+            print("Nu s-a gasit nicio destinatie similara.")
+            return
+        while True:
+            try:
+                percentage = float(input("Introduceți procentul cu care se micșorează prețul: "))
+                if percentage <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Procent invalid. Va rugam introduceti un numar pozitiv.")
+        for offer in self.__offers:
+            if offer.get_destination() == fuzzy_destination:
+                offer.price *= (1 - percentage / 100)
+        print(f"Prețul ofertelor cu destinația {fuzzy_destination} a fost micșorat cu {percentage}%.")
 
-    def search_by_interval(self):
-        print("Searching packages in interval")
+    def print_all_offers(self)->None:
+        """
+        Afișează toate ofertele din lista de oferte.
+        """
+        if not self.__offers:
+            print("Nu există oferte disponibile.")
+            return
+        for offer in self.__offers:
+            print(offer)
 
-    def search_by_destination_price(self):
-        print("Searching packages by destination and price")
+    def print_by_destination(self)->None:
+        """
+        Afișează ofertele cu o destinație dată.
+        """
+        destination = input("Introduceți destinația: ")
+        fuzzy_destination = self.fuzzy_search_destination(destination)
+        if fuzzy_destination is None:
+            print("Nu s-a gasit nicio destinatie similara.")
+            return
+        found = False
+        for offer in self.__offers:
+            if offer.get_destination() == fuzzy_destination:
+                print(offer)
+                found = True
+        if not found:
+            print(f"Nu există oferte cu destinația {fuzzy_destination}.")
 
-    def search_by_end_date(self):
-        print("Searching packages by end date")
+    def print_cheaper_than(self)->None:
+        """
+        Afișează ofertele mai ieftine decât un preț dat.
+        """
+        while True:
+            try:
+                price = float(input("Introduceți prețul maxim: "))
+                if price <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Preț invalid. Va rugam introduceti un numar pozitiv.")
+        found = False
+        for offer in self.__offers:
+            if offer.price < price:
+                print(offer)
+                found = True
+        if not found:
+            print(f"Nu există oferte mai ieftine decât {price} Euro.")
 
-    # Report
-
-    def report_offer_count(self):
-        print("Reporting number of offers for a destination")
-
-    def report_packages_in_interval(self):
-        print("Reporting packages in an interval")
-
-    def report_avg_price(self):
-        print("Reporting average price for a destination")
-
-    # Filter
-
-    def filter_by_budget(self):
-        print("Filtering offers by budget")
-
-    def filter_by_month(self):
-        print("Filtering offers by month")
+    def print_between_dates(self)->None:
+        """
+        Afișează ofertele dintr-un interval de date dat.
+        """
+        start_date = self.get_date()
+        end_date = self.get_date()
+        found = False
+        for offer in self.__offers:
+            if start_date <= offer.start_date <= end_date:
+                print(offer)
+                found = True
+        if not found:
+            print(f"Nu există oferte în intervalul {start_date.strftime('%Y-%m-%d')} - {end_date.strftime('%Y-%m-%d')}.")
 
 
 
-        
+    
 
 
 
