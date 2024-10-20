@@ -195,6 +195,20 @@ class package_processor:
 
 
 
+    def delete_by_destination_simple(self)->None:
+        """
+        Sterge ofertele cu o destinație exactă dată.
+        """
+        destination = input("Introduceți destinația exactă de șters: ")
+        initial_count = len(self.__offers)
+        self.__offers = [offer for offer in self.__offers if offer.get_destination().lower() != destination.lower()]
+        deleted_count = initial_count - len(self.__offers)
+        
+        if deleted_count > 0:
+            print(f"{deleted_count} oferte cu destinația {destination} au fost șterse.")
+        else:
+            print(f"Nu s-au găsit oferte cu destinația exactă {destination}.")
+
         
     def delete_by_price(self)->None:
         """
