@@ -423,6 +423,19 @@ class package_processor:
             for offer in filtered_offers:
                 print(offer)
 
+    def report_avg_price(self):
+        """
+        Afiseaza pretul mediu pentru o destinatie data.
+        """
+        print("\033[33mAfisare pret mediu pentru o destinatie\033[0m")
+        destination = input("Introduceti destinatia: ")
+        prices = [offer.price for offer in self.__offers if offer.destination == destination]
+        if not prices:
+            print(f"Nu exista oferte pentru destinatia {destination}.")
+        else:
+            avg_price = sum(prices) / len(prices)
+            print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
+
 
     def print_between_dates(self)->None:
         """
