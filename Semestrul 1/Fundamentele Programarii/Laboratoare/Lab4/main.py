@@ -1,5 +1,6 @@
 from offer import Package
 import os
+from datetime import datetime
 
 
 
@@ -8,6 +9,14 @@ class package_processor:
 
     
     def __init__(self) -> None:
+        """
+        Initializează clasa package_processor.
+
+        Setează atributul __running la False, inițializează lista de oferte __offers ca fiind goală, 
+        definește un dicționar __submenu_functions care mapează ID-urile submeniurilor la dicționare 
+        ce conțin funcțiile corespunzătoare fiecărei opțiuni din submeniu, și definește un dicționar meniu 
+        care conține string-urile ce vor fi afișate pentru fiecare meniu.
+        """
         self.__running = False
 
         self.__offers = []
@@ -19,78 +28,7 @@ class package_processor:
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.filter_by_budget, 2: self.filter_by_month},  # Filter Menu
         }
-    
-
-    def handle_undo(self):
-        print("Undo")
-
-
-
-    # Submenu functions
-
-    # Add
-    def add_package(self):
-        print(f"\033[33mAdaugare pachet nou\033[0m")
-        start=int(input("Data de inceput: "))
-        end=int(input("Data de sfarsit: "))
-        destination=str(input("Destinatie: "))
-        price=float(input("Pret: "))
-
-        self.__offers.append(Package(start, end, destination, price))
-        print(f"\033[32mPachet adaugat cu succes\033[0m")
-
-    def modify_package(self):
-        print("Modifying existing package")
-    
-    # Delete
-
-    def delete_by_destination(self):
-        print("Deleting package by destination")
-
-    def delete_by_duration(self):
-        print("Deleting package by duration")
-
-    def delete_by_price(self):
-        print("Deleting package by price")
-
-    # Search
-
-    def search_by_interval(self):
-        print("Searching packages in interval")
-
-    def search_by_destination_price(self):
-        print("Searching packages by destination and price")
-
-    def search_by_end_date(self):
-        print("Searching packages by end date")
-
-    # Report
-
-    def report_offer_count(self):
-        print("Reporting number of offers for a destination")
-
-    def report_packages_in_interval(self):
-        print("Reporting packages in an interval")
-
-    def report_avg_price(self):
-        print("Reporting average price for a destination")
-
-    # Filter
-
-    def filter_by_budget(self):
-        print("Filtering offers by budget")
-
-    def filter_by_month(self):
-        print("Filtering offers by month")
-
-
-
-        
-
-
-    def meniu(self, menu:int=0)->str:
-
-        menus={
+        self.meniu={
             0:'''
 1. Adaugare
 2. Stergere
@@ -142,12 +80,134 @@ class package_processor:
 '''
 
         }
+    
 
-        return menus[menu]
+    def handle_undo(self):
+        print("Undo")
+
+    def get_date(self):
+        """
+        Obține de la utilizator datele de început și de sfârșit ale unei perioade, asigurându-se că sunt valide și că data de început este înaintea datei de sfârșit.
+        Returns:
+            list: O listă care conține două obiecte datetime, reprezentând data de început și data de sfârșit.
+        """
+        data=[]
+        while True:
+            while True:
+                try:
+                    print("Introduceti data de inceput")
+                    ziua=int(input("Ziua: "))
+                    if ziua<1 or ziua>31:
+                        raise ValueError("Ziua invalida")
+                    luna=int(input("Luna: "))
+                    if luna<1 or luna>12:
+                        raise ValueError("Luna invalida")
+                    anul=int(input("Anul: "))
+                    if anul<1 or anul>2022:
+                        raise ValueError("Anul invalida")
+                    data.append(datetime(anul, luna, ziua))
+                    break
+                except:
+                    print("\033[31mIntroduceti un numar valid.\033[0m")
+            while True:
+                try:
+                    print("Introduceti data de sfarsit")
+                    ziua=int(input("Ziua: "))
+                    if ziua<1 or ziua>31:
+                        raise ValueError("Ziua invalida")
+                    luna=int(input("Luna: "))
+                    if luna<1 or luna>12:
+                        raise ValueError("Luna invalida")
+                    anul=int(input("Anul: "))
+                    if anul<1 or anul>2022:
+                        raise ValueError("Anul invalida")
+                    data.append(datetime(anul, luna, ziua))
+                    break
+                except:
+                    print("\033[31mIntroduceti un numar valid.\033[0m")
+            if(data[0]>data[1]):
+                os.system("cls")
+                print("Data de inceput trebuie sa fie inaintea data de sfarsit")
+                data.pop()
+                continue
+            else:
+                return data
+
+
+    def add_package(self):
+        print(f"\033[33mAdaugare pachet nou\033[0m")
+        data=self.get_date()
+        destination=str(input("Destinatie: "))
+        price=float(input("Pret: "))
+
+        self.__offers.append(Package(data[0], data[1], destination, price))
         
-    def menu_handler(self, menu_id: int):
+        print("\033[32mPachet adaugat cu succes\033[0m") 
+        print(str(self.__offers[0]))
+
+
+    def modify_package(self):
+        print("Modifying existing package")
+    
+    # Delete
+
+    def delete_by_destination(self):
+        print("Deleting package by destination")
+
+    def delete_by_duration(self):
+        print("Deleting package by duration")
+
+    def delete_by_price(self):
+        print("Deleting package by price")
+
+    # Search
+
+    def search_by_interval(self):
+        print("Searching packages in interval")
+
+    def search_by_destination_price(self):
+        print("Searching packages by destination and price")
+
+    def search_by_end_date(self):
+        print("Searching packages by end date")
+
+    # Report
+
+    def report_offer_count(self):
+        print("Reporting number of offers for a destination")
+
+    def report_packages_in_interval(self):
+        print("Reporting packages in an interval")
+
+    def report_avg_price(self):
+        print("Reporting average price for a destination")
+
+    # Filter
+
+    def filter_by_budget(self):
+        print("Filtering offers by budget")
+
+    def filter_by_month(self):
+        print("Filtering offers by month")
+
+
+
+        
+
+
+
+
+
+        
+    def menu_handler(self, menu_id: int)->None:
+        """
+        Gestionează afișarea meniurilor și execuția funcțiilor corespunzătoare opțiunilor alese de utilizator.
+
+        Args:
+            menu_id (int): ID-ul meniului care trebuie afișat. 0 reprezintă meniul principal, iar valorile de la 1 la 5 reprezintă submeniurile.
+        """
         while self.__running:
-            print(self.meniu(menu_id))
+            print(self.meniu[menu_id])
             try:
                 option = int(input("Alegeti o optiune: "))
 
@@ -178,6 +238,11 @@ class package_processor:
 
 
     def run(self)->None:
+        """
+        Pornește bucla principală a aplicației.
+        
+        Curăță consola, setează semnalizatorul de rulare la True și apoi apelează gestionarul de meniu pentru a afișa meniul principal.
+        """
         os.system("cls")
         self.__running = True
         self.menu_handler(0)  
