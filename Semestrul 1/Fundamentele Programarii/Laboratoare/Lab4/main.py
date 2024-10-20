@@ -361,6 +361,36 @@ class package_processor:
         if not gasit:
             print(f"Nu exista pachete cu destinatia {destination} si pretul mai mic sau egal cu {max_price}.")
 
+    def search_by_end_date(self):
+        """
+        Cauta pachete in functie de data de sfarsit.
+        """
+        print("\033[33mCautare pachete in functie de data de sfarsit\033[0m")
+        while True:
+            try:
+                print("Introduceti data de sfarsit")
+                ziua = int(input("Ziua: "))
+                if ziua < 1 or ziua > 31:
+                    raise ValueError("Ziua invalida")
+                luna = int(input("Luna: "))
+                if luna < 1 or luna > 12:
+                    raise ValueError("Luna invalida")
+                anul = int(input("Anul: "))
+                if anul < 1:
+                    raise ValueError("Anul invalid")
+                end_date = datetime(anul, luna, ziua)
+                break
+            except ValueError as e:
+                print(f"\033[31m{e}\033[0m")
+        gasit = False
+        for offer in self.__offers:
+            if offer.end_date <= end_date:
+                print(offer)
+                gasit = True
+        if not gasit:
+            print(f"Nu exista pachete cu data de sfarsit inainte de {end_date.strftime('%Y-%m-%d')}.")
+
+
     def print_between_dates(self)->None:
         """
         Afișează ofertele dintr-un interval de date dat.
