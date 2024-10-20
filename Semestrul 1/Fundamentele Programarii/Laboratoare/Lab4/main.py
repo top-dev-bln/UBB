@@ -21,7 +21,7 @@ class package_processor:
         self.__offers = []
         self.__submenu_functions = {
             1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
-            2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
+            2: {1: self.delete_by_destination, 2: self.delete_between_dates, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
             3: {1: self.search_by_interval, 2: self.search_by_destination_price, 3: self.search_by_end_date},  # Search Menu
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.filter_by_budget, 2: self.filter_by_month},  # Filter Menu
