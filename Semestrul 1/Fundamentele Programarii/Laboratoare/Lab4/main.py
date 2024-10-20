@@ -7,8 +7,6 @@ import difflib
 
 class package_processor:
 
-
-    
     def __init__(self) -> None:
 
         """
@@ -81,8 +79,6 @@ class package_processor:
 
         }
         
-
-    
     def test(self):
         self.__offers.append(Package(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100))
         self.__offers.append(Package(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87))
@@ -97,12 +93,6 @@ class package_processor:
         assert self.fuzzy_search_destination("Cluj") == "Cluj-Napoca"
         assert self.fuzzy_search_destination("Iasi") == None
 
-       
-
-
-
-
- 
     def fuzzy_search_destination(self, query:str)->str:
          """
          Caută o destinație folosind căutare fuzzy.
@@ -201,7 +191,6 @@ class package_processor:
 
 
     # Stergere
-
     def delete_by_destination(self)->None:
         """
         Sterge ofertele cu o destinație dată.
@@ -267,121 +256,26 @@ class package_processor:
         Cauta pachete in functie de destinatie si pret maxim.
         """
         print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
-        destination = input("Introduceti destinatia: ")
+
+
         max_price = float(input("Introduceti pretul maxim: "))
-        gasit = False
-        for offer in self.__offers:
-            if offer.destination == destination and offer.price <= max_price:
-                print(offer)
-                gasit = True
-        if not gasit:
-            print(f"Nu exista pachete cu destinatia {destination} si pretul mai mic sau egal cu {max_price}.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ## halucinatii
-    def increase_price(self)->None:
-        """
-        Mărește prețul ofertelor cu o destinație dată cu un procent dat.
-        """
-        destination = input("Introduceți destinația pentru care se mărește prețul: ")
-        fuzzy_destination = self.fuzzy_search_destination(destination)
-        if fuzzy_destination is None:
-            print("Nu s-a gasit nicio destinatie similara.")
-            return
-        while True:
-            try:
-                percentage = float(input("Introduceți procentul cu care se mărește prețul: "))
-                if percentage <= 0:
-                    raise ValueError
-                break
-            except ValueError:
-                print("Procent invalid. Va rugam introduceti un numar pozitiv.")
-        for offer in self.__offers:
-            if offer.get_destination() == fuzzy_destination:
-                offer.price *= (1 + percentage / 100)
-        print(f"Prețul ofertelor cu destinația {fuzzy_destination} a fost mărit cu {percentage}%.")
-## halucinatii
-    def decrease_price(self)->None:
-        """
-        Micșorează prețul ofertelor cu o destinație dată cu un procent dat.
-        """
-        destination = input("Introduceți destinația pentru care se micșorează prețul: ")
-        fuzzy_destination = self.fuzzy_search_destination(destination)
-        if fuzzy_destination is None:
-            print("Nu s-a gasit nicio destinatie similara.")
-            return
-        while True:
-            try:
-                percentage = float(input("Introduceți procentul cu care se micșorează prețul: "))
-                if percentage <= 0:
-                    raise ValueError
-                break
-            except ValueError:
-                print("Procent invalid. Va rugam introduceti un numar pozitiv.")
-        for offer in self.__offers:
-            if offer.get_destination() == fuzzy_destination:
-                offer.price *= (1 - percentage / 100)
-        print(f"Prețul ofertelor cu destinația {fuzzy_destination} a fost micșorat cu {percentage}%.")
-## halucinatii
-    def print_all_offers(self)->None:
-        """
-        Afișează toate ofertele din lista de oferte.
-        """
-        if not self.__offers:
-            print("Nu există oferte disponibile.")
-            return
-        for offer in self.__offers:
-            print(offer)
-
-    def print_by_destination(self)->None:
-        """
-        Afișează ofertele cu o destinație dată.
-        """
         destination = input("Introduceți destinația: ")
         fuzzy_destination = self.fuzzy_search_destination(destination)
         if fuzzy_destination is None:
             print("Nu s-a gasit nicio destinatie similara.")
             return
-        found = False
-        for offer in self.__offers:
-            if offer.get_destination() == fuzzy_destination:
-                print(offer)
-                found = True
-        if not found:
-            print(f"Nu există oferte cu destinația {fuzzy_destination}.")
-
-    def print_cheaper_than(self)->None:
-        """
-        Afișează ofertele mai ieftine decât un preț dat.
-        """
-        while True:
-            try:
-                price = float(input("Introduceți prețul maxim: "))
-                if price <= 0:
-                    raise ValueError
-                break
-            except ValueError:
-                print("Preț invalid. Va rugam introduceti un numar pozitiv.")
-        found = False
-        for offer in self.__offers:
-            if offer.price < price:
-                print(offer)
-                found = True
-        if not found:
-            print(f"Nu există oferte mai ieftine decât {price} Euro.")
-
-
+        
+        if destination != fuzzy_destination:
+            print(f"ai vrut sa spui {fuzzy_destination}")
+            valid = input("Da sau Nu?  => ")
+            if valid[0].lower() == "d":
+                gasit = False
+                for offer in self.__offers:
+                    if offer.destination == fuzzy_destination and offer.price <= max_price:
+                        print(offer)
+                        gasit = True
+                if not gasit:
+                    print(f"Nu exista pachete cu destinatia {fuzzy_destination} si pretul mai mic sau egal cu {max_price}.")
 
     def search_by_end_date(self):
         """
@@ -406,26 +300,35 @@ class package_processor:
                 print(f"\033[31m{e}\033[0m")
         gasit = False
         for offer in self.__offers:
-            if offer.end_date <= end_date:
+            if offer.end_date == end_date:
                 print(offer)
                 gasit = True
         if not gasit:
             print(f"Nu exista pachete cu data de sfarsit inainte de {end_date.strftime('%Y-%m-%d')}.")
 
+    # Report
     def report_offer_count(self):
         """
         Afiseaza numarul de oferte pentru o destinatie data.
         """
         print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
-        destination = input("Introduceti destinatia: ")
-        count = 0
-        for offer in self.__offers:
-            if offer.destination == destination:
-                count += 1
-        if count == 0:
-            print(f"Nu exista oferte pentru destinatia {destination}.")
-        else:
-            print(f"Exista {count} oferte pentru destinatia {destination}.")
+        destination = input("Introduceti o destinatie: ")
+        fuzzy_destination = self.fuzzy_search_destination(destination)
+        if fuzzy_destination is None:
+            print("Nu s-a gasit nicio destinatie similara.")
+            return
+        if destination != fuzzy_destination:
+            print(f"ai vrut sa spui {fuzzy_destination}")
+            valid = input("Da sau Nu?  => ")
+            if valid[0].lower() == "d":
+                count = 0
+                for offer in self.__offers:
+                    if offer.destination == fuzzy_destination:
+                        count += 1
+                if count == 0:
+                    print(f"Nu exista oferte pentru destinatia {fuzzy_destination}.")
+                else:
+                    print(f"Exista {count} oferte pentru destinatia {fuzzy_destination}.")
 
     def report_packages_in_interval(self):
         """
@@ -458,6 +361,7 @@ class package_processor:
             avg_price = sum(prices) / len(prices)
             print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
+    # Filter
     def filter_by_budget(self):
         """
         Elimina ofertele care depasesc un buget dat sau au o destinatie diferita de cea data.
@@ -471,7 +375,6 @@ class package_processor:
         ]
         removed_count = initial_count - len(self.__offers)
         print(f"Au fost eliminate {removed_count} oferte.")
-
 
     def print_between_dates(self)->None:
         """
@@ -503,15 +406,8 @@ class package_processor:
         ]
         removed_count = initial_count - len(self.__offers)
         print(f"Au fost eliminate {removed_count} oferte.")
-        
-
-    
 
 
-
-
-
-        
     def menu_handler(self, menu_id: int)->None:
         """
         Gestionează afișarea meniurilor și execuția funcțiilor corespunzătoare opțiunilor alese de utilizator.
@@ -525,6 +421,8 @@ class package_processor:
                 option = int(input("Alegeti o optiune: "))
 
                 if menu_id == 0:
+                    if option == 6:
+                        self.handle_undo()
                     if 1 <= option <= 5:
                         os.system("cls")
                         self.menu_handler(option)
@@ -548,8 +446,6 @@ class package_processor:
             except ValueError:
                 print("Introduceti un numar valid.")
 
-
-
     def run(self)->None:
         """
         Pornește bucla principală a aplicației.
@@ -560,11 +456,6 @@ class package_processor:
         os.system("cls")
         self.__running = True
         self.menu_handler(0)  
-
-
-    
-
-
 
 
 
