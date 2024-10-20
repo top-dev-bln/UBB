@@ -19,4 +19,4 @@ class Package:
         """
         Returnează o reprezentare text a ofertei.
         """
-        return f"Pachetul pentru {self.destination} din data de {self.start_date.strftime("%Y-%m-%d")} pana {self.end_date.strftime("%Y-%m-%d")} este la pretul de {self.price} Euro."
+        return f"Pachetul pentru {self.destination} din data de {self.start_date.strftime("%%Y-%%m-%%d")} pana {self.end_date.strftime("%%Y-%%m-%%d")} este la pretul de {self.price} Euro."
