@@ -1,6 +1,7 @@
 from offer import Package
 import os
-from datetime import datetime
+from datetime import datetime , timedelta
+import difflib
 
 
 
@@ -9,6 +10,7 @@ class package_processor:
 
     
     def __init__(self) -> None:
+
         """
         Initializează clasa package_processor.
 
@@ -21,7 +23,7 @@ class package_processor:
         self.__offers = []
         self.__submenu_functions = {
             1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
-            2: {1: self.delete_by_destination, 2: self.delete_between_dates, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
+            2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
             3: {1: self.search_by_interval, 2: self.search_by_destination_price, 3: self.search_by_end_date},  # Search Menu
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.filter_by_budget, 2: self.filter_by_month},  # Filter Menu
@@ -79,26 +81,41 @@ class package_processor:
 
         }
         
-        #todo4 remove after testing
-        self.__offers.append(Package(datetime(2024, 5, 16), datetime(2024, 6, 15), "garden", 100))
-        self.__offers.append(Package(datetime(2024, 7, 2), datetime(2024, 7, 12), "manastur", 87))
-        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "rwanda", 420))
-        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 9, 12), "manastur", 69))
+
     
-    #todo testing for fuzzy search
+    def test(self):
+        self.__offers.append(Package(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100))
+        self.__offers.append(Package(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87))
+        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420))
+        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69))
+        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420))
+        self.__offers.append(Package(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69))
+
+        #testare fuzzy search
+        assert self.fuzzy_search_destination("Craiova") == "Craiova"
+        assert self.fuzzy_search_destination("Timisoara") == "Timisoara"
+        assert self.fuzzy_search_destination("Cluj") == "Cluj-Napoca"
+        assert self.fuzzy_search_destination("Iasi") == None
+
+       
+
+
+
+
+ 
     def fuzzy_search_destination(self, query:str)->str:
          """
          Caută o destinație folosind căutare fuzzy.
          """
          destinations = [offer.get_destination() for offer in self.__offers]
-         import difflib
-
-         matches = difflib.get_close_matches(query, destinations, n=1, cutoff=0.6)
+         
+         matches = difflib.get_close_matches(query, destinations, n=1, cutoff=0.4)
          if matches:
              return matches[0]
          else:
              return None
 
+    # TODO undo
     def handle_undo(self):
         print("\033[32mUndo realizat cu succes\033[0m") 
 
@@ -136,7 +153,7 @@ class package_processor:
             else:
                 return data
 
-    
+    # Adaugare
     def add_package(self)->None:
         """
         Adaugă o ofertă nouă în lista de oferte.
@@ -156,13 +173,19 @@ class package_processor:
         print("\033[32mPachet adaugat cu succes\033[0m") 
         print(str(self.__offers[-1]))
 
- 
     def modify_package(self):
         print("\033[33mModificare pachet\033[0m")
+        if(len(self.__offers)==0):
+            print("Nu exista pachete disponibile pentru modificare.")
+            return
         print("Ce pachet doriti sa modificati?")
         for i, offer in enumerate(self.__offers):
             print(f"{i+1}. {offer}")
         id = int(input("=> ")) 
+
+        if (id-1)>=len(self.__offers):
+            print("Id-ul introdus este invalid.")
+            return
 
         pachet=self.__offers[id-1]
         data=self.get_date()
@@ -177,8 +200,7 @@ class package_processor:
         print(str(pachet))
 
 
-    
-# Delete
+    # Stergere
 
     def delete_by_destination(self)->None:
         """
@@ -189,27 +211,26 @@ class package_processor:
         if fuzzy_destination is None:
             print("Nu s-a gasit nicio destinatie similara.")
             return
-        self.__offers = [offer for offer in self.__offers if offer.get_destination() != fuzzy_destination]
-
-        print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
-
-
-
-    def delete_by_destination_simple(self)->None:
+        if destination != fuzzy_destination:
+            print(f"ai vrut sa spui {fuzzy_destination}")
+            valid = input("Da sau Nu?  => ")
+            if valid[0].lower() == "d":
+                self.__offers = [offer for offer in self.__offers if offer.get_destination() != fuzzy_destination]
+                print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
+            else:
+                print("Nu s-a sters nimic") 
+    
+    def delete_by_duration(self)->None:
         """
-        Sterge ofertele cu o destinație exactă dată.
+        Sterge ofertele care sunt sub  un anumit interval de timp.
         """
-        destination = input("Introduceți destinația exactă de șters: ")
-        initial_count = len(self.__offers)
-        self.__offers = [offer for offer in self.__offers if offer.get_destination().lower() != destination.lower()]
-        deleted_count = initial_count - len(self.__offers)
-        
-        if deleted_count > 0:
-            print(f"{deleted_count} oferte cu destinația {destination} au fost șterse.")
-        else:
-            print(f"Nu s-au găsit oferte cu destinația exactă {destination}.")
+        duration = int(input("Introduceți durata de timp ( in zile ):  => "))
+        if duration < 1:
+            print("Durata invalidă")
+            return
+        self.__offers = [offer for offer in self.__offers if offer.end_date - offer.start_date <= timedelta(days=duration)]
+        print(f"Ofertele cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
 
-        
     def delete_by_price(self)->None:
         """
         Sterge ofertele care au un pret mai mare decat cel dat.
@@ -226,15 +247,49 @@ class package_processor:
         print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
 
 
-    def delete_between_dates(self)->None:
+    # Cautare
+    def search_by_interval(self):
         """
-        Sterge ofertele dintr-un interval de date dat.
+        Cauta pachete in functie de un interval de timp dat.
         """
-        start_date = self.get_date()
-        end_date = self.get_date()
-        self.__offers = [offer for offer in self.__offers if not (start_date <= offer.start_date <= end_date)]
-        print(f"Ofertele din intervalul {start_date.strftime('%Y-%m-%d')} - {end_date.strftime('%Y-%m-%d')} au fost șterse.")
+        print("\033[33mCautare pachete in functie de un interval de timp dat\033[0m")
+        data = self.get_date()
+        gasit = False
+        for offer in self.__offers:
+            if data[0] <= offer.start_date <= data[1]:
+                print(offer)
+                gasit = True
+        if not gasit:
+            print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
+    def search_by_destination_price(self):
+        """
+        Cauta pachete in functie de destinatie si pret maxim.
+        """
+        print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
+        destination = input("Introduceti destinatia: ")
+        max_price = float(input("Introduceti pretul maxim: "))
+        gasit = False
+        for offer in self.__offers:
+            if offer.destination == destination and offer.price <= max_price:
+                print(offer)
+                gasit = True
+        if not gasit:
+            print(f"Nu exista pachete cu destinatia {destination} si pretul mai mic sau egal cu {max_price}.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ## halucinatii
     def increase_price(self)->None:
         """
         Mărește prețul ofertelor cu o destinație dată cu un procent dat.
@@ -256,7 +311,7 @@ class package_processor:
             if offer.get_destination() == fuzzy_destination:
                 offer.price *= (1 + percentage / 100)
         print(f"Prețul ofertelor cu destinația {fuzzy_destination} a fost mărit cu {percentage}%.")
-
+## halucinatii
     def decrease_price(self)->None:
         """
         Micșorează prețul ofertelor cu o destinație dată cu un procent dat.
@@ -278,7 +333,7 @@ class package_processor:
             if offer.get_destination() == fuzzy_destination:
                 offer.price *= (1 - percentage / 100)
         print(f"Prețul ofertelor cu destinația {fuzzy_destination} a fost micșorat cu {percentage}%.")
-
+## halucinatii
     def print_all_offers(self)->None:
         """
         Afișează toate ofertele din lista de oferte.
@@ -326,34 +381,7 @@ class package_processor:
         if not found:
             print(f"Nu există oferte mai ieftine decât {price} Euro.")
 
-    def search_by_interval(self):
-        """
-        Cauta pachete in functie de un interval de timp dat.
-        """
-        print("\033[33mCautare pachete in functie de un interval de timp dat\033[0m")
-        data = self.get_date()
-        gasit = False
-        for offer in self.__offers:
-            if data[0] <= offer.start_date <= data[1]:
-                print(offer)
-                gasit = True
-        if not gasit:
-            print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
-    def search_by_destination_price(self):
-        """
-        Cauta pachete in functie de destinatie si pret maxim.
-        """
-        print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
-        destination = input("Introduceti destinatia: ")
-        max_price = float(input("Introduceti pretul maxim: "))
-        gasit = False
-        for offer in self.__offers:
-            if offer.destination == destination and offer.price <= max_price:
-                print(offer)
-                gasit = True
-        if not gasit:
-            print(f"Nu exista pachete cu destinatia {destination} si pretul mai mic sau egal cu {max_price}.")
 
     def search_by_end_date(self):
         """
@@ -528,9 +556,15 @@ class package_processor:
         
         Curăță consola, setează semnalizatorul de rulare la True și apoi apelează gestionarul de meniu pentru a afișa meniul principal.
         """
+        self.test()
         os.system("cls")
         self.__running = True
         self.menu_handler(0)  
+
+
+    
+
+
 
 
 
