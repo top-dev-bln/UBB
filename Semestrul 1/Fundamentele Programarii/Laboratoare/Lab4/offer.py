@@ -1,4 +1,5 @@
 from datetime import datetime
+import uuid
 class Package:
     def __init__(self, start_date:datetime, end_date:datetime, destination:str, price:float)->None:
         """
@@ -19,35 +20,3 @@ class Package:
         Returnează o reprezentare text a ofertei.
         """
         return f"Pachetul pentru {self.destination} din data de {self.start_date.strftime("%Y-%m-%d")} pana {self.end_date.strftime("%Y-%m-%d")} este la pretul de {self.price} Euro."
-
-
-
-
-
-
-
-
-
-def test():
-    #todo testingaww
-    pass
-
-
-
-test()
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
