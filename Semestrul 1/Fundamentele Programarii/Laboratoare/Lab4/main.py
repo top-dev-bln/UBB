@@ -332,6 +332,20 @@ class package_processor:
         if not gasit:
             print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
+    def search_by_interval(self):
+        """
+        Cauta pachete in functie de un interval de timp dat.
+        """
+        print("\033[33mCautare pachete in functie de un interval de timp dat\033[0m")
+        data = self.get_date()
+        gasit = False
+        for offer in self.__offers:
+            if data[0] <= offer.start_date <= data[1]:
+                print(offer)
+                gasit = True
+        if not gasit:
+            print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
+
     def print_between_dates(self)->None:
         """
         Afișează ofertele dintr-un interval de date dat.
