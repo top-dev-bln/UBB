@@ -18,9 +18,7 @@ class package_processor:
         care conține string-urile ce vor fi afișate pentru fiecare meniu.
         """
         self.__running = False
-
         self.__offers = []
-
         self.__submenu_functions = {
             1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
             2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
@@ -80,10 +78,28 @@ class package_processor:
 '''
 
         }
-    
+        
+        #todo4 remove after testing
+        self.__offers.append(Package(datetime(2024, 5, 16), datetime(2024, 6, 15), "garden", 100))
+        self.__offers.append(Package(datetime(2024, 7, 2), datetime(2024, 7, 12), "manastur", 87))
+        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "rwanda", 420))
+        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 9, 12), "manastur", 69))
+        
+    def fuzzy_search_destination(self, query:str)->str:
+         """
+         Caută o destinație folosind căutare fuzzy.
+         """
+         destinations = [offer.get_destination() for offer in self.__offers]
+         import difflib
+
+         matches = difflib.get_close_matches(query, destinations, n=1, cutoff=0.6)
+         if matches:
+             return matches[0]
+         else:
+             return None
 
     def handle_undo(self):
-        print("Undo")
+        print("\033[32mUndo realizat cu succes\033[0m") 
 
     def get_date(self):
         """
@@ -92,39 +108,25 @@ class package_processor:
             list: O listă care conține două obiecte datetime, reprezentând data de început și data de sfârșit.
         """
         data=[]
+        labels = ["inceput", "sfarsit"]
         while True:
-            while True:
-                try:
-                    print("Introduceti data de inceput")
-                    ziua=int(input("Ziua: "))
-                    if ziua<1 or ziua>31:
-                        raise ValueError("Ziua invalida")
-                    luna=int(input("Luna: "))
-                    if luna<1 or luna>12:
-                        raise ValueError("Luna invalida")
-                    anul=int(input("Anul: "))
-                    if anul<1 or anul>2022:
-                        raise ValueError("Anul invalida")
-                    data.append(datetime(anul, luna, ziua))
-                    break
-                except:
-                    print("\033[31mIntroduceti un numar valid.\033[0m")
-            while True:
-                try:
-                    print("Introduceti data de sfarsit")
-                    ziua=int(input("Ziua: "))
-                    if ziua<1 or ziua>31:
-                        raise ValueError("Ziua invalida")
-                    luna=int(input("Luna: "))
-                    if luna<1 or luna>12:
-                        raise ValueError("Luna invalida")
-                    anul=int(input("Anul: "))
-                    if anul<1 or anul>2022:
-                        raise ValueError("Anul invalida")
-                    data.append(datetime(anul, luna, ziua))
-                    break
-                except:
-                    print("\033[31mIntroduceti un numar valid.\033[0m")
+            for label in labels:
+                while True:
+                    try:
+                        print(f"Introduceti data de {label}")
+                        ziua=int(input("Ziua: "))
+                        if ziua<1 or ziua>31:
+                            raise ValueError("Ziua invalida")
+                        luna=int(input("Luna: "))
+                        if luna<1 or luna>12:
+                            raise ValueError("Luna invalida")
+                        anul=int(input("Anul: "))
+                        if anul<1:
+                            raise ValueError("Anul invalid")
+                        data.append(datetime(anul, luna, ziua))
+                        break
+                    except ValueError as e:
+                        print(f"\033[31m{e}\033[0m")
             if(data[0]>data[1]):
                 os.system("cls")
                 print("Data de inceput trebuie sa fie inaintea data de sfarsit")
@@ -135,7 +137,7 @@ class package_processor:
 
 
     def add_package(self):
-        print(f"\033[33mAdaugare pachet nou\033[0m")
+        print("\033[33mAdaugare pachet nou\033[0m")
         data=self.get_date()
         destination=str(input("Destinatie: "))
         price=float(input("Pret: "))
@@ -143,16 +145,46 @@ class package_processor:
         self.__offers.append(Package(data[0], data[1], destination, price))
         
         print("\033[32mPachet adaugat cu succes\033[0m") 
-        print(str(self.__offers[0]))
+        print(str(self.__offers[-1]))
 
 
+ 
     def modify_package(self):
-        print("Modifying existing package")
+        print("\033[33mModificare pachet\033[0m")
+        print("Ce pachet doriti sa modificati?")
+        for i, offer in enumerate(self.__offers):
+            print(f"{i+1}. {offer}")
+        id = int(input("=> ")) 
+
+        pachet=self.__offers[id-1]
+        data=self.get_date()
+        destination=str(input("Destinatie: "))
+        price=float(input("Pret: "))
+        pachet.start_date=data[0]
+        pachet.end_date=data[1]
+        pachet.destination=destination
+        pachet.price=price
+        self.__offers[id-1]=pachet
+        print("\033[32mPachet modificat cu succes\033[0m")
+        print(str(pachet))
+
+
     
     # Delete
 
     def delete_by_destination(self):
-        print("Deleting package by destination")
+        """
+        Șterge toate ofertele cu o anumită destinație.
+        """
+        destination = input("Introduceți destinația de șters: ")
+        fuzzy_destination = self.fuzzy_search_destination(destination)
+        if fuzzy_destination:
+            print(f"Did you mean '{fuzzy_destination}'?")
+            confirm = input("Yes/No: ")
+            if confirm.lower() == 'yes':
+                destination = fuzzy_destination
+        self.__offers = [offer for offer in self.__offers if offer.get_destination() != destination]
+        print(f"Toate ofertele cu destinația '{destination}' au fost șterse.")
 
     def delete_by_duration(self):
         print("Deleting package by duration")
