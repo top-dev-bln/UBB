@@ -23,7 +23,9 @@ def test_add_package():
     assert offers[0].price == price
 
     assert offers[1].destination == "Rome"
-    assert offers[2].destination == "London"
+    manager.add_package(datetime(2024, 2, 1), datetime(2024, 2, 7), "Madrid", 800.0)
+    offers = manager.get_offers()
+    assert offers[2].destination == "Madrid"
 
     print("Toate testele au trecut cu succes!")
     return manager
