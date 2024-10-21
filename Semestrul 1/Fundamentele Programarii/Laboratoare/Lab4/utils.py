@@ -44,30 +44,29 @@ def fuzzy_search_destination(query: str, destinations: list) -> str:
     else:
         return None
 
-import unittest
+def test_fuzzy_search():
+    destinations = ["Paris", "London", "New York", "Tokyo", "Sydney"]
 
-class TestFuzzySearch(unittest.TestCase):
-    def setUp(self):
-        self.destinations = ["Paris", "London", "New York", "Tokyo", "Sydney"]
+    # Test exact match
+    assert fuzzy_search_destination("Paris", destinations) == "Paris"
 
-    def test_exact_match(self):
-        self.assertEqual(fuzzy_search_destination("Paris", self.destinations), "Paris")
+    # Test close match
+    assert fuzzy_search_destination("Pari", destinations) == "Paris"
 
-    def test_close_match(self):
-        self.assertEqual(fuzzy_search_destination("Pari", self.destinations), "Paris")
+    # Test case insensitive
+    assert fuzzy_search_destination("london", destinations) == "London"
 
-    def test_case_insensitive(self):
-        self.assertEqual(fuzzy_search_destination("london", self.destinations), "London")
+    # Test no match
+    assert fuzzy_search_destination("Berlin", destinations) is None
 
-    def test_no_match(self):
-        self.assertIsNone(fuzzy_search_destination("Berlin", self.destinations))
+    # Test empty query
+    assert fuzzy_search_destination("", destinations) is None
 
-    def test_empty_query(self):
-        self.assertIsNone(fuzzy_search_destination("", self.destinations))
+    # Test empty destinations
+    assert fuzzy_search_destination("Paris", []) is None
 
-    def test_empty_destinations(self):
-        self.assertIsNone(fuzzy_search_destination("Paris", []))
+    print("All tests passed!")
 
 if __name__ == '__main__':
-    unittest.main()
+    test_fuzzy_search()
 
