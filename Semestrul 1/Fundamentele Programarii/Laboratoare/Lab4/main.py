@@ -99,15 +99,14 @@ class package_processor:
         assert self.fuzzy_search_destination("Cluj") == "Cluj-Napoca"
         assert self.fuzzy_search_destination("Iasi") == None
 
-    def __record_change(self, change_type, package, previous=None, action_number=1):
+    def __record_change(self, change_type, packages, previous=None):
         """
         Înregistrează o schimbare în history. Pentru modificări, stocam atât starea anterioară, cât și starea nouă.
         """
         self.__history.append({
             'type': change_type,
-            'new': package,
+            'packages': packages,
             'previous': previous,  # Numai pentru modificari
-            'exp': action_number
         })
 
     def fuzzy_search_destination(self, query:str)->str:
@@ -137,24 +136,14 @@ class package_processor:
         change_type = last_change['type']
 
         if change_type == 'add':
-            self.__offers.remove(last_change['new'])
+            self.__offers.remove(last_change['packages'][0])
         elif change_type == 'delete':
-            delete_count = last_change['exp']  # How many deletions happened
-            for _ in range(delete_count):
-
-                if self.__history and self.__history[-1]['type'] == 'delete':
-                    print(_)
-                    print(self.__history)
-                    action = self.__history.pop()
-                    deleted_package = action['new']
-                    self.__offers.append(last_change['new'])
-                    print(f"Restored package: {deleted_package}")
-                else:
-                    print("No more deletions to undo")
-                    break
+            for package in last_change['packages']:
+                self.__offers.append(package)
+            print(f"Restored {len(last_change['packages'])} package(s)")
         elif change_type == 'modify':
             # Revert to the previous version of the package
-            index = self.__offers.index(last_change['new'])
+            index = self.__offers.index(last_change['packages'][0])
             self.__offers[index] = last_change['previous']
 
         print("\033[32mUndo realizat cu succes\033[0m")
@@ -264,12 +253,12 @@ class package_processor:
             
 
         removed_offers = [offer for offer in self.__offers if offer.destination == fuzzy_destination]
-        print(f"am scos{len(removed_offers)} oferte")
-        for offer in removed_offers:
-            self.__offers.remove(offer)
-            self.__record_change('delete', offer,None,len(removed_offers))
-        self.__offers = [offer for offer in self.__offers if offer.destination != fuzzy_destination]
-        print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
+        if removed_offers:
+            self.__record_change('delete', removed_offers)
+            self.__offers = [offer for offer in self.__offers if offer.destination != fuzzy_destination]
+            print(f"Am șters {len(removed_offers)} oferte cu destinația {fuzzy_destination}.")
+        else:
+            print(f"Nu există oferte cu destinația {fuzzy_destination}.")
 
 
 
