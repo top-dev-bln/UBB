@@ -1,34 +1,20 @@
-from offer import Package
 import os
-from datetime import datetime , timedelta
-import difflib
+from datetime import datetime
+from package_manager import PackageManager
 
-
-
-class package_processor:
-
-    def __init__(self) -> None:
-
-        """
-        Initializează clasa package_processor.
-
-        Setează atributul __running la False, inițializează lista de oferte __offers ca fiind goală, 
-        definește un dicționar __submenu_functions care mapează ID-urile submeniurilor la dicționare 
-        ce conțin funcțiile corespunzătoare fiecărei opțiuni din submeniu, și definește un dicționar meniu 
-        care conține string-urile ce vor fi afișate pentru fiecare meniu.
-        """
+class PackageProcessor:
+    def __init__(self):
         self.__running = False
-        self.__offers = []
-        self.__history = []
+        self.__package_manager = PackageManager()
         self.__submenu_functions = {
-            1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
-            2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
-            3: {1: self.search_by_interval, 2: self.search_by_destination_price, 3: self.search_by_end_date},  # Search Menu
-            4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
-            5: {1: self.search_by_destination_price, 2: self.filter_by_month},  # Filter Menu
+            1: {1: self.__package_manager.add_package, 2: self.__package_manager.modify_package, 3: self.__package_manager.handle_undo},  # Add Menu
+            2: {1: self.__package_manager.delete_by_destination, 2: self.__package_manager.delete_by_duration, 3: self.__package_manager.delete_by_price, 4: self.__package_manager.handle_undo},  # Delete Menu
+            3: {1: self.__package_manager.search_by_interval, 2: self.__package_manager.search_by_destination_price, 3: self.__package_manager.search_by_end_date},  # Search Menu
+            4: {1: self.__package_manager.report_offer_count, 2: self.__package_manager.report_packages_in_interval, 3: self.__package_manager.report_avg_price},  # Report Menu
+            5: {1: self.__package_manager.search_by_destination_price, 2: self.__package_manager.filter_by_month},  # Filter Menu
         }
-        self.meniu={
-            0:'''
+        self.meniu = {
+            0: '''
 1. Adaugare
 2. Stergere
 3. Cautare
@@ -38,15 +24,14 @@ class package_processor:
 
 9. Exit
 ''',
-            1:'''
+            1: '''
 1. Adaugare pachet
 2. Modificare pachet existent
 3. Undo
 
-
 9. Back
 ''',
-            2:'''
+            2: '''
 1. Stergere pachete dupa destinatie
 2. Stergere pachete dupa durata
 3. Stergere pachete dupa pret
@@ -54,30 +39,26 @@ class package_processor:
 
 9. Back
 ''',
-            3:'''
+            3: '''
 1. Afisare pachete intr-un interval
 2. Afisare pachete cu destinatie si pret sub stabilit
 3. Afisare pachete dupa data de sfarsit
 
-
 9. Back
 ''',
-            4:'''
+            4: '''
 1. Afisare numarul de oferte pentru o destinatie
 2. Afisare tuturor pachetelor disponibile intr-un interval (crescator dupa pret)
 3. Afisare mediei de pret pentru o destinatie
 
-
 9. Back
 ''',
-            5:'''
+            5: '''
 1. Eliminare oferte peste buget sau destinatie diferita
 2. Eliminare oferte ce presupun zile dintr-o anumita luna
 
-
 9. Back
 '''
-
         }
         
     def test(self):
