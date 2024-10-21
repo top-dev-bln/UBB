@@ -1,5 +1,17 @@
 from datetime import datetime
+from utils import fuzzy_search_destination
 from package_manager import PackageManager
+
+def test_fuzzy_search():
+    destinations = ["Paris", "London", "New York", "Tokyo", "Sydney"]
+
+    assert fuzzy_search_destination("Paris", destinations) == "Paris"
+    assert fuzzy_search_destination("Pari", destinations) == "Paris"
+    assert fuzzy_search_destination("london", destinations) == "London"
+    assert fuzzy_search_destination("Berlin", destinations) == None
+    assert fuzzy_search_destination("", destinations) == None
+    assert fuzzy_search_destination("Paris", []) == None
+
 
 def test_add_package():
     manager = PackageManager()
@@ -51,6 +63,7 @@ def testing_package_removal(manager):
     assert len(offers_after_undo) == 9
 
 def testing():
+    test_fuzzy_search()
     manager = test_add_package()
     testing_package_removal(manager)
 

@@ -333,12 +333,12 @@ Meniu Filtrare \*
 	- [x] Rapoarte
 	- [x] Filtrare
 	- [x] Undo
-- [ ] lista de taskuri
+- [x] lista de taskuri
 	- [x] adaugare
-	- [ ] Ștergere
-	- [ ] Căutare
-	- [ ] Rapoarte
-	- [ ] Filtrare
+	- [x] Ștergere
+	- [x] Căutare
+	- [x] Rapoarte
+	- [x] Filtrare
 	- [x] Undo
 
 ###### Initializare
@@ -346,33 +346,34 @@ Meniu Filtrare \*
 - [x] Creare modul de interfata ce creaza instante de pachete
 - [x] Creare modul ( offer.py ) ce contine sablon de pachet 
 ###### Adăugare
+ - [x] Scris teste
  - [x] Validare date de intrare, semnalare erori ale utilizatorului
  - [x] Creare clasa interfata care creaza instante de pachete
 
 ###### Ștergere
+- [x] Scris teste
 - [x] sterge pachete pentru o destinatie
 - [x] sterge pachete cu o durata mai scurta
 - [x] sterge pachete cu pret mai mare decat o suma
-- [ ] testare
-
 ###### Căutare
+- [ ] Scris teste
 - [x] Tipărirea pachetelor într-un interval
 - [x] Tipărirea pachetelor cu o destinație și preț sub o sumă
 - [x] Tipărirea pachetelor cu o anumită dată de sfârșit 
-- [ ] refactorizare
-- [ ] testare
+
 
 ###### Rapoarte
+- [ ] Scris teste
 - [x] Tipărirea numărului de oferte pentru o destinație dată
 - [x] Tipărirea tuturor pachetelor disponibile într-o anumită perioadă
 - [x] Tipărirea mediei de preț pentru o destinație dată
-- [ ] refactorizare
-- [ ] testare
+
+
 ###### Filtrare
+- [ ] Scris teste
 - [x] Eliminare oferte cu preț mai mare citit și o destinație diferită de cea citită
 - [x] Eliminarea ofertelor în care sejurul presupune zile dintr-o anumită lună
-- [ ] refactorizare
-- [ ] testare
+
 
 ###### Undo
 - [x] refacerea ultimei operatii

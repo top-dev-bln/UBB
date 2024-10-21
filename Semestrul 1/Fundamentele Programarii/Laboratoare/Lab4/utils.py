@@ -44,16 +44,5 @@ def fuzzy_search_destination(query: str, destinations: list) -> str:
     else:
         return None
 
-def test_fuzzy_search():
-    destinations = ["Paris", "London", "New York", "Tokyo", "Sydney"]
 
-    assert fuzzy_search_destination("Paris", destinations) == "Paris"
-    assert fuzzy_search_destination("Pari", destinations) == "Paris"
-    assert fuzzy_search_destination("london", destinations) == "London"
-    assert fuzzy_search_destination("Berlin", destinations) is None
-    assert fuzzy_search_destination("", destinations) is None
-    assert fuzzy_search_destination("Paris", []) is None
-
-
-test_fuzzy_search()
 
