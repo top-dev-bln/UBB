@@ -43,3 +43,4 @@ def fuzzy_search_destination(query: str, destinations: list) -> str:
         return matches[0]
     else:
         return None
+
