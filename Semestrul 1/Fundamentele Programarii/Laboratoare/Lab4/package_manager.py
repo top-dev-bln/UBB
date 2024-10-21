@@ -140,14 +140,31 @@ class PackageManager:
             print("Id-ul introdus este invalid.")
             return
         
-        previous_package = self.__offers[id]
         new_data = get_date()
         destination = input("Destinatie: ")
-        price = float(input("Pret: "))
-        new_package = Package(new_data[0], new_data[1], destination, price)
+        while True:
+            try:
+                price = float(input("Pret: "))
+                if price <= 0:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Pret invalid. Va rugam introduceti un numar pozitiv.")
+        
+        if self.modify_package_api(id, new_data[0], new_data[1], destination, price):
+            print("\033[32mPachet modificat cu succes\033[0m")
+        else:
+            print("\033[31mModificarea pachetului a esuat\033[0m")
+
+    def modify_package_api(self, id, start_date, end_date, destination, price):
+        if id < 0 or id >= len(self.__offers):
+            return False
+        
+        previous_package = self.__offers[id]
+        new_package = Package(start_date, end_date, destination, price)
         self.__offers[id] = new_package
         self.__record_change('modify', [new_package], previous_package)
-        print("\033[32mPachet modificat cu succes\033[0m")
+        return True
 
     def delete_by_destination(self):
         destination = input("Introduceți destinația de șters: ")
