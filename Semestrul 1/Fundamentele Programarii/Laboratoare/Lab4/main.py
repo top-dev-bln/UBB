@@ -542,5 +542,6 @@ class package_processor:
 
 
 
-process = package_processor()
-process.run()
+if __name__ == "__main__":
+    process = package_processor()
+    process.run()
