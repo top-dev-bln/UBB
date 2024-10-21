@@ -492,9 +492,30 @@ class PackageManager:
         else:
             print(f"Nu exista pachete cu data de sfarsit inainte de {end_date.strftime('%Y-%m-%d')}.")
 
+    def report_offer_count_api(self, destination: str):
+        """
+        Numără ofertele pentru o destinație specifică.
 
+        Această funcție parcurge lista de oferte și numără câte oferte
+        corespund destinației specificate.
+
+        Args:
+            destination (str): Destinația pentru care se numără ofertele.
+
+        Returns:
+            int: Numărul de oferte pentru destinația specificată.
+        """
+        return len([offer for offer in self.__offers if offer.destination == destination])
 
     def report_offer_count(self):
+        """
+        Afișează numărul de oferte pentru o destinație specificată de utilizator.
+
+        Această metodă solicită utilizatorului să introducă o destinație, apoi utilizează
+        căutarea fuzzy pentru a identifica destinația corectă. Dacă se găsește o potrivire,
+        se numără ofertele pentru acea destinație și se afișează rezultatul.
+
+        """
         print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
         destination = input("Introduceti o destinatie: ")
         fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in self.__offers])
@@ -505,26 +526,81 @@ class PackageManager:
             print(f"ai vrut sa spui {fuzzy_destination}")
             valid = input("Da sau Nu?  => ")
             if valid[0].lower() != "d":
+                return
                 return 
-        count = sum(1 for offer in self.__offers if offer.destination == fuzzy_destination)
+        count = self.report_offer_count_api(fuzzy_destination)
         if count == 0:
             print(f"Nu exista oferte pentru destinatia {fuzzy_destination}.")
         else:
             print(f"Exista {count} oferte pentru destinatia {fuzzy_destination}.")
 
-    def report_packages_in_interval(self):
-        print("\033[33mAfisare pachete disponibile intr-un interval de timp\033[0m")
-        data = get_date()
-        filtered_offers = [offer for offer in self.__offers if data[0] <= offer.start_date <= data[1]]
+    def report_packages_in_interval_api(self,data:tuple): 
+        """
+        Afișează pachetele disponibile într-un interval de timp specificat.
         
-        if not filtered_offers:
-            print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
-        else:
-            filtered_offers.sort(key=lambda offer: offer.price)
+        Această funcție parcurge lista de oferte și afișează doar pachetele
+        care se încadrează într-un interval de timp specificat.
+
+        Args:
+            data (tuple): Un tuple conținând data de început și data de sfârșit a intervalului.
+
+        Returns:
+            list: O listă cu toate pachetele disponibile într-un interval de timp specificat.
+        """
+        return [offer for offer in self.__offers if data[0] <= offer.start_date and data[1] >= offer.end_date].sort(key=lambda offer: offer.price)
+
+    def report_packages_in_interval(self):
+        """
+        Raportează și afișează pachetele de vacanță disponibile într-un interval de timp specificat.
+
+        Această metodă solicită utilizatorului să introducă un interval de timp folosind funcția get_date(),
+        apoi utilizează metoda report_packages_in_interval_api() pentru a obține o listă de oferte filtrate.
+        Ofertele sunt apoi afișate individual sau, dacă nu există oferte în intervalul specificat,
+        se afișează un mesaj corespunzător.
+
+        Metoda nu primește parametri și nu returnează nimic.
+        Rezultatele sunt afișate direct în consolă.
+        """
+        data = get_date()
+        filtered_offers = self.report_packages_in_interval_api(data)
+        
+        if filtered_offers!=[]:
             for offer in filtered_offers:
                 print(offer)
+        else:
+            print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
+    def report_avg_price_api(self, destination: str):
+        """
+        Afișează pretul mediu pentru o destinație specificată.
+
+        Această funcție parcurge lista de oferte și afișează pretul mediu
+        pentru o destinație specificată.
+
+        Args:
+            destination (str): Destinația pentru care se afișează pretul mediu.
+
+        Returns:
+            float: Pretul mediu pentru destinația specificată.
+        """
+        return sum([offer.price for offer in self.__offers if offer.destination == destination]) / len([offer for offer in self.__offers if offer.destination == destination])
+    
     def report_avg_price(self):
+        """
+        Afișează prețul mediu pentru o destinație specificată de utilizator.
+
+        Această metodă solicită utilizatorului să introducă o destinație, apoi utilizează
+        căutarea fuzzy pentru a identifica destinația corectă. Dacă se găsește o potrivire,
+        se calculează și se afișează prețul mediu pentru acea destinație.
+
+        Metoda folosește funcția `fuzzy_search_destination()` pentru a găsi destinația corectă
+        și metoda `report_avg_price_api()` pentru a calcula prețul mediu.
+
+        Dacă nu se găsește nicio destinație similară sau utilizatorul nu confirmă destinația sugerată,
+        metoda se încheie fără a afișa un preț mediu.
+
+        Nu are parametri și nu returnează nimic. Rezultatul este afișat direct în consolă.
+        """
         print("\033[33mAfisare pret mediu pentru o destinatie\033[0m")
         destination = input("Introduceti destinatia: ")
         fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in self.__offers])
@@ -536,28 +612,93 @@ class PackageManager:
             valid = input("Da sau Nu?  => ")
             if valid[0].lower() != "d":
                 return
-        prices = [offer.price for offer in self.__offers if offer.destination == fuzzy_destination]
-        if not prices:
-            print(f"Nu exista oferte pentru destinatia {destination}.")
-        else:
-            avg_price = sum(prices) / len(prices)
-            print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
+        avg_price = self.report_avg_price_api(fuzzy_destination)
+        print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
+    def filter_by_month_api(self, luna: str):
+        """
+        Filtrează ofertele care nu au loc în luna specificată.
+
+        Această funcție returnează o listă de oferte care nu încep și nu se termină
+        în luna dată ca parametru.
+
+        Args:
+            luna (str): Luna pentru care se face filtrarea (se așteaptă un număr de la 1 la 12).
+
+        Returns:
+            list: O listă de oferte care nu au loc în luna specificată.
+
+        Note:
+            Funcția compară atât luna de început, cât și luna de sfârșit a fiecărei oferte
+            cu luna specificată. Dacă niciuna dintre aceste luni nu corespunde lunii date,
+            oferta este inclusă în lista returnată.
+        """
+        return [offer for offer in self.__offers if offer.start_date.month != month and offer.end_date.month != month]
+        
     def filter_by_month(self):
+        """
+        Filtrează și afișează pachetele de vacanță care nu au loc într-o anumită lună.
+
+        Această metodă solicită utilizatorului să introducă un număr de lună (1-12),
+        apoi folosește metoda filter_by_month_api pentru a obține o listă de oferte
+        care nu au loc în luna specificată. Rezultatele sunt apoi afișate.
+
+        Pașii metodei:
+        1. Solicită utilizatorului să introducă un număr de lună.
+        2. Verifică dacă luna introdusă este validă (între 1 și 12).
+        3. Apelează filter_by_month_api cu luna specificată.
+        4. Afișează rezultatele sau un mesaj dacă nu există oferte.
+
+        Nu are parametri și nu returnează nimic. Rezultatele sunt afișate direct în consolă.
+        """
         print("\033[33mCautare pachete fara o anumita luna\033[0m")
         month = int(input("Introduceti luna: "))
         if month < 1 or month > 12:
             print("Luna invalida.")
             return
         
-        selected_offers = [offer for offer in self.__offers if offer.start_date.month != month and offer.end_date.month != month]
+        selected_offers = self.filter_by_month_api(month)
         if not selected_offers:
             print(f"Nu există oferte pentru luna {month}.")
             return
         for offer in selected_offers:
             print(offer)
-
+ 
     def menu_handler(self, menu_id: int):
+        """
+        Se ocupă de navigarea prin meniu și de introducerea utilizatorului pentru aplicație.
+
+        Această metodă afișează meniul corespunzător bazat pe menu_id,
+        procesează intrarea utilizatorului și execută acțiunile corespunzătoare.
+        Acceptă navigarea între meniul principal și submeniuri,
+        se ocupă de operația de anulare și permite ieșirea din aplicație.
+
+        Metoda rulează în buclă până când utilizatorul alege să iasă sau
+        revine la un meniu anterior.
+
+        Argumente:
+            menu_id (int): ID-ul meniului curent de afișat.
+                           0 reprezintă meniul principal, alte valori
+                           reprezintă submeniuri.
+
+        Metoda gestionează următoarele scenarii:
+        - Pentru meniul principal (menu_id == 0):
+            - Opțiuni 1-5: Navigați la submeniuri
+            - Opțiunea 6: Operațiunea de anulare a mânerului
+            - Opțiunea 9: Ieșiți din aplicație
+        - Pentru submeniuri (menu_id != 0):
+            - Opțiuni de la 1 la n: Executați funcțiile de submeniu corespunzătoare
+            - Opțiunea 9: Reveniți la meniul anterior
+
+        Excepții:
+            ValueError: generată pentru intrări nevalide ale utilizatorului, care sunt capturate
+                        și tratate prin afișarea unui mesaj de eroare.
+
+        Nota:
+            Această metodă modifică atributul `self.__running` la control
+            bucla principală a aplicației.
+
+        """
         while self.__running:
             print(self.meniu[menu_id])
             try:
@@ -590,5 +731,19 @@ class PackageManager:
                 print("Introduceti un numar valid.")
 
     def run(self):
+        """
+        Pornește și rulează aplicația de gestionare a pachetelor de vacanță.
+
+        Această metodă inițializează starea de rulare a aplicației și invocă
+        gestionarul de meniu principal. Ea setează variabila internă __running
+        la True, indicând că aplicația este activă, și apoi apelează metoda
+        menu_handler cu argumentul 0, care reprezintă meniul principal.
+
+        Metoda run() este punctul de intrare principal pentru interacțiunea
+        utilizatorului cu aplicația, permițând navigarea prin diferite opțiuni
+        și funcționalități ale sistemului de gestionare a pachetelor de vacanță.
+
+        Nu primește parametri și nu returnează nicio valoare.
+        """
         self.__running = True
         self.menu_handler(0)
