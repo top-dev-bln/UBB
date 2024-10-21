@@ -79,7 +79,8 @@ class PackageManager:
         change_type = last_change['type']
 
         if change_type == 'add':
-            self.__offers.remove(last_change['packages'])
+            for package in last_change['packages']:
+                self.__offers.remove(package)
         elif change_type == 'delete':
             for package in last_change['packages']:
                 self.__offers.append(package)
