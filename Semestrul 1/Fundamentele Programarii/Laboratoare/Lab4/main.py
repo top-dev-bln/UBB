@@ -543,5 +543,8 @@ class package_processor:
 
 
 if __name__ == "__main__":
+    import os
+    # Change the current working directory to the script's directory
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     process = package_processor()
     process.run()
