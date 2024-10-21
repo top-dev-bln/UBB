@@ -63,7 +63,7 @@ class PackageManager:
 '''
         }
 
-    def __record_change(self, change_type, packages, previous=None):
+    def __record_change(self, change_type:str, packages:list, previous:Package=None):
         self.__history.append({
             'type': change_type,
             'packages': packages,
@@ -81,15 +81,11 @@ class PackageManager:
         if change_type == 'add':
             self.__offers.remove(last_change['packages'])
         elif change_type == 'delete':
-            if isinstance(last_change['packages'], list):
-                for package in last_change['packages']:
-                    self.__offers.append(package)
-                print(f"Restored {len(last_change['packages'])} package(s)")
-            else:
-                self.__offers.append(last_change['packages'])
-                print("Restored 1 package")
+            for package in last_change['packages']:
+                self.__offers.append(package)
+            print(f"Restored {len(last_change['packages'])} package(s)")
         elif change_type == 'modify':
-            index = self.__offers.index(last_change['packages'])
+            index = self.__offers.index(last_change['packages'][0])
             self.__offers[index] = last_change['previous']
 
         print("\033[32mUndo realizat cu succes\033[0m")
@@ -107,7 +103,7 @@ class PackageManager:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
         new_package = Package(data[0], data[1], destination, price)
         self.__offers.append(new_package)
-        self.__record_change('add', new_package)
+        self.__record_change('add', [new_package])
         print("\033[32mPachet adaugat cu succes\033[0m") 
         print(str(new_package))
 
@@ -132,7 +128,7 @@ class PackageManager:
         price = float(input("Pret: "))
         new_package = Package(new_data[0], new_data[1], destination, price)
         self.__offers[id] = new_package
-        self.__record_change('modify', new_package, previous_package)
+        self.__record_change('modify', [new_package], previous_package)
         print("\033[32mPachet modificat cu succes\033[0m")
 
     def delete_by_destination(self):
@@ -346,5 +342,3 @@ class PackageManager:
         os.system("cls")
         self.menu_handler(0)
 
-    def get_offers(self):
-        return self.__offers
