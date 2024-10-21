@@ -312,7 +312,7 @@ class PackageManager:
         else:
             print(f"Nu există oferte cu prețul mai mare de {price} Euro.")
 
-    def serch_by_interval_api(self, data:tuple):
+    def search_by_interval_api(self, data:tuple):
         """
         Caută pachete de vacanță în funcție de un interval de timp dat.
 
@@ -336,7 +336,7 @@ class PackageManager:
         print("\033[33mCautare pachete in functie de un interval de timp dat\033[0m")
         data = get_date()
 
-        results = self.serch_by_interval_api(data)
+        results = self.search_by_interval_api(data)
         
         if results!=[]:
             for offer in results:
@@ -503,7 +503,9 @@ class PackageManager:
             float: Pretul mediu pentru destinația specificată.
         """
         offers = [offer.price for offer in self.__offers if offer.destination == destination]
-        return sum(offers) / len(offers)
+        if offers:
+            return sum(offers) / len(offers)
+        return 0
     
     def report_avg_price(self):
         """
@@ -525,20 +527,21 @@ class PackageManager:
         avg_price = self.report_avg_price_api(fuzzy_destination)
         print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
-    def filter_by_month_api(self, month: str):
+    def filter_by_month_api(self, month: int):
         """
         Filtrează ofertele care nu au loc în luna specificată
 
         Args:
-            month (str): Luna pentru care se face filtrarea (se așteaptă un număr de la 1 la 12).
+            month (int): Luna pentru care se face filtrarea (se așteaptă un număr de la 1 la 12).
 
         Returns:
             list: O listă de oferte care nu au loc în luna specificată.
-
-
         """
-        return [offer for offer in self.__offers if offer.start_date.month != month and offer.end_date.month != month]
-        
+        return [offer for offer in self.__offers if not (
+            (offer.start_date.month <= month <= offer.end_date.month) or
+            (offer.start_date.month > offer.end_date.month and (month >= offer.start_date.month or month <= offer.end_date.month))
+        )]
+
     def filter_by_month(self):
         """
         Filtrează și afișează pachetele de vacanță care nu au loc într-o anumită lună.
