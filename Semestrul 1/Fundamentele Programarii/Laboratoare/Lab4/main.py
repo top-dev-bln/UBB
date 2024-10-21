@@ -95,7 +95,6 @@ class package_processor:
 
         #testare fuzzy search
         assert self.fuzzy_search_destination("Craiova") == "Craiova"
-        
         assert self.fuzzy_search_destination("Cluj") == "Cluj-Napoca"
         assert self.fuzzy_search_destination("Iasi") == None
 
