@@ -15,6 +15,13 @@ class PackageManager:
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.search_by_destination_price, 2: self.filter_by_month},  # Filter Menu
         }
+        self.add_package(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100.0)
+        self.add_package(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87.0)
+        self.add_package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420.0)
+        self.add_package(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69.0)
+        self.add_package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420.0)
+        self.add_package(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69.0)
+        
         self.meniu = {
             0: '''
 1. Adaugare
@@ -61,6 +68,7 @@ class PackageManager:
 
 9. Back
 '''
+    
         }
     def get_offers(self):
         """
@@ -72,6 +80,17 @@ class PackageManager:
         return self.__offers
 
     def __record_change(self, change_type:str, packages:list, previous:Package=None):
+        """
+        Înregistrează o modificare în istoricul aplicației.
+
+        Args:
+            change_type (str): Tipul modificării (ex: 'add', 'delete', 'modify').
+            packages (list): Lista de pachete afectate de modificare.
+            previous (Package, optional): Pachetul anterior în cazul unei modificări. Implicit None.
+
+        Această metodă adaugă o nouă intrare în istoricul modificărilor, permițând
+        funcționalitatea de anulare (undo) a acțiunilor recente.
+        """
         self.__history.append({
             'type': change_type,
             'packages': packages,
@@ -79,6 +98,19 @@ class PackageManager:
         })
 
     def handle_undo(self):
+        """
+        Anulează ultima acțiune efectuată și restaurează starea anterioară a ofertelor.
+
+        Această metodă gestionează operațiunea de undo pentru diferite tipuri de modificări:
+        - Pentru adăugări: elimină pachetul adăugat recent
+        - Pentru ștergeri: restaurează pachetele șterse
+        - Pentru modificări: înlocuiește pachetul modificat cu versiunea sa anterioară
+
+        Dacă nu există nicio acțiune anterioară în istoric, se afișează un mesaj corespunzător.
+
+        Returnează:
+            None
+        """
         if not self.__history:
             print("\033[31mNu se poate realiza undo. Nu există o stare anterioară disponibilă.\033[0m")
             return
@@ -100,6 +132,21 @@ class PackageManager:
 
 
     def get_package_data(self):
+        """
+        Obține datele necesare pentru crearea unui nou pachet de vacanță și îl adaugă în sistem.
+
+        Această funcție solicită utilizatorului să introducă:
+        - Data de început și de sfârșit a pachetului
+        - Destinația
+        - Prețul
+
+        După colectarea datelor, funcția încearcă să adauge noul pachet utilizând metoda add_package().
+        În caz de succes, afișează un mesaj de confirmare și detaliile pachetului adăugat.
+        În caz de eșec, afișează un mesaj de eroare.
+
+        Returns:
+            None
+        """
         data = get_date()
         destination = input("Introduceti destinatia: ")
         while True:
@@ -110,14 +157,29 @@ class PackageManager:
                 break
             except ValueError:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-        package=self.add_package(data[0], data[1], destination, price)
+        package = self.add_package(data[0], data[1], destination, price)
         if package:
             print("\033[32mPachet adaugat cu succes\033[0m")
-            print(str(package)) 
+            print(str(package))
         else:
             print("Nu s-a putut adauga pachetul")
 
     def add_package(self, start_date, end_date, destination, price):
+        """
+        Adaugă un nou pachet de vacanță în lista de oferte.
+
+        Args:
+            start_date (datetime): Data de început a pachetului.
+            end_date (datetime): Data de sfârșit a pachetului.
+            destination (str): Destinația pachetului.
+            price (float): Prețul pachetului.
+
+        Returns:
+            Package: Obiectul pachet nou creat și adăugat în listă.
+
+        Această metodă creează un nou obiect Package cu datele furnizate,
+        îl adaugă în lista de oferte și înregistrează modificarea în istoric.
+        """
         new_package = Package(start_date, end_date, destination, price)
         self.__offers.append(new_package)
         self.__record_change('add', [new_package])
@@ -126,6 +188,23 @@ class PackageManager:
 
 
     def modify_package(self):
+        """
+        Modifică un pachet existent în lista de oferte.
+
+        Această funcție permite utilizatorului să selecteze un pachet din lista de oferte
+        și să îi modifice detaliile (data de început, data de sfârșit, destinația și prețul).
+        Dacă nu există pachete disponibile, se afișează un mesaj corespunzător.
+
+        Pașii funcției:
+        1. Verifică dacă există pachete disponibile.
+        2. Afișează lista de pachete și solicită utilizatorului să aleagă unul.
+        3. Solicită noile date pentru pachet (date, destinație, preț).
+        4. Aplică modificările folosind metoda modify_package_api.
+        5. Afișează un mesaj de succes sau eșec în funcție de rezultatul modificării.
+
+        Returns:
+            None
+        """
         print("\033[33mModificare pachet\033[0m")
         if not self.__offers:
             print("Nu exista pachete disponibile pentru modificare.")
@@ -157,14 +236,29 @@ class PackageManager:
             print("\033[31mModificarea pachetului a esuat\033[0m")
 
     def modify_package_api(self, id, start_date, end_date, destination, price):
-        if id < 0 or id >= len(self.__offers):
-            return False
-        
+        """
+        Modifică un pachet existent în lista de oferte.
+
+        Args:
+            id (int): Indexul pachetului în lista de oferte.
+            start_date (datetime): Noua dată de început a pachetului.
+            end_date (datetime): Noua dată de sfârșit a pachetului.
+            destination (str): Noua destinație a pachetului.
+            price (float): Noul preț al pachetului.
+        Returns:
+            bool: True dacă modificarea a fost realizată cu succes, False în caz contrar.
+        """
         previous_package = self.__offers[id]
         new_package = Package(start_date, end_date, destination, price)
         self.__offers[id] = new_package
         self.__record_change('modify', [new_package], previous_package)
         return True
+    
+    def delete_api(self, condition):
+        removed_offers = [offer for offer in self.__offers if condition(offer)]
+        self.__record_change('delete', removed_offers)
+        self.__offers = [offer for offer in self.__offers if not condition(offer)]
+        return len(removed_offers)
 
     def delete_by_destination(self):
         destination = input("Introduceți destinația de șters: ")
@@ -177,14 +271,16 @@ class PackageManager:
             valid = input("Da sau Nu?  => ")
             if valid[0].lower() != "d":
                 return
-            
-        removed_offers = [offer for offer in self.__offers if offer.destination == fuzzy_destination]
-        if removed_offers:
-            self.__record_change('delete', removed_offers)
-            self.__offers = [offer for offer in self.__offers if offer not in removed_offers]
-            print(f"Am șters {len(removed_offers)} oferte cu destinația {fuzzy_destination}.")
+        
+        len = self.delete_api(lambda offer: offer.destination == fuzzy_destination)
+        
+        if len:
+            print(f"Am șters {len} oferte cu destinația {fuzzy_destination}.")
         else:
             print(f"Nu există oferte cu destinația {fuzzy_destination}.")
+
+        
+
 
     def delete_by_duration(self):
         duration = int(input("Introduceți durata de timp ( in zile ):  => "))
@@ -192,11 +288,10 @@ class PackageManager:
             print("Durata invalidă")
             return
         
-        removed_offers = [offer for offer in self.__offers if offer.end_date - offer.start_date > timedelta(days=duration)]
-        if removed_offers:
-            self.__record_change('delete', removed_offers)
-            self.__offers = [offer for offer in self.__offers if offer not in removed_offers]
-            print(f"Ofertele cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
+        len = self.delete_api(lambda offer: offer.end_date-offer.start_date>timedelta(days=duration))
+        
+        if len:
+            print(f"{len} oferte cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
         else:
             print(f"Nu există oferte cu durata de timp mai mică sau egală cu {duration} zile.")
 
@@ -210,11 +305,9 @@ class PackageManager:
             except ValueError:
                 print("Preț invalid. Va rugam introduceti un numar pozitiv.")
 
-        removed_offers = [offer for offer in self.__offers if offer.price > price]
-        if removed_offers:
-            self.__record_change('delete', removed_offers)
-            self.__offers = [offer for offer in self.__offers if offer not in removed_offers]
-            print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
+        len = self.delete_api(lambda offer: offer.price > price)
+        if len:
+            print(f"{len} oferte cu prețul mai mare de {price} Euro au fost șterse.")
         else:
             print(f"Nu există oferte cu prețul mai mare de {price} Euro.")
 
