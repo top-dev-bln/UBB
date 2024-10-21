@@ -47,26 +47,13 @@ def fuzzy_search_destination(query: str, destinations: list) -> str:
 def test_fuzzy_search():
     destinations = ["Paris", "London", "New York", "Tokyo", "Sydney"]
 
-    # Test exact match
     assert fuzzy_search_destination("Paris", destinations) == "Paris"
-
-    # Test close match
     assert fuzzy_search_destination("Pari", destinations) == "Paris"
-
-    # Test case insensitive
     assert fuzzy_search_destination("london", destinations) == "London"
-
-    # Test no match
     assert fuzzy_search_destination("Berlin", destinations) is None
-
-    # Test empty query
     assert fuzzy_search_destination("", destinations) is None
-
-    # Test empty destinations
     assert fuzzy_search_destination("Paris", []) is None
 
-    print("All tests passed!")
 
-if __name__ == '__main__':
-    test_fuzzy_search()
+test_fuzzy_search()
 
