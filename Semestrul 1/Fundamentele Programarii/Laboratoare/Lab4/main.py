@@ -1,6 +1,8 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from package_manager import PackageManager
+from package import Package
+import difflib
 
 class PackageProcessor:
     def __init__(self):
@@ -88,11 +90,11 @@ class PackageProcessor:
             'previous': previous,  # Numai pentru modificari
         })
 
-    def fuzzy_search_destination(self, query:str)->str:
+    def fuzzy_search_destination(self, query: str) -> str:
          """
          Caută o destinație folosind căutare fuzzy.
          """
-         destinations = [offer.destination for offer in self.__offers]
+         destinations = [offer.destination for offer in self.__package_manager.get_offers()]
          
          matches = difflib.get_close_matches(query, destinations, n=1, cutoff=0.4)
          if matches:
@@ -491,5 +493,5 @@ class PackageProcessor:
 
 
 
-process = package_processor()
-process.run()
+processor = PackageProcessor()
+processor.run()
