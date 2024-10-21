@@ -101,11 +101,23 @@ class PackageManager:
                 break
             except ValueError:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-        new_package = Package(data[0], data[1], destination, price)
+        
+        success = self.__add_package_internal(data[0], data[1], destination, price)
+        
+        if success:
+            print("\033[32mPachet adaugat cu succes\033[0m")
+            print(str(self.__offers[-1]))
+        else:
+            print("\033[31mEroare la adaugarea pachetului\033[0m")
+
+    def __add_package_internal(self, start_date, end_date, destination, price):
+        if not all([start_date, end_date, destination, price > 0]):
+            return False
+        
+        new_package = Package(start_date, end_date, destination, price)
         self.__offers.append(new_package)
         self.__record_change('add', [new_package])
-        print("\033[32mPachet adaugat cu succes\033[0m") 
-        print(str(new_package))
+        return True
 
     def modify_package(self):
         print("\033[33mModificare pachet\033[0m")
