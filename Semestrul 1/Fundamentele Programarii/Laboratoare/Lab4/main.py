@@ -135,14 +135,18 @@ class package_processor:
         change_type = last_change['type']
 
         if change_type == 'add':
-            self.__offers.remove(last_change['packages'][0])
+            self.__offers.remove(last_change['packages'])
         elif change_type == 'delete':
-            for package in last_change['packages']:
-                self.__offers.append(package)
-            print(f"Restored {len(last_change['packages'])} package(s)")
+            if isinstance(last_change['packages'], list):
+                for package in last_change['packages']:
+                    self.__offers.append(package)
+                print(f"Restored {len(last_change['packages'])} package(s)")
+            else:
+                self.__offers.append(last_change['packages'])
+                print("Restored 1 package")
         elif change_type == 'modify':
             # Revert to the previous version of the package
-            index = self.__offers.index(last_change['packages'][0])
+            index = self.__offers.index(last_change['packages'])
             self.__offers[index] = last_change['previous']
 
         print("\033[32mUndo realizat cu succes\033[0m")
