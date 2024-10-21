@@ -16,14 +16,6 @@ class PackageManager:
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.search_by_destination_price, 2: self.filter_by_month},  # Filter Menu
         }
-        self.add_package_api(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100.0)
-        self.add_package_api(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87.0)
-        self.add_package_api(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420.0)
-        self.add_package_api(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69.0)
-        self.add_package_api(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420.0)
-        self.add_package_api(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69.0)
-
-        
         self.meniu = {
             0: '''
 1. Adaugare
@@ -616,5 +608,6 @@ class PackageManager:
 
         Nu primește parametri și nu returnează nicio valoare.
         """
+        os.system("cls")
         self.__running = True
         self.menu_handler()
