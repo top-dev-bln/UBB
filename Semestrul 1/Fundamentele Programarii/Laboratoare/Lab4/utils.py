@@ -44,3 +44,30 @@ def fuzzy_search_destination(query: str, destinations: list) -> str:
     else:
         return None
 
+import unittest
+
+class TestFuzzySearch(unittest.TestCase):
+    def setUp(self):
+        self.destinations = ["Paris", "London", "New York", "Tokyo", "Sydney"]
+
+    def test_exact_match(self):
+        self.assertEqual(fuzzy_search_destination("Paris", self.destinations), "Paris")
+
+    def test_close_match(self):
+        self.assertEqual(fuzzy_search_destination("Pari", self.destinations), "Paris")
+
+    def test_case_insensitive(self):
+        self.assertEqual(fuzzy_search_destination("london", self.destinations), "London")
+
+    def test_no_match(self):
+        self.assertIsNone(fuzzy_search_destination("Berlin", self.destinations))
+
+    def test_empty_query(self):
+        self.assertIsNone(fuzzy_search_destination("", self.destinations))
+
+    def test_empty_destinations(self):
+        self.assertIsNone(fuzzy_search_destination("Paris", []))
+
+if __name__ == '__main__':
+    unittest.main()
+
