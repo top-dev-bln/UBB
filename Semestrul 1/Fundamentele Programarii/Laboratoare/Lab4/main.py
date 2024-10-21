@@ -19,7 +19,7 @@ class package_processor:
         """
         self.__running = False
         self.__offers = []
-        self.__history = [self.__offers[:]]
+        self.__history = []
         self.__submenu_functions = {
             1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
             2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
@@ -81,18 +81,34 @@ class package_processor:
         }
         
     def test(self):
-        self.__offers.append(Package(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100))
-        self.__offers.append(Package(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87))
-        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420))
-        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69))
-        self.__offers.append(Package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420))
-        self.__offers.append(Package(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69))
+        self.add(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100)
+        self.add(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87)
+        assert self.fuzzy_search_destination("Timisoara") == "Timisoara"
+        self.handle_undo()
+        assert self.fuzzy_search_destination("Timisoara") == None
+        self.add(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420)
+        self.add(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69)
+        self.add(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69)
+        self.add(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420)
+        self.add(datetime(2022, 2, 4), datetime(2024,3, 11), "barlad", 70)
+
 
         #testare fuzzy search
         assert self.fuzzy_search_destination("Craiova") == "Craiova"
-        assert self.fuzzy_search_destination("Timisoara") == "Timisoara"
+        
         assert self.fuzzy_search_destination("Cluj") == "Cluj-Napoca"
         assert self.fuzzy_search_destination("Iasi") == None
+
+    def __record_change(self, change_type, package, previous=None, action_number=1):
+        """
+        Înregistrează o schimbare în history. Pentru modificări, stocam atât starea anterioară, cât și starea nouă.
+        """
+        self.__history.append({
+            'type': change_type,
+            'new': package,
+            'previous': previous,  # Numai pentru modificari
+            'exp': action_number
+        })
 
     def fuzzy_search_destination(self, query:str)->str:
          """
@@ -106,16 +122,42 @@ class package_processor:
          else:
              return None
 
-    def __save_state(self):
-        self.__history.append(self.__offers[:])
 
+
+            
     def handle_undo(self):
-        if len(self.__history) > 1:
-            self.__history.pop()  # Remove the current state
-            self.__offers = self.__history[-1][:]  # Set to a copy of the previous state
-            print("\033[32mUndo realizat cu succes\033[0m")
-        else:
+        """
+        Reconstruiește lista inversând ultima operație.
+        """
+        if not self.__history:
             print("\033[31mNu se poate realiza undo. Nu există o stare anterioară disponibilă.\033[0m")
+            return
+
+        last_change = self.__history.pop()  # Get the last change
+        change_type = last_change['type']
+
+        if change_type == 'add':
+            self.__offers.remove(last_change['new'])
+        elif change_type == 'delete':
+            delete_count = last_change['exp']  # How many deletions happened
+            for _ in range(delete_count):
+
+                if self.__history and self.__history[-1]['type'] == 'delete':
+                    print(_)
+                    print(self.__history)
+                    action = self.__history.pop()
+                    deleted_package = action['new']
+                    self.__offers.append(last_change['new'])
+                    print(f"Restored package: {deleted_package}")
+                else:
+                    print("No more deletions to undo")
+                    break
+        elif change_type == 'modify':
+            # Revert to the previous version of the package
+            index = self.__offers.index(last_change['new'])
+            self.__offers[index] = last_change['previous']
+
+        print("\033[32mUndo realizat cu succes\033[0m")
 
     def get_date(self):
         """
@@ -152,6 +194,15 @@ class package_processor:
                 return data
 
     # Adaugare
+    def add(self, start, end, destination, price):
+        """
+        Adauga un nou pachet si înregistrează modificările 
+        """
+        new_package = Package(start, end, destination, price)
+        self.__offers.append(new_package)
+        self.__record_change('add', new_package)
+
+
     def add_package(self)->None:
         """
         Adaugă o ofertă nouă în lista de oferte.
@@ -166,37 +217,33 @@ class package_processor:
                 break
             except ValueError:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-        offer = Package(data[0], data[1], destination, price)
-        self.__save_state()
-        self.__offers.append(offer)
+        self.add(data[0],data[1],destination,price)
         print("\033[32mPachet adaugat cu succes\033[0m") 
         print(str(self.__offers[-1]))
 
     def modify_package(self):
         print("\033[33mModificare pachet\033[0m")
-        if(len(self.__offers)==0):
+        if not self.__offers:
             print("Nu exista pachete disponibile pentru modificare.")
             return
         print("Ce pachet doriti sa modificati?")
+            
         for i, offer in enumerate(self.__offers):
             print(f"{i+1}. {offer}")
-        id = int(input("=> ")) 
+        id = int(input("=> ")) - 1
 
-        if (id-1)>=len(self.__offers):
+        if id < 0 or id >= len(self.__offers):
             print("Id-ul introdus este invalid.")
             return
-
-        pachet=self.__offers[id-1]
-        data=self.get_date()
-        destination=str(input("Destinatie: "))
-        price=float(input("Pret: "))
-        pachet.start_date=data[0]
-        pachet.end_date=data[1]
-        pachet.destination=destination
-        pachet.price=price
-        self.__offers[id-1]=pachet
+        
+        previous_package = self.__offers[id]
+        new_data = self.get_date()
+        destination = input("Destinatie: ")
+        price = float(input("Pret: "))
+        new_package = Package(new_data[0], new_data[1], destination, price)
+        self.__offers[id] = new_package
+        self.__record_change('modify', new_package, previous_package)
         print("\033[32mPachet modificat cu succes\033[0m")
-        print(str(pachet))
 
 
     # Stergere
@@ -214,9 +261,17 @@ class package_processor:
             valid = input("Da sau Nu?  => ")
             if valid[0].lower() != "d":
                 return
-        self.__save_state()
+            
+
+        removed_offers = [offer for offer in self.__offers if offer.destination == fuzzy_destination]
+        print(f"am scos{len(removed_offers)} oferte")
+        for offer in removed_offers:
+            self.__offers.remove(offer)
+            self.__record_change('delete', offer,None,len(removed_offers))
         self.__offers = [offer for offer in self.__offers if offer.destination != fuzzy_destination]
         print(f"Ofertele cu destinația {fuzzy_destination} au fost șterse.")
+
+
 
     
     def delete_by_duration(self)->None:
@@ -227,9 +282,17 @@ class package_processor:
         if duration < 1:
             print("Durata invalidă")
             return
-        self.__save_state()
-        self.__offers = [offer for offer in self.__offers if offer.end_date - offer.start_date <= timedelta(days=duration)]
-        print(f"Ofertele cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
+        
+        removed_offers = [offer for offer in self.__offers if offer.end_date - offer.start_date > timedelta(days=duration)]
+        if removed_offers:
+            for offer in removed_offers:
+                self.__offers.remove(offer)
+                self.__record_change('delete', offer)
+            self.__offers = [offer for offer in self.__offers if offer.end_date - offer.start_date <= timedelta(days=duration)]
+            print(f"Ofertele cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
+        else:
+            print(f"Nu există oferte cu durata de timp mai mică sau egală cu {duration} zile.")
+
 
     def delete_by_price(self)->None:
         """
@@ -243,9 +306,18 @@ class package_processor:
                 break
             except ValueError:
                 print("Preț invalid. Va rugam introduceti un numar pozitiv.")
-        self.__save_state()
-        self.__offers = [offer for offer in self.__offers if offer.price <= price]
-        print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
+
+        removed_offers = [offer for offer in self.__offers if offer.price > price]
+        if removed_offers:
+            for offer in removed_offers:
+                self.__offers.remove(offer)
+                self.__record_change('delete', offer)
+            self.__offers = [offer for offer in self.__offers if offer.price <= price]
+            print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
+        else:
+            print(f"Nu există oferte cu prețul mai mare de {price} Euro.")
+
+        
 
 
     # Cautare
@@ -446,7 +518,7 @@ class package_processor:
                 if menu_id == 0:
                     if option == 6:
                         self.handle_undo()
-                    if 1 <= option <= 5:
+                    elif 1 <= option <= 5:
                         os.system("cls")
                         self.menu_handler(option)
                     elif option == 9:
