@@ -25,7 +25,7 @@ class package_processor:
             2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
             3: {1: self.search_by_interval, 2: self.search_by_destination_price, 3: self.search_by_end_date},  # Search Menu
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
-            5: {1: self.filter_by_budget, 2: self.filter_by_month},  # Filter Menu
+            5: {1: self.search_by_destination_price, 2: self.filter_by_month},  # Filter Menu
         }
         self.meniu={
             0:'''
@@ -90,7 +90,6 @@ class package_processor:
         self.add(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69)
         self.add(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69)
         self.add(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420)
-        self.add(datetime(2022, 2, 4), datetime(2024,3, 11), "barlad", 70)
 
 
         #testare fuzzy search
@@ -119,9 +118,6 @@ class package_processor:
              return matches[0]
          else:
              return None
-
-
-
             
     def handle_undo(self):
         """
@@ -131,7 +127,7 @@ class package_processor:
             print("\033[31mNu se poate realiza undo. Nu există o stare anterioară disponibilă.\033[0m")
             return
 
-        last_change = self.__history.pop()  # Get the last change
+        last_change = self.__history.pop() 
         change_type = last_change['type']
 
         if change_type == 'add':
@@ -193,7 +189,6 @@ class package_processor:
         new_package = Package(start, end, destination, price)
         self.__offers.append(new_package)
         self.__record_change('add', new_package)
-
 
     def add_package(self)->None:
         """
@@ -258,14 +253,11 @@ class package_processor:
         removed_offers = [offer for offer in self.__offers if offer.destination == fuzzy_destination]
         if removed_offers:
             self.__record_change('delete', removed_offers)
-            self.__offers = [offer for offer in self.__offers if offer.destination != fuzzy_destination]
+            self.__offers = [offer for offer in self.__offers if offer not in removed_offers]
             print(f"Am șters {len(removed_offers)} oferte cu destinația {fuzzy_destination}.")
         else:
             print(f"Nu există oferte cu destinația {fuzzy_destination}.")
 
-
-
-    
     def delete_by_duration(self)->None:
         """
         Sterge ofertele care sunt sub  un anumit interval de timp.
@@ -277,14 +269,11 @@ class package_processor:
         
         removed_offers = [offer for offer in self.__offers if offer.end_date - offer.start_date > timedelta(days=duration)]
         if removed_offers:
-            for offer in removed_offers:
-                self.__offers.remove(offer)
-                self.__record_change('delete', offer)
-            self.__offers = [offer for offer in self.__offers if offer.end_date - offer.start_date <= timedelta(days=duration)]
+            self.__record_change('delete', removed_offers)
+            self.__offers = [offer for offer in self.__offers if offer not in removed_offers]
             print(f"Ofertele cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
         else:
             print(f"Nu există oferte cu durata de timp mai mică sau egală cu {duration} zile.")
-
 
     def delete_by_price(self)->None:
         """
@@ -301,10 +290,8 @@ class package_processor:
 
         removed_offers = [offer for offer in self.__offers if offer.price > price]
         if removed_offers:
-            for offer in removed_offers:
-                self.__offers.remove(offer)
-                self.__record_change('delete', offer)
-            self.__offers = [offer for offer in self.__offers if offer.price <= price]
+            self.__record_change('delete', removed_offers)
+            self.__offers = [offer for offer in self.__offers if offer not in removed_offers]
             print(f"Ofertele cu prețul mai mare de {price} Euro au fost șterse.")
         else:
             print(f"Nu există oferte cu prețul mai mare de {price} Euro.")
@@ -348,7 +335,7 @@ class package_processor:
                 return
         gasit = False
         for offer in self.__offers:
-            if offer.destination == fuzzy_destination and offer.price <= max_price:
+            if offer.destination == fuzzy_destination and offer.price < max_price:
                 print(offer)
                 gasit = True
         if not gasit:
@@ -448,51 +435,27 @@ class package_processor:
             avg_price = sum(prices) / len(prices)
             print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
-    # Filter
-    def filter_by_budget(self):
-        """
-        Elimina ofertele care depasesc un buget dat sau au o destinatie diferita de cea data.
-        """
-        print("\033[33mEliminare oferte peste buget sau destinatie diferita\033[0m")
-        budget = float(input("Introduceti bugetul: "))
-        destination = input("Introduceti destinatia: ")
-        initial_count = len(self.__offers)
-        self.__offers = [
-            offer for offer in self.__offers if offer.price <= budget and offer.destination == destination
-        ]
-        removed_count = initial_count - len(self.__offers)
-        print(f"Au fost eliminate {removed_count} oferte.")
 
-    def print_between_dates(self)->None:
-        """
-        Afișează ofertele dintr-un interval de date dat.
-        """
-        start_date = self.get_date()
-        end_date = self.get_date()
-        found = False
-        for offer in self.__offers:
-            if start_date <= offer.start_date <= end_date:
-                print(offer)
-                found = True
-        if not found:
-            print(f"Nu există oferte în intervalul {start_date.strftime('%Y-%m-%d')} - {end_date.strftime('%Y-%m-%d')}.")
 
+    # filter
     def filter_by_month(self)->None:
         """
-        Elimina ofertele care depasesc un lună dat sau au o destinatie diferita de cea data.
+        Eliminarea ofertelor în care sejurul presupune zile dintr-o anumită lună
         """
-        print("\033[33mEliminare oferte peste lună sau destinatie diferita\033[0m")
+        print("\033[33mCautare pachete fara o anumita luna\033[0m")
         month = int(input("Introduceti luna: "))
         if month < 1 or month > 12:
             print("Luna invalida.")
             return
-        destination = input("Introduceti destinatia: ")
-        initial_count = len(self.__offers)
-        self.__offers = [
-            offer for offer in self.__offers if offer.start_date.month == month and offer.destination == destination
-        ]
-        removed_count = initial_count - len(self.__offers)
-        print(f"Au fost eliminate {removed_count} oferte.")
+        
+        selected_offers = [offer for offer in self.__offers if offer.start_date.month != month and offer.end_date.month != month]
+        if not selected_offers:
+            print(f"Nu există oferte pentru luna {month}.")
+            return
+        for offer in selected_offers:
+            print(offer)
+    
+
 
 
     def menu_handler(self, menu_id: int)->None:

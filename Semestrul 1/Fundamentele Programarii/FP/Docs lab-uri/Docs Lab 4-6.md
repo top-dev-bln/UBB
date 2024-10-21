@@ -337,11 +337,17 @@ Meniu Filtrare \*
 - [x] Tipărirea pachetelor într-un interval
 - [x] Tipărirea pachetelor cu o destinație și preț sub o sumă
 - [x] Tipărirea pachetelor cu o anumită dată de sfârșit 
+- [ ] testare
 
 ###### Rapoarte
 - [x] Tipărirea numărului de oferte pentru o destinație dată
 - [x] Tipărirea tuturor pachetelor disponibile într-o anumită perioadă
 - [x] Tipărirea mediei de preț pentru o destinație dată
-###### Rapoarte
+- [ ] testare
+###### Filtrare
 - [ ] Eliminare oferte cu preț mai mare citit și o destinație diferită de cea citită
 - [ ] Eliminarea ofertelor în care sejurul presupune zile dintr-o anumită lună
+- [ ] testare
+
+###### Undo
+- [x] refacerea ultimei operatii
