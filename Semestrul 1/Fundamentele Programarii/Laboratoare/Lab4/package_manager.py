@@ -9,7 +9,7 @@ class PackageManager:
         self.__history = []
         self.__running = False
         self.__submenu_functions = {
-            1: {1: self.add_package_interactive, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
+            1: {1: self.get_package_data, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
             2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
             3: {1: self.search_by_interval, 2: self.search_by_destination_price, 3: self.search_by_end_date},  # Search Menu
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
@@ -62,6 +62,14 @@ class PackageManager:
 9. Back
 '''
         }
+    def get_offers(self):
+        """
+        Returnează lista de oferte disponibile.
+
+        Returns:
+            list: O listă conținând toate ofertele curente.
+        """
+        return self.__offers
 
     def __record_change(self, change_type:str, packages:list, previous:Package=None):
         self.__history.append({
@@ -90,6 +98,7 @@ class PackageManager:
 
         print("\033[32mUndo realizat cu succes\033[0m")
 
+
     def get_package_data(self):
         data = get_date()
         destination = input("Introduceti destinatia: ")
@@ -101,18 +110,20 @@ class PackageManager:
                 break
             except ValueError:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-        return data[0], data[1], destination, price
+        package=self.add_package(data[0], data[1], destination, price)
+        if package:
+            print("\033[32mPachet adaugat cu succes\033[0m")
+            print(str(package)) 
+        else:
+            print("Nu s-a putut adauga pachetul")
 
     def add_package(self, start_date, end_date, destination, price):
         new_package = Package(start_date, end_date, destination, price)
         self.__offers.append(new_package)
         self.__record_change('add', [new_package])
-        print("\033[32mPachet adaugat cu succes\033[0m") 
-        print(str(new_package))
+        return new_package
+    
 
-    def add_package_interactive(self):
-        start_date, end_date, destination, price = self.get_package_data()
-        self.add_package(start_date, end_date, destination, price)
 
     def modify_package(self):
         print("\033[33mModificare pachet\033[0m")
@@ -344,8 +355,9 @@ class PackageManager:
             except ValueError:
                 print("Introduceti un numar valid.")
 
+    
+    
     def run(self):
         self.__running = True
-        os.system("cls")
         self.menu_handler(0)
 
