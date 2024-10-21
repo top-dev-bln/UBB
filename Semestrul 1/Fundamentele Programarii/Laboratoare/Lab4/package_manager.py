@@ -5,22 +5,24 @@ from utils import get_date, fuzzy_search_destination
 
 class PackageManager:
     def __init__(self):
+
         self.__offers = []
         self.__history = []
         self.__running = False
         self.__submenu_functions = {
-            1: {1: self.get_package_data, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
+            1: {1: self.add_package, 2: self.modify_package, 3: self.handle_undo},  # Add Menu
             2: {1: self.delete_by_destination, 2: self.delete_by_duration, 3: self.delete_by_price, 4: self.handle_undo},  # Delete Menu
             3: {1: self.search_by_interval, 2: self.search_by_destination_price, 3: self.search_by_end_date},  # Search Menu
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.search_by_destination_price, 2: self.filter_by_month},  # Filter Menu
         }
-        self.add_package(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100.0)
-        self.add_package(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87.0)
-        self.add_package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420.0)
-        self.add_package(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69.0)
-        self.add_package(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420.0)
-        self.add_package(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69.0)
+        self.add_package_api(datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100.0)
+        self.add_package_api(datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87.0)
+        self.add_package_api(datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420.0)
+        self.add_package_api(datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69.0)
+        self.add_package_api(datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420.0)
+        self.add_package_api(datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69.0)
+
         
         self.meniu = {
             0: '''
@@ -70,6 +72,7 @@ class PackageManager:
 '''
     
         }
+   
     def get_offers(self):
         """
         Returnează lista de oferte disponibile.
@@ -130,8 +133,28 @@ class PackageManager:
 
         print("\033[32mUndo realizat cu succes\033[0m")
 
+    def add_package_api(self, start_date:datetime, end_date:datetime, destination:str, price:float):
+        """
+        Adaugă un nou pachet de vacanță în lista de oferte.
 
-    def get_package_data(self):
+        Args:
+            start_date (datetime): Data de început a pachetului.
+            end_date (datetime): Data de sfârșit a pachetului.
+            destination (str): Destinația pachetului.
+            price (float): Prețul pachetului.
+
+        Returns:
+            Package: Obiectul pachet nou creat și adăugat în listă.
+
+        Această metodă creează un nou obiect Package cu datele furnizate,
+        îl adaugă în lista de oferte și înregistrează modificarea în istoric.
+        """
+        new_package = Package(start_date, end_date, destination, price)
+        self.__offers.append(new_package)
+        self.__record_change('add', [new_package])
+        return new_package
+
+    def add_package(self):
         """
         Obține datele necesare pentru crearea unui nou pachet de vacanță și îl adaugă în sistem.
 
@@ -157,35 +180,12 @@ class PackageManager:
                 break
             except ValueError:
                 print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-        package = self.add_package(data[0], data[1], destination, price)
+        package = self.add_package_api(data[0], data[1], destination, price)
         if package:
             print("\033[32mPachet adaugat cu succes\033[0m")
             print(str(package))
         else:
             print("Nu s-a putut adauga pachetul")
-
-    def add_package(self, start_date, end_date, destination, price):
-        """
-        Adaugă un nou pachet de vacanță în lista de oferte.
-
-        Args:
-            start_date (datetime): Data de început a pachetului.
-            end_date (datetime): Data de sfârșit a pachetului.
-            destination (str): Destinația pachetului.
-            price (float): Prețul pachetului.
-
-        Returns:
-            Package: Obiectul pachet nou creat și adăugat în listă.
-
-        Această metodă creează un nou obiect Package cu datele furnizate,
-        îl adaugă în lista de oferte și înregistrează modificarea în istoric.
-        """
-        new_package = Package(start_date, end_date, destination, price)
-        self.__offers.append(new_package)
-        self.__record_change('add', [new_package])
-        return new_package
-    
-
 
     def modify_package(self):
         """
@@ -235,7 +235,7 @@ class PackageManager:
         else:
             print("\033[31mModificarea pachetului a esuat\033[0m")
 
-    def modify_package_api(self, id, start_date, end_date, destination, price):
+    def modify_package_api(self, id:int, start_date:datetime, end_date:datetime, destination:str, price:float):
         """
         Modifică un pachet existent în lista de oferte.
 
@@ -255,12 +255,41 @@ class PackageManager:
         return True
     
     def delete_api(self, condition):
+        """
+        Șterge ofertele care îndeplinesc o anumită condiție.
+
+        Args:
+            condition (function): O funcție care primește o ofertă și returnează True dacă oferta trebuie ștearsă.
+
+        Returns:
+            int: Numărul de oferte șterse.
+
+        Această metodă parcurge lista de oferte, identifică ofertele care îndeplinesc condiția specificată,
+        le înregistrează în istoricul modificărilor și le elimină din lista de oferte active.
+        """
+        print(type(condition))
         removed_offers = [offer for offer in self.__offers if condition(offer)]
         self.__record_change('delete', removed_offers)
         self.__offers = [offer for offer in self.__offers if not condition(offer)]
         return len(removed_offers)
 
     def delete_by_destination(self):
+        """
+        Șterge ofertele pentru o destinație specificată de utilizator.
+
+        Această metodă permite utilizatorului să introducă o destinație și folosește
+        căutarea fuzzy pentru a identifica destinația corectă. Apoi, șterge toate
+        ofertele care au acea destinație.
+
+        Pașii metodei:
+        1. Solicită utilizatorului să introducă o destinație.
+        2. Folosește căutarea fuzzy pentru a găsi cea mai apropiată potrivire.
+        3. Cere confirmarea utilizatorului dacă destinația găsită este diferită de cea introdusă.
+        4. Șterge toate ofertele care corespund destinației confirmate.
+        5. Afișează un mesaj cu numărul de oferte șterse sau un mesaj dacă nu s-au găsit oferte.
+
+        Nu are parametri și nu returnează nimic.
+        """
         destination = input("Introduceți destinația de șters: ")
         fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in self.__offers])
         if fuzzy_destination is None:
@@ -279,23 +308,38 @@ class PackageManager:
         else:
             print(f"Nu există oferte cu destinația {fuzzy_destination}.")
 
-        
-
-
     def delete_by_duration(self):
+        """
+        Șterge ofertele cu o durată mai mare decât cea specificată de utilizator.
+
+        Această funcție solicită utilizatorului să introducă o durată în zile și apoi
+        șterge toate ofertele care au o durată mai mare decât valoarea introdusă.
+        
+        Returnează:
+            None
+        """
         duration = int(input("Introduceți durata de timp ( in zile ):  => "))
         if duration < 1:
             print("Durata invalidă")
             return
         
-        len = self.delete_api(lambda offer: offer.end_date-offer.start_date>timedelta(days=duration))
+        len = self.delete_api(lambda offer: offer.end_date-offer.start_date<timedelta(days=duration))
         
         if len:
-            print(f"{len} oferte cu durata de timp mai mică sau egală cu {duration} zile au fost șterse.")
+            print(f"{len} oferte cu durata de timp mai mica decât {duration} zile au fost șterse.")
         else:
-            print(f"Nu există oferte cu durata de timp mai mică sau egală cu {duration} zile.")
-
+            print(f"Nu există oferte cu durata de timp mai mica decât {duration} zile.")
+    
     def delete_by_price(self):
+        """
+        Șterge ofertele cu un preț mai mare decât cel specificat de utilizator.
+
+        Această metodă solicită utilizatorului să introducă un preț maxim și apoi
+        elimină toate ofertele care au un preț mai mare decât valoarea introdusă.
+        Utilizează metoda delete_api pentru a efectua ștergerea bazată pe condiție.
+
+        Nu primește parametri și nu returnează nimic.
+        """
         while True:
             try:
                 price = float(input("Introduceți prețul maxim: "))
@@ -311,18 +355,75 @@ class PackageManager:
         else:
             print(f"Nu există oferte cu prețul mai mare de {price} Euro.")
 
+    def serch_by_interval_api(self, data:tuple):
+        """
+        Caută pachete de vacanță în funcție de un interval de timp dat.
+
+        Args:
+            data (tuple): Un tuplu conținând data de început și data de sfârșit a intervalului.
+
+        Returns:
+            list: O listă cu toate ofertele care se încadrează în intervalul de timp specificat.
+
+        Această metodă filtrează ofertele disponibile și returnează doar acele pachete
+        a căror dată de început este egală sau ulterioară datei de început specificate,
+        și a căror dată de sfârșit este egală sau anterioară datei de sfârșit specificate.
+        """
+        return [offer for offer in self.__offers if data[0] <= offer.start_date and data[1] >= offer.end_date]
+
     def search_by_interval(self):
+        """
+        Caută și afișează pachetele de vacanță disponibile într-un interval de timp specificat.
+
+        Această funcție solicită utilizatorului să introducă un interval de timp,
+        apoi caută toate pachetele de vacanță care se încadrează în acel interval.
+        Rezultatele sunt afișate pe ecran.
+
+        Funcția folosește metoda `get_date()` pentru a obține intervalul de timp de la utilizator
+        și `serch_by_interval_api()` pentru a efectua căutarea efectivă.
+
+        Dacă sunt găsite pachete în intervalul specificat, acestea sunt afișate individual.
+        Dacă nu sunt găsite pachete, se afișează un mesaj corespunzător.
+
+        Nu are parametri și nu returnează nimic.
+        """
         print("\033[33mCautare pachete in functie de un interval de timp dat\033[0m")
         data = get_date()
-        gasit = False
-        for offer in self.__offers:
-            if data[0] <= offer.start_date <= data[1]:
-                print(offer)
-                gasit = True
-        if not gasit:
+
+        results = self.serch_by_interval_api(data)
+        
+        if results!=[]:
+            for offer in results:
+                print(str(offer))
+        
+        else:
             print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
+    def search_by_destination_price_api(self, destination: str, max_price: float):
+        """
+        Caută pachete de vacanță în funcție de destinație și preț maxim.
+
+        Args:
+            destination (str): Destinația căutată.
+            max_price (float): Prețul maxim acceptat.
+
+        Returns:
+            list: O listă cu toate ofertele care corespund criteriilor de căutare.
+
+        Această funcție filtrează lista de oferte și returnează doar acele pachete
+        care au destinația specificată și un preț mai mic decât prețul maxim dat.
+        """
+        return [offer for offer in self.__offers if offer.destination == destination and offer.price < max_price]
+    
     def search_by_destination_price(self):
+        """
+        Caută și afișează pachete de vacanță în funcție de destinație și preț maxim.
+
+        Această metodă solicită utilizatorului să introducă un preț maxim și o destinație.
+        Utilizează căutarea fuzzy pentru a identifica destinația corectă și apoi caută
+        pachete care corespund criteriilor specificate.
+
+        """
         print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
         max_price = float(input("Introduceti pretul maxim: "))
         destination = input("Introduceți destinația: ")
@@ -336,15 +437,37 @@ class PackageManager:
             valid = input("Da sau Nu?  => ")
             if valid[0].lower() != "d":
                 return
-        gasit = False
-        for offer in self.__offers:
-            if offer.destination == fuzzy_destination and offer.price < max_price:
+        
+        results = self.search_by_destination_price_api(fuzzy_destination, max_price)
+        if results!=[]:
+            for offer in results:
                 print(offer)
-                gasit = True
-        if not gasit:
+        else:
             print(f"Nu exista pachete cu destinatia {fuzzy_destination} si pretul mai mic sau egal cu {max_price}.")
 
+    def search_by_end_date_api(self, end_date: datetime):
+        """
+        Caută pachete de vacanță în funcție de data de sfârșit.
+
+        Args:
+            end_date (datetime): Data de sfârșit a căutării.
+
+        Returns:
+            list: O listă cu toate ofertele care corespund criteriilor de căutare.
+
+        Această funcție filtrează lista de oferte și returnează doar acele pachete
+        care au data de sfârșita specificată.
+        """
+        return [offer for offer in self.__offers if offer.end_date == end_date]
+
     def search_by_end_date(self):
+        """
+        Caută și afișează pachete de vacanță în funcție de data de sfârșit.
+        
+        Această metodă solicită utilizatorului să introducă o data de sfârșit și apoi
+        caută pachete care corespund criteriilor specificate.
+
+        """
         print("\033[33mCautare pachete in functie de data de sfarsit\033[0m")
         while True:
             try:
@@ -362,13 +485,14 @@ class PackageManager:
                 break
             except ValueError as e:
                 print(f"\033[31m{e}\033[0m")
-        gasit = False
-        for offer in self.__offers:
-            if offer.end_date == end_date:
+        results = self.search_by_end_date_api(end_date)
+        if results!=[]:
+            for offer in results:
                 print(offer)
-                gasit = True
-        if not gasit:
+        else:
             print(f"Nu exista pachete cu data de sfarsit inainte de {end_date.strftime('%Y-%m-%d')}.")
+
+
 
     def report_offer_count(self):
         print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
@@ -465,9 +589,6 @@ class PackageManager:
             except ValueError:
                 print("Introduceti un numar valid.")
 
-    
-    
     def run(self):
         self.__running = True
         self.menu_handler(0)
-

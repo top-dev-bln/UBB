@@ -2,7 +2,7 @@ Documentația trebuie să conțină:
 - [x] enunțul
 - [x] lista de funcționalități
 - [x] planul de iterații
-- [ ] scenarii de rulare
+- [x] scenarii de rulare
 - [ ] lista de taskuri
 
 ##### Enunt
@@ -190,7 +190,7 @@ Aplicația va permite:
 |            | Anul:                                                                                                                                                            |                    |
 | 2024       |                                                                                                                                                                  |                    |
 |            | Cluj-Napoca (2024-05-12 - 2024-08-12): 420.0 Euro<br>Grecia, Athena (2024-05-12 - 2024-08-12): 420.0 Euro<br>Grecia, Athena (2024-05-04 - 2024-08-12): 69.0 Euro |                    |
-##### Rapoarte
+###### Rapoarte
 | Utilizator     | Program                                                                                              | Descriere          |
 | -------------- | ---------------------------------------------------------------------------------------------------- | ------------------ |
 |                | Meniu Principal*                                                                                     | se afiseaza meniul |
@@ -221,19 +221,24 @@ Aplicația va permite:
 | Grecia, Athena |                                                                                                      |                    |
 |                | Pretul mediu pentru destinatia Grecia, Athena este 244.50 Euro.                                      |                    |
 
-##### Filtrare
+###### Filtrare
 
-| Utilizator     | Program                                                                             | Descriere          |
-| -------------- | ----------------------------------------------------------------------------------- | ------------------ |
-|                | Meniu Principal*                                                                    | se afiseaza meniul |
-| 5              |                                                                                     |                    |
-|                | Meniu Filtrare \*                                                                   |                    |
-| 1              |                                                                                     |                    |
-|                | Cautare pachete in functie de destinatie si pret maxim<br>Introduceti pretul maxim: |                    |
-| 100            |                                                                                     |                    |
-|                | Introduceți destinația:                                                             |                    |
-| Grecia, Athena |                                                                                     |                    |
-|                | Grecia, Athena (2024-05-04 - 2024-08-12): 69.0 Euro                                 |                    |
+| Utilizator     | Program                                                                                         | Descriere          |
+| -------------- | ----------------------------------------------------------------------------------------------- | ------------------ |
+|                | Meniu Principal*                                                                                | se afiseaza meniul |
+| 5              |                                                                                                 |                    |
+|                | Meniu Filtrare \*                                                                               |                    |
+| 1              |                                                                                                 |                    |
+|                | Cautare pachete in functie de destinatie si pret maxim<br>Introduceti pretul maxim:             |                    |
+| 100            |                                                                                                 |                    |
+|                | Introduceți destinația:                                                                         |                    |
+| Grecia, Athena |                                                                                                 |                    |
+|                | Grecia, Athena (2024-05-04 - 2024-08-12): 69.0 Euro                                             |                    |
+|                | Meniu Filtrare\*                                                                                |                    |
+| 2              |                                                                                                 |                    |
+|                | Cautare pachete fara o anumita luna<br>Introduceti luna:                                        |                    |
+| 5              |                                                                                                 |                    |
+|                | Craiova (2024-06-16 - 2024-06-20): 100.0 Euro<br>Timisoara (2024-07-02 - 2024-07-12): 87.0 Euro |                    |
 
 
 
@@ -321,20 +326,20 @@ Meniu Filtrare \*
 - [x] enunțul
 - [x] lista de funcționalități
 - [x] planul de iterații
-- [ ] scenarii de rulare
+- [x] scenarii de rulare
 	- [x] adaugare
 	- [x] Ștergere
 	- [x] Căutare
 	- [x] Rapoarte
-	- [ ] Filtrare
-	- [ ] Undo
+	- [x] Filtrare
+	- [x] Undo
 - [ ] lista de taskuri
 	- [x] adaugare
-	- [x] Ștergere
-	- [x] Căutare
-	- [x] Rapoarte
+	- [ ] Ștergere
+	- [ ] Căutare
+	- [ ] Rapoarte
 	- [ ] Filtrare
-	- [ ] Undo
+	- [x] Undo
 
 ###### Initializare
 - [x] Creare modul principal ( main.py ) ce v-a rula procesul
@@ -348,21 +353,25 @@ Meniu Filtrare \*
 - [x] sterge pachete pentru o destinatie
 - [x] sterge pachete cu o durata mai scurta
 - [x] sterge pachete cu pret mai mare decat o suma
+- [ ] testare
 
 ###### Căutare
 - [x] Tipărirea pachetelor într-un interval
 - [x] Tipărirea pachetelor cu o destinație și preț sub o sumă
 - [x] Tipărirea pachetelor cu o anumită dată de sfârșit 
+- [ ] refactorizare
 - [ ] testare
 
 ###### Rapoarte
 - [x] Tipărirea numărului de oferte pentru o destinație dată
 - [x] Tipărirea tuturor pachetelor disponibile într-o anumită perioadă
 - [x] Tipărirea mediei de preț pentru o destinație dată
+- [ ] refactorizare
 - [ ] testare
 ###### Filtrare
-- [ ] Eliminare oferte cu preț mai mare citit și o destinație diferită de cea citită
-- [ ] Eliminarea ofertelor în care sejurul presupune zile dintr-o anumită lună
+- [x] Eliminare oferte cu preț mai mare citit și o destinație diferită de cea citită
+- [x] Eliminarea ofertelor în care sejurul presupune zile dintr-o anumită lună
+- [ ] refactorizare
 - [ ] testare
 
 ###### Undo
