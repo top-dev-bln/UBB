@@ -1,7 +1,9 @@
 import os
 from datetime import datetime, timedelta
 from package import Package
-from utils import get_date, fuzzy_search_destination
+from utils import fuzzy_search_destination
+from console import get_date, meniu
+
 
 class PackageManager:
     def __init__(self):
@@ -16,54 +18,7 @@ class PackageManager:
             4: {1: self.report_offer_count, 2: self.report_packages_in_interval, 3: self.report_avg_price},  # Report Menu
             5: {1: self.search_by_destination_price, 2: self.filter_by_month},  # Filter Menu
         }
-        self.meniu = {
-            0: '''
-1. Adaugare
-2. Stergere
-3. Cautare
-4. Rapoarte
-5. Filtrare
-6. Undo
 
-9. Exit
-''',
-            1: '''
-1. Adaugare pachet
-2. Modificare pachet existent
-3. Undo
-
-9. Back
-''',
-            2: '''
-1. Stergere pachete dupa destinatie
-2. Stergere pachete dupa durata
-3. Stergere pachete dupa pret
-4. Undo
-
-9. Back
-''',
-            3: '''
-1. Afisare pachete intr-un interval
-2. Afisare pachete cu destinatie si pret sub stabilit
-3. Afisare pachete dupa data de sfarsit
-
-9. Back
-''',
-            4: '''
-1. Afisare numarul de oferte pentru o destinatie
-2. Afisare tuturor pachetelor disponibile intr-un interval (crescator dupa pret)
-3. Afisare mediei de pret pentru o destinatie
-
-9. Back
-''',
-            5: '''
-1. Eliminare oferte peste buget sau destinatie diferita
-2. Eliminare oferte ce presupun zile dintr-o anumita luna
-
-9. Back
-'''
-    
-        }
    
     def get_offers(self):
         """
@@ -574,7 +529,7 @@ class PackageManager:
                            reprezintă submeniuri.
         """
         while self.__running:
-            print(self.meniu[menu_id])
+            print(meniu[menu_id])
             try:
                 option = int(input("Alegeti o optiune: "))
 
