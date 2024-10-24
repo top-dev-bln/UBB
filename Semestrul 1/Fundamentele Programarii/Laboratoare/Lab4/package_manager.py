@@ -31,16 +31,37 @@ class PackageManager:
             list: O listă conținând toate ofertele curente.
         """
         return self.__offers
-    
-    ## todo
-    def undo_api(self,new_offers):
-        """
-        Anulează modificările și setează ofertele la starea anterioară.
 
-        Parametri:
-        new_offers (list): Lista de oferte care va înlocui starea curentă a ofertelor.
+    def get_history(self):
         """
-        self.__offers=new_offers
+        Returnează lista de oferte disponibile.
+
+        Returns:
+            list: O listă conținând toate ofertele curente.
+        """
+        return self.__history
+
+
+    def undo_api(self):
+        """
+        Anulează ultima modificare efectuată în aplicație.
+
+        Returns:
+            None
+        """
+       
+        last_change = self.__history.pop() 
+        change_type = last_change['type']
+
+        if change_type == 'add':
+            self.__offers.remove(last_change['packages'][0])
+        elif change_type == 'delete':
+            for package in last_change['packages']:
+                self.__offers.append(package)
+            print(f"Restored {len(last_change['packages'])} package(s)")
+        elif change_type == 'modify':
+            index = self.__offers.index(last_change['packages'][0])
+            self.__offers[index] = last_change['previous']
 
     def __record_change(self, change_type:str, packages:list, previous:Package=None):
         """

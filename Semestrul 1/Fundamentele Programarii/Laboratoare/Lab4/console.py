@@ -66,24 +66,13 @@ def handle_undo(manager):
     Returnează:
         None
     """
-    if not manager.__history:
+    history = manager.get_history()
+    if not history:
         print("\033[31mNu se poate realiza undo. Nu există o stare anterioară disponibilă.\033[0m")
         return
-
-    last_change = manager.__history.pop() 
-    change_type = last_change['type']
-
-    if change_type == 'add':
-        manager.__offers.remove(last_change['packages'][0])
-    elif change_type == 'delete':
-        for package in last_change['packages']:
-            manager.__offers.append(package)
-        print(f"Restored {len(last_change['packages'])} package(s)")
-    elif change_type == 'modify':
-        index = manager.__offers.index(last_change['packages'][0])
-        manager.__offers[index] = last_change['previous']
-
+    manager.undo_api()
     print("\033[32mUndo realizat cu succes\033[0m")
+
 
 def get_date():
 
@@ -93,6 +82,7 @@ def get_date():
     Returns:
         list: O listă care conține două obiecte datetime, reprezentând data de început și data de sfârșit.
     """
+    os.system("cls")
     data = []
     labels = ["inceput", "sfarsit"]
     while True:
@@ -130,6 +120,7 @@ def add_package(manager):
     - Destinația
     - Prețul
     """
+    
     data = get_date()
     destination = input("Introduceti destinatia: ")
     while True:
@@ -427,15 +418,25 @@ def filter_by_month(manager):
 
 
 submenu_functions = {
-    1: {1: add_package, 2: modify_package},  # Add Menu
-    2: {1: delete_by_destination, 2: delete_by_duration, 3: delete_by_price,},  # Delete Menu
+    1: {1: add_package, 2: modify_package, 3:handle_undo},  # Add Menu
+    2: {1: delete_by_destination, 2: delete_by_duration, 3: delete_by_price, 4:handle_undo},  # Delete Menu
     3: {1: search_by_interval, 2: search_by_destination_price, 3: search_by_end_date},  # Search Menu
     4: {1: report_offer_count, 2: report_packages_in_interval, 3: report_avg_price},  # Report Menu
     5: {1: search_by_destination_price, 2: filter_by_month},  # Filter Menu
 }
 
-def submenu(id):
-    pass
+def submenu(id,manager):
+    os.system("cls")
+    while True:
+        print(meniu[id])
+        try:
+            option = int(input("Introduceti optiunea: "))
+            if option == 9:
+                return
+            elif option > 0 and option <= len(submenu_functions[id]):
+                submenu_functions[id][option](manager)
+        except ValueError:
+            print("Introduceti un numar valid.")
 
 def run(manager, menu_id: int = 0):
     """
@@ -452,6 +453,12 @@ def run(manager, menu_id: int = 0):
     while manager.is_running():
         print(meniu[0])
         try:
-            pass
+            option = int(input("Introduceti optiunea: "))
+            if option == 9:
+                break
+            elif option == 6:
+                handle_undo(manager)
+            elif option > 0 and option <= len(submenu_functions):
+                submenu(option,manager)
         except ValueError:
             print("Introduceti un numar valid.")
