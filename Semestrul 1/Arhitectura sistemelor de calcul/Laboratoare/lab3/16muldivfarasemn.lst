@@ -1,0 +1,83 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  
+     6                                  extern exit
+     7                                  import exit msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10                                  
+    11 00000000 0500                     a dw 5
+    12 00000002 02                       b db 2
+    13 00000003 0100                     c dw 1
+    14 00000005 02                       d db 2
+    15 00000006 06000000                 e dd 6
+    16 0000000A 3200000000000000         x dq 50
+    17                                   
+    18                                  
+    19                                  segment code use32 class=code
+    20                                      start:
+    21                                      ;x/2+100*(a+b)-3/(c+d)+e*e
+    22                                      
+    23 00000000 8B15[0E000000]              mov edx,[x+4]
+    24 00000006 A1[0A000000]                mov eax, [x]
+    25 0000000B BB02000000                  mov ebx,2
+    26 00000010 F7F3                        div ebx ; EDX:EAX = x/2
+    27                                      
+    28 00000012 52                          push edx
+    29 00000013 50                          push eax
+    30                                      
+    31 00000014 A0[02000000]                mov al, [b]
+    32 00000019 B400                        mov ah,0
+    33 0000001B 660305[00000000]            add ax, [a] ; ax = a+b
+    34 00000022 66BB6400                    mov bx, 100
+    35 00000026 66F7E3                      mul bx ; DX:AX = 100*(a+b)
+    36                                   
+    37 00000029 59                          pop ecx
+    38 0000002A 5B                          pop ebx ; EBX:ECX = x/2
+    39 0000002B 6652                        push dx
+    40 0000002D 6650                        push ax
+    41                                  
+    42 0000002F 58                          pop eax ; EAX = 100*(a+b)
+    43 00000030 BA00000000                  mov EDX, 0
+    44                                      
+    45 00000035 01C1                        add ECX, EAX
+    46 00000037 11D3                        adc EBX, EDX ; EBX:ECX=x/2 + 100*(a+b)
+    47                                      
+    48                                      
+    49 00000039 66A1[03000000]              mov AX, [c]
+    50 0000003F 8A15[05000000]              mov dl, [d]
+    51 00000045 B600                        mov dh, 0
+    52 00000047 6601C2                      add DX,AX ; DX = c+d
+    53                                      
+    54                                      
+    55                                      
+    56 0000004A B803000000                  mov EAX, 3
+    57                                      
+    58 0000004F 53                          push ebx
+    59 00000050 6689D3                      mov BX,DX
+    60 00000053 BA00000000                  mov EDX,0
+    61                                      
+    62 00000058 66F7F3                      div BX ; AX = 3/(c+d)
+    63 0000005B 5B                          pop EBX
+    64                                      
+    65 0000005C 29C1                        sub ECX, EAX
+    66 0000005E 83DB00                      sbb EBX, 0  ;  EBX:ECX = x/2 + 100*(a+b) - 3/(c+d)
+    67                                      
+    68 00000061 A1[06000000]                mov EAX, [e]
+    69 00000066 F7E0                        mul EAX
+    70                                     ; EDX:EAX = e*e
+    71 00000068 01C8                       add EAX, ECX
+    72 0000006A 11DA                       adc EDX, EBX
+    73                                     
+    74                                     
+    75                                      
+    76                                      
+    77                                       
+    78                                      
+    79                                      
+    80                                      
+    81                                      
+    82 0000006C 6A00                            push    dword 0
+    83 0000006E FF15[00000000]                  call    [exit] 

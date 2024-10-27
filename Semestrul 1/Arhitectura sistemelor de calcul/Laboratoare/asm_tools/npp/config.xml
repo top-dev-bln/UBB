@@ -7,10 +7,16 @@
         <Replace name="    " />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\exercitiu_simplu.exe" />
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\exercitiu_simplu.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\adunari_scaderi_word.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\inmultiri_impartiri_3.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2addsubfarasemn.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16addsubfarasemn.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2addsubcusemnasm.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16addsubcusemn.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2muldivfarasemn.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2muldivcusemn.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16muldivfarasemn.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16muldivcusemn.asm" />
     </History>
     <GUIConfigs>
         <GUIConfig name="ToolBar" visible="yes">standard</GUIConfig>
@@ -19,7 +25,7 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="yes" size="4" />
-        <GUIConfig name="AppPosition" x="0" y="328" width="1100" height="700" isMaximized="yes" />
+        <GUIConfig name="AppPosition" x="323" y="124" width="1100" height="961" isMaximized="no" />
         <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426">no</GUIConfig>
         <GUIConfig name="Auto-detection">yes</GUIConfig>
         <GUIConfig name="CheckHistoryFiles">no</GUIConfig>
@@ -45,7 +51,7 @@
         <GUIConfig name="ScintillaGlobalSettings" enableMultiSelection="no" />
         <GUIConfig name="openSaveDir" value="0" defaultDirPath="" />
         <GUIConfig name="titleBar" short="no" />
-        <GUIConfig name="stylerTheme" path="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\asm_tools\npp\stylers.xml" />
+        <GUIConfig name="stylerTheme" path="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\asm_tools\npp\stylers.xml" />
         <GUIConfig name="wordCharList" useDefault="yes" charsAdded="" />
         <GUIConfig name="delimiterSelection" leftmostDelimiter="40" rightmostDelimiter="41" delimiterSelectionOnEntireDocument="no" />
         <GUIConfig name="multiInst" setting="0" />
