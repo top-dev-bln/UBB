@@ -27,3 +27,5 @@ def dict2string(offer: dict):
         str: Un șir formatat care descrie oferta de călătorie.
     """  
     return (f"{offer['destination']} ({offer['start_date'].strftime('%Y-%m-%d')} - {offer['end_date'].strftime('%Y-%m-%d')}): {offer['price']} Euro")
+
+

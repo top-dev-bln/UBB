@@ -306,7 +306,7 @@ def search_by_destination_price(manager):
     Nu are parametri și nu returnează nimic.
     """
     print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
-    offers = manager["offers"]
+
     max_price = float(input("Introduceti pretul maxim: "))
     destination = input("Introduceți destinația: ")
     
@@ -330,6 +330,7 @@ def search_by_end_date(manager):
 
     """
     print("\033[33mCautare pachete in functie de data de sfarsit\033[0m")
+  
     while True:
         try:
             print("Introduceti data de sfarsit")
@@ -460,14 +461,6 @@ def run():
     nu are parametrii
     """
     manager=create_manager()
-    add_package_api(manager,datetime(2024, 1, 15), datetime(2024, 1, 25), "Rome", 1200.0)
-    add_package_api(manager,datetime(2024, 2, 1), datetime(2024, 2, 7), "London", 800.0)
-    add_package_api(manager,datetime(2024, 6, 16), datetime(2024, 6, 20), "Craiova", 100.0)
-    add_package_api(manager,datetime(2024, 7, 2), datetime(2024, 7, 12), "Timisoara", 87.0)
-    add_package_api(manager,datetime(2024, 5, 12), datetime(2024, 8, 12), "Cluj-Napoca", 420.0)
-    add_package_api(manager,datetime(2024, 5, 12), datetime(2024, 9, 12), "Craiova", 69.0)
-    add_package_api(manager,datetime(2024, 5, 12), datetime(2024, 8, 12), "Grecia, Athena", 420.0)
-    add_package_api(manager,datetime(2024, 5, 4), datetime(2024, 8, 12), "Grecia, Athena", 69.0)
     while True:
         print(meniu[0])
         try:
