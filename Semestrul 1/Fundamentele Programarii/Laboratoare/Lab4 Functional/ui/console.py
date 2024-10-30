@@ -134,6 +134,19 @@ def citire_info():
     return data[0],data[1],destination, price
 
 
+def estimare_destinatie(manager, destination:str):
+    offers = manager["offers"]
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
+    if fuzzy_destination is None:
+        print("Nu s-a gasit nicio destinatie similara.")
+        return
+    if destination != fuzzy_destination:
+      print(f"ai vrut sa spui {fuzzy_destination}")
+    valid = input("Da sau Nu?  => ")
+    if valid[0].lower() != "d":
+        return 
+    return fuzzy_destination
+
 def add_package(manager):
     """
     Obține datele necesare pentru crearea unui nou pachet de vacanță și îl adaugă în sistem.
@@ -151,6 +164,15 @@ def add_package(manager):
 
 
 def print_offers(offers:list):
+    """
+    Afișează o listă de oferte.
+
+    Parametri:
+    offers (list): Lista de oferte care trebuie afișate. Fiecare ofertă este un dicționar.
+
+    Returnează:
+    None
+    """
     for i, offer in enumerate(offers):
         print(f"{i+1}. " + dict2string(offer))
 
@@ -177,7 +199,7 @@ def modify_package(manager):
     id = int(input("=> ")) - 1
 
 
-    
+    #citire id
     if id < 0 or id >= len(manager["offers"]):
         print("Id-ul introdus este invalid.")
         return
@@ -200,19 +222,12 @@ def delete_by_destination(manager):
 
     Nu are parametri și nu returnează nimic.
     """
-    offers = manager["offers"]
+  
     destination = input("Introduceți destinația de șters: ")
-    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
-    if fuzzy_destination is None:
-        print("Nu s-a gasit nicio destinatie similara.")
+    fuzzy_destination = estimare_destinatie(manager, destination)
+    if fuzzy_destination == None:
         return
-    if destination != fuzzy_destination:
-        print(f"ai vrut sa spui {fuzzy_destination}")
-        valid = input("Da sau Nu?  => ")
-        if valid[0].lower() != "d":
-            os.system("cls")
-            return
-    
+    print(fuzzy_destination)
     len = delete_api(manager,lambda offer: offer["destination"] == fuzzy_destination)
     
     if len:
@@ -294,16 +309,11 @@ def search_by_destination_price(manager):
     offers = manager["offers"]
     max_price = float(input("Introduceti pretul maxim: "))
     destination = input("Introduceți destinația: ")
-    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
-    if fuzzy_destination is None:
-        print("Nu s-a gasit nicio destinatie similara.")
+    
+    fuzzy_destination = estimare_destinatie(manager, destination)
+    if fuzzy_destination == None:
         return
     
-    if destination != fuzzy_destination:
-        print(f"ai vrut sa spui {fuzzy_destination}")
-        valid = input("Da sau Nu?  => ")
-        if valid[0].lower() != "d":
-            return
     
     results = search_by_destination_price_api(manager,fuzzy_destination, max_price)
     if results!=[]:
@@ -352,16 +362,10 @@ def report_offer_count(manager):
     """
     print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
     destination = input("Introduceti o destinatie: ")
-    offers = manager["offers"]
-    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
-    if fuzzy_destination is None:
-        print("Nu s-a gasit nicio destinatie similara.")
+    fuzzy_destination = estimare_destinatie(manager, destination)
+    if fuzzy_destination == None:
         return
-    if destination != fuzzy_destination:
-        print(f"ai vrut sa spui {fuzzy_destination}")
-        valid = input("Da sau Nu?  => ")
-        if valid[0].lower() != "d":
-            return
+    
     count = report_offer_count_api(manager,fuzzy_destination)
     if count:
         print(f"Exista {count} oferte pentru destinatia {fuzzy_destination}.")
@@ -392,16 +396,11 @@ def report_avg_price(manager):
     """
     print("\033[33mAfisare pret mediu pentru o destinatie\033[0m")
     destination = input("Introduceti destinatia: ")
-    offers = manager["offers"]
-    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
-    if fuzzy_destination is None:
-        print("Nu s-a gasit nicio destinatie similara.")
+ 
+    fuzzy_destination = estimare_destinatie(manager, destination)
+    if fuzzy_destination == None:
         return
-    if destination != fuzzy_destination:
-        print(f"ai vrut sa spui {fuzzy_destination}")
-        valid = input("Da sau Nu?  => ")
-        if valid[0].lower() != "d":
-            return
+    
     avg_price = report_avg_price_api(manager,fuzzy_destination)
     print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
