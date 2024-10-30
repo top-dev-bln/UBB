@@ -34,14 +34,14 @@ def undo_api(manager:dict):
     change_type = last_change['type']
 
     if change_type == 'add':
-        offers.remove(last_change['packages'][0])
+        manager["offers"].remove(last_change['packages'][0])
     elif change_type == 'delete':
         for package in last_change['packages']:
-            offers.append(package)
+            manager["offers"].append(package)
         print(f"Restored {len(last_change['packages'])} package(s)")
     elif change_type == 'modify':
-        index = offers.index(last_change['packages'][0])
-        offers[index] = last_change['previous']
+        index = manager["offers"].index(last_change['packages'][0])
+        manager["offers"][index] = last_change['previous']
 
 
 
@@ -114,7 +114,7 @@ def modify_package_api(manager, id:int, start_date:datetime, end_date:datetime, 
 
 
 
-def delete_api( condition):
+def delete_api(manager, condition):
     """
     Șterge ofertele care îndeplinesc o anumită condiție.
 
@@ -127,14 +127,14 @@ def delete_api( condition):
     Această metodă parcurge lista de oferte, identifică ofertele care îndeplinesc condiția specificată,
     le înregistrează în istoric și le elimină din lista de oferte active.
     """
-    removed_offers = [offer for offer in offers if condition(offer)]
-    record_change('delete', removed_offers)
-    offers = [offer for offer in offers if not condition(offer)]
+    removed_offers = [offer for offer in manager["offers"] if condition(offer)]
+    record_change(manager,'delete', removed_offers)
+    manager["offers"] = [offer for offer in manager["offers"] if not condition(offer)]
     return len(removed_offers)
 
 
 
-def search_by_interval_api( data:tuple):
+def search_by_interval_api(manager, data:tuple):
     """
     Caută pachete de vacanță în funcție de un interval de timp dat.
 
@@ -144,9 +144,9 @@ def search_by_interval_api( data:tuple):
     Returns:
         list: O listă cu toate ofertele care se încadrează în intervalul de timp specificat.
     """
-    return [offer for offer in offers if data[0] <= offer["start_date"] and data[1] >= offer["end_date"]]
+    return [offer for offer in manager["offers"] if data[0] <= offer["start_date"] and data[1] >= offer["end_date"]]
 
-def search_by_destination_price_api( destination: str, max_price: float):
+def search_by_destination_price_api(manager, destination: str, max_price: float):
     """
     Caută pachete de vacanță în funcție de destinație și preț maxim.
 
@@ -157,9 +157,9 @@ def search_by_destination_price_api( destination: str, max_price: float):
     Returns:
         list: O listă cu toate ofertele care corespund criteriilor de căutare.
     """
-    return [offer for offer in offers if offer["destination"] == destination and offer["price"] < max_price]
+    return [offer for offer in manager["offers"] if offer["destination"] == destination and offer["price"] < max_price]
 
-def search_by_end_date_api( end_date: datetime):
+def search_by_end_date_api(manager, end_date: datetime):
     """
     Caută pachete de vacanță în funcție de data de sfârșit.
 
@@ -169,10 +169,10 @@ def search_by_end_date_api( end_date: datetime):
     Returns:
         list: O listă cu toate ofertele care corespund criteriilor de căutare.
     """
-    return [offer for offer in offers if offer["end_date"] == end_date]
+    return [offer for offer in manager["offers"] if offer["end_date"] == end_date]
 
 
-def report_offer_count_api( destination: str):
+def report_offer_count_api(manager, destination: str):
     """
     Numără ofertele pentru o destinație specifică.
 
@@ -182,10 +182,10 @@ def report_offer_count_api( destination: str):
     Returns:
         int: Numărul de oferte pentru destinația specificată.
     """
-    return len([offer for offer in offers if offer["destination"] == destination])
+    return len([offer for offer in manager["offers"] if offer["destination"] == destination])
 
 
-def report_packages_in_interval_api(data:tuple): 
+def report_packages_in_interval_api(manager,data:tuple): 
     """
     Afișează pachetele disponibile într-un interval de timp specificat sortate după preț.
     
@@ -195,12 +195,13 @@ def report_packages_in_interval_api(data:tuple):
     Returns:
         list: O listă cu toate pachetele disponibile într-un interval de timp specificat și sortate după preț.
     """
-    offers =[offer for offer in offers if data[0] <= offer["start_date"] and data[1] >= offer["end_date"]]
-    offers.sort(key=lambda offer: offer["price"])
-    return offers
+    selected = [offer for offer in manager["offers"]]
+    selected =[offer for offer in manager["offers"] if data[0] <= offer["start_date"] and data[1] >= offer["end_date"]]
+    selected.sort(key=lambda offer: offer["price"])
+    return selected
 
 
-def report_avg_price_api( destination: str):
+def report_avg_price_api(manager, destination: str):
     """
     Afișează pretul mediu pentru o destinație specificată.
 
@@ -210,12 +211,13 @@ def report_avg_price_api( destination: str):
     Returns:
         float: Pretul mediu pentru destinația specificată.
     """
-    offers = [offer["price"] for offer in offers if offer["destination"] == destination]
-    if offers:
-        return sum(offers) / len(offers)
+
+    selected = [offer["price"] for offer in manager["offers"] if offer["destination"] == destination]
+    if selected:
+        return sum(selected) / len(selected)
     return 0
 
-def filter_by_month_api( month: int):
+def filter_by_month_api(manager, month: int):
     """
     Filtrează ofertele care nu au loc în luna specificată
 
@@ -225,7 +227,7 @@ def filter_by_month_api( month: int):
     Returns:
         list: O listă de oferte care nu au loc în luna specificată.
     """
-    return [offer for offer in offers if not (
+    return [offer for offer in manager["offers"] if not (
         (offer["start_date"].month <= month <= offer["end_date"].month) or
         (offer["start_date"].month > offer["end_date"].month and (month >= offer["start_date"].month or month <= offer["end_date"].month))
     )]

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from domain.package_manager import *
 from utils.utils import fuzzy_search_destination, dict2string
+from domain.validare import validare_data, validare_pret
 import os
 
 meniu = {
@@ -75,6 +76,9 @@ def handle_undo(manager):
     print("\033[32mUndo realizat cu succes\033[0m")
 
 
+
+
+
 def get_date():
 
 
@@ -94,6 +98,7 @@ def get_date():
                     ziua = int(input("Ziua: "))
                     luna = int(input("Luna: "))
                     anul = int(input("Anul: "))
+                    validare_data(ziua,luna,anul)
                     data.append(datetime(anul, luna, ziua))
                     break
                 except ValueError as e:
@@ -108,6 +113,26 @@ def get_date():
         else:
             return data
         
+def citire_info():
+    """
+    Citeste informatii de la utilizator.
+    Functia citeste data, destinatia si pretul de la utilizator. 
+    Pretul este validat pentru a fi un numar pozitiv.
+    Returns:
+            data de inceput:datetime, data de sfarsit:datetime, destinatia:str , pretul:float
+    """
+    data = get_date()
+    destination = input("Introduceti destinatia: ")
+    while True:
+        try:
+            price = float(input("Introduceti pretul: "))
+            validare_pret(price)
+            break
+        except ValueError:
+            print("Pret invalid. Va rugam introduceti un numar pozitiv.")
+
+    return data[0],data[1],destination, price
+
 
 def add_package(manager):
     """
@@ -119,19 +144,16 @@ def add_package(manager):
     - Prețul
     """
     
-    data = get_date()
-    destination = input("Introduceti destinatia: ")
-    while True:
-        try:
-            price = float(input("Introduceti pretul: "))
-            if price <= 0:
-                raise ValueError
-            break
-        except ValueError:
-            print("Pret invalid. Va rugam introduceti un numar pozitiv.")
-    package = add_package_api(manager, data[0], data[1], destination, price)
+    start, end, destination, price = citire_info()
+    package = add_package_api(manager, start, end, destination, price)
     print("\033[32mPachet adaugat cu succes\033[0m")
     print(dict2string(package))
+
+
+def print_offers(offers:list):
+    for i, offer in enumerate(offers):
+        print(f"{i+1}. " + dict2string(offer))
+
 
 
 def modify_package(manager):
@@ -151,8 +173,7 @@ def modify_package(manager):
         return
     print("Ce pachet doriti sa modificati?")
         
-    for i, offer in enumerate(manager["offers"]):
-        print(f"{i+1}. " + dict2string(offer))
+    print_offers(manager["offers"])
     id = int(input("=> ")) - 1
 
 
@@ -161,18 +182,9 @@ def modify_package(manager):
         print("Id-ul introdus este invalid.")
         return
     
-    new_data = get_date()
-    destination = input("Destinatie: ")
-    while True:
-        try:
-            price = float(input("Pret: "))
-            if price <= 0:
-                raise ValueError
-            break
-        except ValueError:
-            print("Pret invalid. Va rugam introduceti un numar pozitiv.")
+    new_start, new_end, destination, price = citire_info()
     
-    if modify_package_api(manager, id, new_data[0], new_data[1], destination, price):
+    if modify_package_api(manager, id, new_start, new_end, destination, price):
         print("\033[32mPachet modificat cu succes\033[0m")
     else:
         print("\033[31mModificarea pachetului a esuat\033[0m")
@@ -188,9 +200,9 @@ def delete_by_destination(manager):
 
     Nu are parametri și nu returnează nimic.
     """
-    offers = manager.get_offers()
+    offers = manager["offers"]
     destination = input("Introduceți destinația de șters: ")
-    fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in offers])
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
     if fuzzy_destination is None:
         print("Nu s-a gasit nicio destinatie similara.")
         return
@@ -201,7 +213,7 @@ def delete_by_destination(manager):
             os.system("cls")
             return
     
-    len = manager.delete_api(lambda offer: offer.destination == fuzzy_destination)
+    len = delete_api(manager,lambda offer: offer["destination"] == fuzzy_destination)
     
     if len:
         print(f"Am șters {len} oferte cu destinația {fuzzy_destination}.")
@@ -221,7 +233,7 @@ def delete_by_duration(manager):
         print("Durata invalidă")
         return
     
-    len = manager.delete_api(lambda offer: offer.end_date-offer.start_date<timedelta(days=duration))
+    len = delete_api(manager,lambda offer: offer["end_date"]-offer["start_date"]<timedelta(days=duration))
     
     if len:
         print(f"{len} oferte cu durata de timp mai mica decât {duration} zile au fost șterse.")
@@ -244,7 +256,7 @@ def delete_by_price(manager):
         except ValueError:
             print("Preț invalid. Va rugam introduceti un numar pozitiv.")
 
-    len = manager.delete_api(lambda offer: offer.price > price)
+    len = delete_api(manager,lambda offer: offer["price"] > price)
     if len:
         print(f"{len} oferte cu prețul mai mare de {price} Euro au fost șterse.")
     else:
@@ -263,12 +275,11 @@ def search_by_interval(manager):
     print("\033[33mCautare pachete in functie de un interval de timp dat\033[0m")
     data = get_date()
 
-    results = manager.search_by_interval_api(data)
+    results = search_by_interval_api(manager,data)
     
     if results!=[]:
-        for offer in results:
-            print(str(offer))
-    
+        print_offers(results)
+
     else:
         print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
@@ -280,10 +291,10 @@ def search_by_destination_price(manager):
     Nu are parametri și nu returnează nimic.
     """
     print("\033[33mCautare pachete in functie de destinatie si pret maxim\033[0m")
-    offers = manager.get_offers()
+    offers = manager["offers"]
     max_price = float(input("Introduceti pretul maxim: "))
     destination = input("Introduceți destinația: ")
-    fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in offers])
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
     if fuzzy_destination is None:
         print("Nu s-a gasit nicio destinatie similara.")
         return
@@ -294,10 +305,9 @@ def search_by_destination_price(manager):
         if valid[0].lower() != "d":
             return
     
-    results = manager.search_by_destination_price_api(fuzzy_destination, max_price)
+    results = search_by_destination_price_api(manager,fuzzy_destination, max_price)
     if results!=[]:
-        for offer in results:
-            print(offer)
+        print_offers(results)
     else:
         print(f"Nu exista pachete cu destinatia {fuzzy_destination} si pretul mai mic sau egal cu {max_price}.")
 
@@ -326,10 +336,10 @@ def search_by_end_date(manager):
             break
         except ValueError as e:
             print(f"\033[31m{e}\033[0m")
-    results = manager.search_by_end_date_api(end_date)
+    results = search_by_end_date_api(manager,end_date)
     if results!=[]:
-        for offer in results:
-            print(offer)
+        print_offers(results)
+
     else:
         print(f"Nu exista pachete cu data de sfarsit inainte de {end_date.strftime('%Y-%m-%d')}.")
 
@@ -342,8 +352,8 @@ def report_offer_count(manager):
     """
     print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
     destination = input("Introduceti o destinatie: ")
-    offers = manager.get_offers()
-    fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in offers])
+    offers = manager["offers"]
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
     if fuzzy_destination is None:
         print("Nu s-a gasit nicio destinatie similara.")
         return
@@ -352,7 +362,7 @@ def report_offer_count(manager):
         valid = input("Da sau Nu?  => ")
         if valid[0].lower() != "d":
             return
-    count = manager.report_offer_count_api(fuzzy_destination)
+    count = report_offer_count_api(manager,fuzzy_destination)
     if count:
         print(f"Exista {count} oferte pentru destinatia {fuzzy_destination}.")
     else:
@@ -366,11 +376,10 @@ def report_packages_in_interval(manager):
     Functia nu primește parametri și nu returnează nimic.
     """
     data = get_date()
-    filtered_offers = manager.report_packages_in_interval_api(data)
+    filtered_offers = report_packages_in_interval_api(manager,data)
     
     if filtered_offers!=[]:
-        for offer in filtered_offers:
-            print(offer)
+        print_offers(filtered_offers)
     else:
         print(f"Nu exista pachete in intervalul {data[0].strftime('%Y-%m-%d')} - {data[1].strftime('%Y-%m-%d')}.")
 
@@ -383,8 +392,8 @@ def report_avg_price(manager):
     """
     print("\033[33mAfisare pret mediu pentru o destinatie\033[0m")
     destination = input("Introduceti destinatia: ")
-    offers = manager.get_offers()
-    fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in offers])
+    offers = manager["offers"]
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
     if fuzzy_destination is None:
         print("Nu s-a gasit nicio destinatie similara.")
         return
@@ -393,7 +402,7 @@ def report_avg_price(manager):
         valid = input("Da sau Nu?  => ")
         if valid[0].lower() != "d":
             return
-    avg_price = manager.report_avg_price_api(fuzzy_destination)
+    avg_price = report_avg_price_api(manager,fuzzy_destination)
     print(f"Pretul mediu pentru destinatia {destination} este {avg_price:.2f} Euro.")
 
 
@@ -409,12 +418,11 @@ def filter_by_month(manager):
         print("Luna invalida.")
         return
     
-    selected_offers = manager.filter_by_month_api(month)
+    selected_offers = filter_by_month_api(manager,month)
     if not selected_offers:
         print(f"Nu există oferte pentru luna {month}.")
         return
-    for offer in selected_offers:
-        print(offer)
+    print_offers(selected_offers)
 
 
 submenu_functions = {
@@ -468,8 +476,7 @@ def run():
             if option == 9:
                 break
             elif option == 6:
-                print("undo")
-                #handle_undo(manager)
+                handle_undo(manager)
             elif option > 0 and option <= len(submenu_functions):
                 submenu(option,manager)
         except ValueError:
