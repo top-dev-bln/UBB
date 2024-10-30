@@ -14,7 +14,7 @@ def fuzzy_search_destination(query: str, destinations: list) -> str:
 
 
 
-def validare_data(ziua,luna,anul):
+def validare_data(ziua:int,luna:int,anul:int):
     ziua = int(input("Ziua: "))
     if ziua < 1 or ziua > 31:
        raise ValueError("Ziua invalida")
@@ -25,3 +25,6 @@ def validare_data(ziua,luna,anul):
     if anul < 1:
      raise ValueError("Anul invalid")
  
+def validare_pret(price:float):
+    if price <= 0:
+      raise ValueError
