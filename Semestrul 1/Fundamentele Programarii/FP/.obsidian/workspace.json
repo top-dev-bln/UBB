@@ -11,10 +11,14 @@
             "id": "90a1164f7a53f467",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Docs lab-uri/Docs Lab 4-6.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Docs Lab 4-6"
             }
           }
         ]
@@ -161,9 +165,9 @@
   },
   "active": "90a1164f7a53f467",
   "lastOpenFiles": [
+    "Docs lab-uri/Docs lab3.md",
     "Docs lab-uri/Docs Lab 4-6.md",
     "Untitled.md",
-    "Docs lab-uri/Docs lab3.md",
     "Seminar 1.md",
     "Curs 1.md",
     "Curs 2.md",

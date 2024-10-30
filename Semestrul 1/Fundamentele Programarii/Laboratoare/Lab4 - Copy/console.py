@@ -340,7 +340,7 @@ def report_offer_count(manager):
     print("\033[33mAfisare numar de oferte pentru o destinatie\033[0m")
     destination = input("Introduceti o destinatie: ")
     offers = manager.get_offers()
-    fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in offers])
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
     if fuzzy_destination is None:
         print("Nu s-a gasit nicio destinatie similara.")
         return
@@ -382,7 +382,7 @@ def report_avg_price(manager):
     print("\033[33mAfisare pret mediu pentru o destinatie\033[0m")
     destination = input("Introduceti destinatia: ")
     offers = manager.get_offers()
-    fuzzy_destination = fuzzy_search_destination(destination, [offer.destination for offer in offers])
+    fuzzy_destination = fuzzy_search_destination(destination, [offer["destination"] for offer in offers])
     if fuzzy_destination is None:
         print("Nu s-a gasit nicio destinatie similara.")
         return
