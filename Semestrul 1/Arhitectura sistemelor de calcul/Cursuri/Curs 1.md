@@ -1,4 +1,4 @@
-- **Bitul** este unitatea primara de *reprezentare* a informatiei
+ - **Bitul** este unitatea primara de *reprezentare* a informatiei
 - **Octetul** este unitatea primara de *acces* la informatie
 ***
 
