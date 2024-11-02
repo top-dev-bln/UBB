@@ -7,7 +7,6 @@
         <Replace name="    " />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab2\inmultiri_impartiri_3.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2addsubfarasemn.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16addsubfarasemn.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2addsubcusemnasm.asm" />
@@ -17,6 +16,7 @@
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16muldivfarasemn.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16muldivcusemn.asm" />
         <File filename="C:\Users\TopDev\Desktop\neb1.asm" />
+        <File filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab4\problema16.asm" />
     </History>
     <GUIConfigs>
         <GUIConfig name="ToolBar" visible="yes">standard</GUIConfig>

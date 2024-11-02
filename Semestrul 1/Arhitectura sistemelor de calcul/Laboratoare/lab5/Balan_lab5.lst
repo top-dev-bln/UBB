@@ -1,0 +1,65 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  
+     5                                  extern exit
+     6                                  import exit msvcrt.dll
+     7                                  
+     8                                  segment data use32 class=data
+     9                                  
+    10                                  
+    11                                  ; Se dau 2 siruri de octeti S1 si S2 de aceeasi lungime. Sa se construiasca sirul D astfel incat fiecare element din D sa reprezinte maximul dintre elementele de pe pozitiile corespunzatoare din S1 si S2.
+    12                                  ;Exemplu:
+    13                                  ;S1: 1, 3, 6, 2, 3, 7
+    14                                  ;S2: 6, 3, 8, 1, 2, 5
+    15                                  ;D: 6, 3, 8, 2, 3, 7
+    16                                  
+    17                                  
+    18 00000000 010306020307                S1 db 1, 3, 6, 2, 3, 7
+    19 00000006 060308010205                S2 db 6, 3, 8, 1, 2, 5
+    20                                      l equ $-S2 
+    21 0000000C 00<rept>                    d times l db 0
+    22                                      
+    23                                  
+    24                                  segment code use32 class=code
+    25                                      start:
+    26                                      
+    27 00000000 B906000000                  mov ecx,l
+    28 00000005 BE00000000                  mov esi,0
+    29 0000000A B800000000                  mov eax,0
+    30 0000000F BB00000000                  mov ebx,0
+    31 00000014 BA[0C000000]                mov edx, d
+    32                                      
+    33 00000019 E321                        jecxz sfarsit
+    34                                      
+    35                                      
+    36                                      repeta:
+    37                                      
+    38 0000001B 8A86[00000000]              mov al, [S1+esi]    
+    39 00000021 8A9E[06000000]              mov bl, [S2+esi]
+    40                                      
+    41 00000027 38D8                        cmp al, bl
+    42                                      
+    43                                      
+    44                                      
+    45                                      
+    46 00000029 7F08                        jg maimare
+    47 0000002B 889E[0C000000]              mov [d+esi], bl
+    48 00000031 EB06                        jmp skip
+    49                                      
+    50                                      maimare:
+    51 00000033 8886[0C000000]              mov [d+esi], al
+    52                                      
+    53                                      
+    54                                      
+    55                                      skip:
+    56 00000039 46                          inc esi
+    57                                      
+    58 0000003A E2DF                        loop repeta
+    59                                      
+    60                                      
+    61                                      
+    62                                      
+    63                                      sfarsit:
+    64 0000003C 6A00                        push    dword 0
+    65 0000003E FF15[00000000]              call    [exit]
