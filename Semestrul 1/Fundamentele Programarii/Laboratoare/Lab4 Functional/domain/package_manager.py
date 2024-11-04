@@ -1,4 +1,3 @@
-
 from datetime import datetime
 
 
@@ -195,8 +194,10 @@ def report_packages_in_interval_api(manager,data:tuple):
     Returns:
         list: O listă cu toate pachetele disponibile într-un interval de timp specificat și sortate după preț.
     """
-    selected = [offer for offer in manager["offers"]]
-    selected =[offer for offer in manager["offers"] if data[0] <= offer["start_date"] and data[1] >= offer["end_date"]]
+    selected = [offer for offer in manager["offers"] 
+               if (data[0] <= offer["start_date"] <= data[1]) or  # starts in interval
+                  (data[0] <= offer["end_date"] <= data[1]) or    # ends in interval
+                  (offer["start_date"] <= data[0] and offer["end_date"] >= data[1])]  # spans interval
     selected.sort(key=lambda offer: offer["price"])
     return selected
 

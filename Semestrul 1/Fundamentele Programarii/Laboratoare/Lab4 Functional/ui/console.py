@@ -141,10 +141,10 @@ def estimare_destinatie(manager, destination:str):
         print("Nu s-a gasit nicio destinatie similara.")
         return
     if destination != fuzzy_destination:
-      print(f"ai vrut sa spui {fuzzy_destination}")
-    valid = input("Da sau Nu?  => ")
-    if valid[0].lower() != "d":
-        return 
+        print(f"ai vrut sa spui {fuzzy_destination}")
+        valid = input("Da sau Nu?  => ")
+        if valid[0].lower() != "d":
+            return 
     return fuzzy_destination
 
 def add_package(manager):
