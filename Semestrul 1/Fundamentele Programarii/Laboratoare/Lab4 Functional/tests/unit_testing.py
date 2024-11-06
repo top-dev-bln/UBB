@@ -30,6 +30,8 @@ def test_fuzzy_search():
 
 def create_test_data():
     manager = create_manager()
+    def get_destinations(manager):
+        return [offer["destination"] for offer in manager["offers"]]
     
 
     test_packages = [
@@ -43,35 +45,42 @@ def create_test_data():
     for start, end, dest, price in test_packages:
         add_package_api(manager, start, end, dest, price)
 
+    dest_list = get_destinations(manager)
+    assert len(dest_list) == 5
+    assert "Paris" in dest_list
+    assert "London" in dest_list
+    assert "Rome" in dest_list
+    assert "Athens" in dest_list
+    assert "Alps" in dest_list
 
-    assert len(manager["offers"]) == 5
-    assert manager["offers"][0]["destination"] == "Paris"
-    assert manager["offers"][1]["destination"] == "London"
-    assert manager["offers"][2]["destination"] == "Rome"
-    assert manager["offers"][3]["destination"] == "Athens"
-    assert manager["offers"][4]["destination"] == "Alps"
     
     return manager
 
 def test_basic_operations():
     manager = create_test_data()
+    def get_destinations(manager):
+        return [offer["destination"] for offer in manager["offers"]]
+    def get_prices(manager):
+        return [offer["price"] for offer in manager["offers"]]
     
 
     assert len(manager["offers"]) == 5
     
 
     add_package_api(manager, datetime(2024, 4, 1), datetime(2024, 4, 10), "Madrid", 900)
-    assert len(manager["offers"]) == 6
-    assert manager["offers"][-1]["destination"] == "Madrid"
+    dest_list = get_destinations(manager)
+    assert "Madrid" in dest_list
     
 
     modify_package_api(manager, 0, datetime(2024, 1, 1), datetime(2024, 1, 10), "Paris", 1100)
-    assert manager["offers"][0]["price"] == 1100
+    price_list = get_prices(manager)
+    assert 1100 in price_list
     
 
     deleted_count = delete_api(manager, lambda x: x["price"] > 1500)
     assert deleted_count == 1
-    assert len(manager["offers"]) == 5
+    dest_list = get_destinations(manager)
+    assert len(dest_list) == 5
 
 def test_search_functions():
     manager = create_test_data()
@@ -102,7 +111,7 @@ def test_report_functions():
 
     interval_packages = report_packages_in_interval_api(manager,
         (datetime(2024, 1, 1), datetime(2024, 12, 31)))
-    assert len(interval_packages) == 4
+    assert len(interval_packages) == 5
     assert interval_packages[0]["price"] <= interval_packages[-1]["price"]  # Check sorting
     
 

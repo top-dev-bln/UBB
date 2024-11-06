@@ -454,11 +454,8 @@ def execute_command(manager, command):
             print("Comanda 'add' trebuie să aibă 4 argumente: data început, data sfârșit, destinație, preț.")
             return
         try:
-            start_date = datetime.strptime(parts[1], "%Y-%m-%d")
-            end_date = datetime.strptime(parts[2], "%Y-%m-%d")
-            destination = parts[3]
-            price = float(parts[4])
-            package = add_package_api(manager, start_date, end_date, destination, price)
+            package = create_pack_str(parts)
+            add_package_str(manager, package)
             print("\033[32mPachet adăugat cu succes\033[0m")
             print(dict2string(package))
             print("---------------------------------")
