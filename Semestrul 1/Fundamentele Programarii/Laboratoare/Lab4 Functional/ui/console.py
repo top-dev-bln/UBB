@@ -461,6 +461,7 @@ def execute_command(manager, command):
             package = add_package_api(manager, start_date, end_date, destination, price)
             print("\033[32mPachet adăugat cu succes\033[0m")
             print(dict2string(package))
+            print("---------------------------------")
             print_offers(manager["offers"])
         except ValueError as e:
             print(f"Eroare la parsarea datelor: {e}")
@@ -469,16 +470,17 @@ def execute_command(manager, command):
             print("Comanda 'mod' trebuie să aibă 5 argumente: id, data început, data sfârșit, destinație, preț.")
             return
         try:
-            id = int(parts[1])
+            id = int(parts[1])-1
             start_date = datetime.strptime(parts[2], "%Y-%m-%d")
             end_date = datetime.strptime(parts[3], "%Y-%m-%d")
             destination = parts[4]
             price = float(parts[5])
             if modify_package_api(manager, id, start_date, end_date, destination, price):
                 print("\033[32mPachet modificat cu succes\033[0m")
-                print_offers(manager["offers"])
             else:
                 print("\033[31mModificarea pachetului a eșuat\033[0m")
+            print("---------------------------------")
+            print_offers(manager["offers"])
         except ValueError as e:
             print(f"Eroare la parsarea datelor: {e}")
     elif cmd == "del_dest":
@@ -487,6 +489,7 @@ def execute_command(manager, command):
             
             return
         delete_api(manager,lambda offer: offer["destination"] == parts[1])
+        print("---------------------------------")
         print_offers(manager["offers"])
     elif cmd == "del_len":
         if len(parts) != 2:
@@ -498,7 +501,8 @@ def execute_command(manager, command):
             print_offers(manager["offers"])
         except ValueError:
             print("Durata invalidă.")
-
+        print("---------------------------------")
+        print_offers(manager["offers"])
     elif cmd == "del_price":
         if len(parts) != 2:
             print("Comanda 'del_price' trebuie să aibă un argument: preț.")
@@ -509,8 +513,11 @@ def execute_command(manager, command):
             print_offers(manager["offers"])
         except ValueError:
             print("Preț invalid.")
+        print("---------------------------------")
+        print_offers(manager["offers"])
     elif cmd == "undo":
         handle_undo(manager)
+        print("---------------------------------")
         print_offers(manager["offers"])
     else:
         print(f"Comanda necunoscută: {command}")
