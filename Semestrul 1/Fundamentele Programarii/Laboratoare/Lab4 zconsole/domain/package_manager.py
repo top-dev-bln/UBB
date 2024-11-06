@@ -60,38 +60,7 @@ def record_change(manager, change_type:str, packages:list, previous:dict=None):
     })
     return manager
 
-def create_pack_str(command:str):
-    """
-    Creeaza un string care contine informatiile despre un pachet.
-    Args:
-        command (str): Comanda care contine informatiile despre un pachet.
-    Returns:
-        str: Un string care contine informatiile despre un pachet.
-    """
-    # exemplu de comanda: "add 2024-01-01 2024-01-10 Paris 1000"
 
-    command = command.split()
-    if len(command) != 5:
-            raise ValueError("Comanda add trebuie sa aiba 4 argumente.")
-    start = datetime.strptime(command[1], "%Y-%m-%d")
-    end = datetime.strptime(command[2], "%Y-%m-%d")
-    destination = command[3]
-    price = float(command[4])
-    new_package = {"start_date": start,
-                "end_date": end,
-                "destination": destination, 
-                "price": price}
-    return new_package
-
-def add_package(manager, new_package):
-    """
-    Adaugă un nou pachet de vacanță în lista de oferte.
-
-    Args:
-        new_package (dict): Dicționarul pachet nou creat și adăugat în listă.
-    """
-    manager["offers"].append(new_package)
-    record_change(manager,'add', [new_package])
 
 def add_package_api(manager, start_date:datetime, end_date:datetime, destination:str, price:float):
     """

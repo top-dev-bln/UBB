@@ -5,15 +5,6 @@ from domain.validare import validare_data, validare_pret
 import os
 
 meniu = {
-            -1: '''
-Add - adaugare pachet # exemplu de comanda: "add 2024-01-01 2024-01-10 Paris 1000"
-Mod - modifica pachet # exemplu de comanda: "mod 1 2024-02-01 2024-02-10 Rome 1200"
-Del_dest - sterge pachet cu o destinatie anume # exemplu de comanda: "del_dest Paris"
-Del_len - sterge pachet sub o durata # exemplu de comanda: "del_len 5"
-Del_price - sterge pachete peste un pret # exemplu de comanda: "del_price 1000"
-Undo - Face undo # exemplu de comanda: "undo"
-''',
-
             0: '''
 1. Adaugare
 2. Stergere
@@ -170,7 +161,6 @@ def add_package(manager):
     package = add_package_api(manager, start, end, destination, price)
     print("\033[32mPachet adaugat cu succes\033[0m")
     print(dict2string(package))
-
 
 
 def print_offers(offers:list):
@@ -435,103 +425,6 @@ def filter_by_month(manager):
     print_offers(selected_offers)
 
 
-
-def execute_command(manager, command):
-    """
-    Execută o comandă individuală.
-
-    Args:
-        manager (dict): Managerul de pachete.
-        command (str): Comanda de executat.
-    """
-    parts = command.strip().split()
-    if not parts:
-        return
-
-    cmd = parts[0].lower()
-    if cmd == "add":
-        if len(parts) != 5:
-            print("Comanda 'add' trebuie să aibă 4 argumente: data început, data sfârșit, destinație, preț.")
-            return
-        try:
-            start_date = datetime.strptime(parts[1], "%Y-%m-%d")
-            end_date = datetime.strptime(parts[2], "%Y-%m-%d")
-            destination = parts[3]
-            price = float(parts[4])
-            package = add_package_api(manager, start_date, end_date, destination, price)
-            print("\033[32mPachet adăugat cu succes\033[0m")
-            print(dict2string(package))
-            print_offers(manager["offers"])
-        except ValueError as e:
-            print(f"Eroare la parsarea datelor: {e}")
-    elif cmd == "mod":
-        if len(parts) != 6:
-            print("Comanda 'mod' trebuie să aibă 5 argumente: id, data început, data sfârșit, destinație, preț.")
-            return
-        try:
-            id = int(parts[1])
-            start_date = datetime.strptime(parts[2], "%Y-%m-%d")
-            end_date = datetime.strptime(parts[3], "%Y-%m-%d")
-            destination = parts[4]
-            price = float(parts[5])
-            if modify_package_api(manager, id, start_date, end_date, destination, price):
-                print("\033[32mPachet modificat cu succes\033[0m")
-                print_offers(manager["offers"])
-            else:
-                print("\033[31mModificarea pachetului a eșuat\033[0m")
-        except ValueError as e:
-            print(f"Eroare la parsarea datelor: {e}")
-    elif cmd == "del_dest":
-        if len(parts) != 2:
-            print("Comanda 'del_dest' trebuie să aibă un argument: destinație.")
-            
-            return
-        delete_api(manager,lambda offer: offer["destination"] == parts[1])
-        print_offers(manager["offers"])
-    elif cmd == "del_len":
-        if len(parts) != 2:
-            print("Comanda 'del_len' trebuie să aibă un argument: durata.")
-            return
-        try:
-            duration = int(parts[1])
-            delete_api(manager,lambda offer: offer["end_date"]-offer["start_date"]<timedelta(days=duration))
-            print_offers(manager["offers"])
-        except ValueError:
-            print("Durata invalidă.")
-
-    elif cmd == "del_price":
-        if len(parts) != 2:
-            print("Comanda 'del_price' trebuie să aibă un argument: preț.")
-            return
-        try:
-            price = float(parts[1])
-            delete_api(manager,lambda offer: offer["price"] > price)
-            print_offers(manager["offers"])
-        except ValueError:
-            print("Preț invalid.")
-    elif cmd == "undo":
-        handle_undo(manager)
-        print_offers(manager["offers"])
-    else:
-        print(f"Comanda necunoscută: {command}")
-
-def get_commands(manager):
-    """
-    Citește și execută comenzile insiruite separate prin ';'.
-
-    Args:
-        manager (dict): Managerul de pachete.
-    """
-    print("Introdu comenzile insiruite separate prin ';' ")
-    comms = input(">").split(';')
-    for command in comms:
-        command = command.strip()
-        if command:
-            try:
-                execute_command(manager, command)
-            except Exception as e:
-                print(f"Comanda {command} a generat o eroare: {e}")
-
 submenu_functions = {
     1: {1: add_package, 2: modify_package, 3:handle_undo},  # Add Menu
     2: {1: delete_by_destination, 2: delete_by_duration, 3: delete_by_price, 4:handle_undo},  # Delete Menu
@@ -539,7 +432,6 @@ submenu_functions = {
     4: {1: report_offer_count, 2: report_packages_in_interval, 3: report_avg_price},  # Report Menu
     5: {1: search_by_destination_price, 2: filter_by_month},  # Filter Menu
 }
-
 
 def submenu(id,manager):
     """
@@ -569,26 +461,15 @@ def run():
     nu are parametrii
     """
     manager=create_manager()
-
-    print('''Alege:
-    -  1 pentru meniu clasic 
-    -  2 pentru comenzi directe''')
-    men_type=int(input("=>"))
-    if men_type == 1:
-        while True:
-            print(meniu[0])
-            try:
-                option = int(input("Introduceti optiunea: "))
-                if option == 9:
-                    break
-                elif option == 6:
-                    handle_undo(manager)
-                elif option > 0 and option <= len(submenu_functions):
-                    submenu(option,manager)
-            except ValueError:
-                print("Introduceti un numar valid.")
-    elif men_type == 2:
-        print(meniu[-1])
-        get_commands(manager)
-    else:
-        print("nu exista acest meniu")
+    while True:
+        print(meniu[0])
+        try:
+            option = int(input("Introduceti optiunea: "))
+            if option == 9:
+                break
+            elif option == 6:
+                handle_undo(manager)
+            elif option > 0 and option <= len(submenu_functions):
+                submenu(option,manager)
+        except ValueError:
+            print("Introduceti un numar valid.")
