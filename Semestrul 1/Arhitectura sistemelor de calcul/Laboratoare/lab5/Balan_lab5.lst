@@ -28,38 +28,39 @@
     28 00000005 BE00000000                  mov esi,0
     29 0000000A B800000000                  mov eax,0
     30 0000000F BB00000000                  mov ebx,0
-    31 00000014 BA[0C000000]                mov edx, d
-    32                                      
-    33 00000019 E321                        jecxz sfarsit
-    34                                      
+    31                                      
+    32 00000014 E321                        jecxz sfarsit
+    33                                      
+    34                                   
     35                                      
     36                                      repeta:
     37                                      
-    38 0000001B 8A86[00000000]              mov al, [S1+esi]    
-    39 00000021 8A9E[06000000]              mov bl, [S2+esi]
+    38 00000016 8A86[00000000]              mov al, [S1+esi]    
+    39 0000001C 8A9E[06000000]              mov bl, [S2+esi]
     40                                      
-    41 00000027 38D8                        cmp al, bl
+    41 00000022 38D8                        cmp al, bl
     42                                      
     43                                      
     44                                      
     45                                      
-    46 00000029 7F08                        jg maimare
-    47 0000002B 889E[0C000000]              mov [d+esi], bl
-    48 00000031 EB06                        jmp skip
-    49                                      
-    50                                      maimare:
-    51 00000033 8886[0C000000]              mov [d+esi], al
-    52                                      
+    46 00000024 7F08                        jg maimare
+    47 00000026 889E[0C000000]              mov [d+esi], bl
+    48                                      
+    49 0000002C EB06                        jmp skip
+    50                                      
+    51                                      maimare:
+    52 0000002E 8886[0C000000]              mov [d+esi], al
     53                                      
     54                                      
-    55                                      skip:
-    56 00000039 46                          inc esi
-    57                                      
-    58 0000003A E2DF                        loop repeta
-    59                                      
+    55                                      
+    56                                      skip:
+    57 00000034 46                          inc esi
+    58                                      
+    59 00000035 E2DF                        loop repeta 
     60                                      
     61                                      
     62                                      
-    63                                      sfarsit:
-    64 0000003C 6A00                        push    dword 0
-    65 0000003E FF15[00000000]              call    [exit]
+    63                                      
+    64                                      sfarsit:
+    65 00000037 6A00                        push    dword 0
+    66 00000039 FF15[00000000]              call    [exit]

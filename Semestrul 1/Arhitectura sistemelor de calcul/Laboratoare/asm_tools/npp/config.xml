@@ -3,11 +3,12 @@
     <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="1" transparencyMode="1" transparency="150" dotMatchesNewline="no">
         <Filter name="" />
         <Filter name="" />
+        <Filter name="" />
+        <Find name="edx" />
         <Find name="\t" />
         <Replace name="    " />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2addsubfarasemn.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16addsubfarasemn.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2addsubcusemnasm.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16addsubcusemn.asm" />
@@ -25,7 +26,7 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="yes" size="4" />
-        <GUIConfig name="AppPosition" x="323" y="124" width="1100" height="961" isMaximized="yes" />
+        <GUIConfig name="AppPosition" x="261" y="3" width="1100" height="961" isMaximized="yes" />
         <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426">no</GUIConfig>
         <GUIConfig name="Auto-detection">yes</GUIConfig>
         <GUIConfig name="CheckHistoryFiles">no</GUIConfig>
@@ -64,7 +65,7 @@
             <ActiveTabs cont="0" activeTab="-1" />
             <ActiveTabs cont="1" activeTab="-1" />
             <ActiveTabs cont="2" activeTab="-1" />
-            <ActiveTabs cont="3" activeTab="0" />
+            <ActiveTabs cont="3" activeTab="-1" />
         </GUIConfig>
     </GUIConfigs>
     <ProjectPanels>

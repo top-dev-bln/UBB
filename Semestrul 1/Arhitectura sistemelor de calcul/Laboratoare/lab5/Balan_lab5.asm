@@ -28,10 +28,10 @@ segment code use32 class=code
     mov esi,0
     mov eax,0
     mov ebx,0
-    mov edx, d
     
     jecxz sfarsit
     
+ 
     
     repeta:
     
@@ -45,6 +45,7 @@ segment code use32 class=code
     
     jg maimare
     mov [d+esi], bl
+    
     jmp skip
     
     maimare:
@@ -55,7 +56,7 @@ segment code use32 class=code
     skip:
     inc esi
     
-    loop repeta
+    loop repeta 
     
     
     

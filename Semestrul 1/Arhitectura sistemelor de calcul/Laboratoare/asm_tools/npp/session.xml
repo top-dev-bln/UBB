@@ -1,7 +1,8 @@
 <NotepadPlus>
     <Session activeView="0">
-        <mainView activeIndex="0">
-            <File firstVisibleLine="11" xOffset="0" scrollWidth="2532" startPos="558" endPos="558" selMode="0" lang="Assembly" encoding="-1" filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab5\Balan_lab5.asm" backupFilePath="" originalFileLastModifTimestamp="1730577511" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="1397903696" mapWrapIndentMode="-1" mapIsWrap="no" />
+        <mainView activeIndex="1">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1548" startPos="377" endPos="377" selMode="0" lang="Assembly" encoding="-1" filename="C:\Users\TopDev\Desktop\bodgi_lab5.asm" backupFilePath="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\asm_tools\npp\backup\bodgi_lab5.asm@2024-11-07_143455" originalFileLastModifTimestamp="1730982891" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="512" mapWrapIndentMode="-1" mapIsWrap="no" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="2448" startPos="457" endPos="457" selMode="0" lang="Assembly" encoding="-1" filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab5\Balan_lab5.asm" backupFilePath="" originalFileLastModifTimestamp="1730981856" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="0" mapWrapIndentMode="-1" mapIsWrap="no" />
         </mainView>
         <subView activeIndex="0" />
     </Session>
