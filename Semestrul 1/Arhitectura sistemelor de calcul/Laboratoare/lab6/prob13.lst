@@ -1,0 +1,41 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  
+     4                                  extern exit
+     5                                  import exit msvcrt.dll
+     6                                  
+     7                                  ;12311011h,1116adch,4120ca1h, 234681h, 0a90b87ch, 29b65cad9h , 12345607h, 1A2B3C15h, 13A33412h
+     8                                  segment data use32 class=data
+     9 00000000 07563412153C2B1A12-     sir dd  12345607h, 1A2B3C15h, 13A33412h
+     9 00000009 34A313             
+    10                                  len equ ($-sir)/4
+    11 0000000C 000000                  D   db 0,0,0
+    12                                  segment code use32 class=code
+    13                                      start:
+    14 00000000 BE[00000000]                mov esi, sir
+    15 00000005 BF[0C000000]                mov edi, D
+    16 0000000A B903000000                  mov ecx, len
+    17 0000000F B307                        mov bl, 7
+    18 00000011 FC                          cld
+    19                                      
+    20                                      
+    21                                  
+    22                                      repeta:
+    23 00000012 AD                              lodsd ;;; eax = numar din sir
+    24 00000013 88C7                            mov bh, al ;  pun octetul in bh in caz ca e bun
+    25 00000015 B400                            mov ah ,0 ; dau clear la ah pentru ca acolo vine modulo 
+    26 00000017 F6F3                            div bl ; il impart cu 7
+    27 00000019 80FC00                          cmp ah,0 ; verific daca al % 7 == 0 
+    28                                          
+    29 0000001C 7503                            jne nonmultiplu ; daca nu , ii dam skip
+    30 0000001E 88F8                            mov al, bh ;; octetul din bh salvat il pun inapoi pe al ca sa ii dau load in sirul d
+    31 00000020 AA                              stosb
+    32                                          
+    33                                         nonmultiplu:
+    34 00000021 E2EF                        loop repeta
+    35                                          
+    36                                          
+    37                                  
+    38                                  
+    39 00000023 6A00                        push    dword 0
+    40 00000025 FF15[00000000]              call    [exit]
