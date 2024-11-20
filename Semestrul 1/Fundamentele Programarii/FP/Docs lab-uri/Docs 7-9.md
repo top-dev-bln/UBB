@@ -41,15 +41,17 @@ Creați o aplicație care permite:
 
 ##### Plan de iteratii
 
-| Iteratie                 | descriere                                                                                                                                                                                                                |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Iteratia 1 <br>( Lab 7 ) | - **Gestionare liste de studenti si probleme**<br>     - operatii de baza pentru listele de studenti si de probleme<br>     - adaugare<br>     - stergere<br>     - modificare<br>- **Meniu POV**<br><br>                |
-| Iteratia 2 <br>( Lab 8 ) | - **Cautare**<br>	- Afisare detalii student dupa nume <br>    - Afisare detalii problema dupa id<br><br>- **Asignare** <br>	- Trimitere rezolvari pentru probleme<br>- **Notare** <br>	- Trimitere note pentru rezolvari |
-| Iteratia 3<br> ( Lab 9 ) | - **Statistici** <br>	- Afisare studenti si notele la un lab dat (ordonat)<br>    - Afisare stundeti picati<br>                                                                                                          |
+| Iteratie                 | descriere                                                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Iteratia 1 <br>( Lab 7 ) | - **Gestionare liste de studenti si probleme**<br>     operatii de baza pentru listele de studenti si de probleme<br>     - adaugare<br>     - stergere<br>     - modificare<br><br> |
+| Iteratia 2 <br>( Lab 8 ) | - **Cautare**<br>	- Afisare detalii student dupa nume <br>    - Afisare detalii problema dupa id<br><br>- **Asignare** <br>	- Trimitere rezolvari pentru probleme<br>                |
+| Iteratia 3<br> ( Lab 9 ) | - **Notare** <br>	- Trimitere note pentru rezolvari<br><br>- **Statistici** <br>	- Afisare studenti si notele la un lab dat (ordonat)<br>    - Afisare stundeti picati<br>           |
+
 
 
 
 ##### Scenarii de rulare
+
 
 | F1  Adăugare Student                             |
 | ------------------------------------------------ |
@@ -64,3 +66,99 @@ Creați o aplicație care permite:
 | F10 Notarea                                      |
 | F11 Statistici laborator -lista studenti cu nota |
 | F12 Statistica laborator - lista studenti picati |
+
+
+
+
+###### Adaugare student
+
+| USER  | CONSOLE                                                                                                  | DESC                                                    |
+| ----- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+|       | 1. Adauga student      <br>2. Afiseaza studentii  <br>3. Adauga laborator    <br>4. Afiseaza laboratoare | meniu                                                   |
+| 1     |                                                                                                          | se alege adaugarea                                      |
+|       | introduceti datele studentului:<br>id:                                                                   | se cere id-ul                                           |
+| 1     |                                                                                                          | se da id-ul 1                                           |
+|       | nume:                                                                                                    | se cere numele                                          |
+| Balan |                                                                                                          | se da numele Balan                                      |
+|       | grup:                                                                                                    | se cere grupa                                           |
+| 211   |                                                                                                          | se da grupa 211                                         |
+|       | ==student adaugat cu succes!==                                                                           | mesaj de confirmare                                     |
+| 1     |                                                                                                          | se alege adaugarea                                      |
+|       | 1. Adauga student      <br>2. Afiseaza studentii  <br>3. Adauga laborator    <br>4. Afiseaza laboratoare | meniu                                                   |
+| 1     |                                                                                                          | se alege adaugarea                                      |
+|       | introduceti datele studentului:<br>id:                                                                   | se cere id-ul                                           |
+| 1     |                                                                                                          | se da id-ul 1                                           |
+|       | nume:                                                                                                    | se cere numele                                          |
+| Balan |                                                                                                          | se da numele Balan                                      |
+|       | grup:                                                                                                    | se cere grupa                                           |
+| 211   |                                                                                                          | se da grupa 211                                         |
+|       | student cu acelasi id existent!                                                                          | mesaj ce indica ca exista deja un student cu acelasi id |
+
+
+
+###### Adaugare laborator
+
+| USER                                                                                            | CONSOLE                                                                                                  | DESC                                                         |
+| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+|                                                                                                 | 1. Adauga student      <br>2. Afiseaza studentii  <br>3. Adauga laborator    <br>4. Afiseaza laboratoare | meniu                                                        |
+| 3                                                                                               |                                                                                                          | se alege adaugarea                                           |
+|                                                                                                 | introduceti datele laboratorului:<br>numar laborator:                                                    | se cere numarul laboratorului                                |
+| 1                                                                                               |                                                                                                          | se da numarul 1                                              |
+|                                                                                                 | numar problema:                                                                                          | se cere numarul problemei                                    |
+| 1                                                                                               |                                                                                                          | se da numarul 1                                              |
+|                                                                                                 | descriere:                                                                                               | se cere o descriere                                          |
+| Scrieți o aplicație pentru gestiunea notelor și a problemelor de laborator pentru o disciplină. |                                                                                                          | se da grupa 211                                              |
+|                                                                                                 | introduceti deadline-ul:                                                                                 | se cere dead-line-ul                                         |
+|                                                                                                 | Ziua:                                                                                                    | se cere ziua                                                 |
+| 22                                                                                              |                                                                                                          | se da ziua                                                   |
+|                                                                                                 | Luna:                                                                                                    | se cere luna                                                 |
+| 12                                                                                              |                                                                                                          | se da luna                                                   |
+|                                                                                                 | Anul:                                                                                                    | se cere anul                                                 |
+| 2024                                                                                            |                                                                                                          | se da anul                                                   |
+|                                                                                                 | ==laborator adaugat cu succes!==                                                                         | mesaj de confirmare                                          |
+|                                                                                                 | 1. Adauga student      <br>2. Afiseaza studentii  <br>3. Adauga laborator    <br>4. Afiseaza laboratoare | meniu                                                        |
+| 3                                                                                               |                                                                                                          | se alege adaugarea                                           |
+|                                                                                                 | introduceti datele laboratorului:<br>numar laborator:                                                    | se cere numarul laboratorului                                |
+| 1                                                                                               |                                                                                                          | se da numarul 1                                              |
+|                                                                                                 | numar problema:                                                                                          | se cere numarul problemei                                    |
+| 1                                                                                               |                                                                                                          | se da numarul 1                                              |
+|                                                                                                 | descriere:                                                                                               | se cere o descriere                                          |
+| Scrieți o aplicație pentru gestiunea notelor și a problemelor de laborator pentru o disciplină. |                                                                                                          | se da grupa 211                                              |
+|                                                                                                 | introduceti deadline-ul:                                                                                 | se cere dead-line-ul                                         |
+|                                                                                                 | Ziua:                                                                                                    | se cere ziua                                                 |
+| 22                                                                                              |                                                                                                          | se da ziua                                                   |
+|                                                                                                 | Luna:                                                                                                    | se cere luna                                                 |
+| 12                                                                                              |                                                                                                          | se da luna                                                   |
+|                                                                                                 | Anul:                                                                                                    | se cere anul                                                 |
+| 2024                                                                                            |                                                                                                          | se da anul                                                   |
+|                                                                                                 | laborator cu acelasi numar existent!                                                                     | mesaj ce indica ca exista deja un laborator cu acelasi numar |
+
+
+
+
+###### Afisare studenti
+(presupunem realizati pasii din scenariile de rulare de mai sus ca fiind realizati)
+
+| USER | CONSOLE                                                                                                  | DESC                          |
+| ---- | -------------------------------------------------------------------------------------------------------- | ----------------------------- |
+|      | 1. Adauga student      <br>2. Afiseaza studentii  <br>3. Adauga laborator    <br>4. Afiseaza laboratoare | meniu                         |
+| 2    |                                                                                                          | se alege afisarea             |
+|      | studentii sunt:<br>[1] Balan - 211                                                                       | se afiseaza lista cu studenti |
+
+
+###### Afisare laboratoare
+(presupunem realizati pasii din scenariile de rulare de mai sus ca fiind realizati)
+
+| USER | CONSOLE                                                                                                                                                                       | DESC                          |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+|      | 1. Adauga student      <br>2. Afiseaza studentii  <br>3. Adauga laborator    <br>4. Afiseaza laboratoare                                                                      | meniu                         |
+| 4    |                                                                                                                                                                               | se alege afisarea             |
+|      | laboratoarele sunt:<br>Laboratorul 1 Problema 1 Descriere Scrieți o aplicație pentru gestiunea notelor și a problemelor de laborator pentru o disciplină. Deadline 2024-12-22 | se afiseaza lista cu probleme |
+
+
+
+
+
+
+
+ 
