@@ -9,33 +9,57 @@ import exit msvcrt.dll
 
 segment data use32 class=data
 sir db  12h,11h,41h, 23h, 0ah, 29h , 12h, 1Ah, 13h
+len_sir equ $-sir
 sub_sir db 12h, 1Ah, 13h
-sir_temp db  0,0,0,0,0,0,0,0,0
+len_sub equ $-sub_sir
+
+
 segment code use32 class=code
     start:
+    
+    mov ecx, len_sir
     mov esi, sir
-    mov edi, D
-    mov ecx, len
-    mov bl, 7
-    cld
+    mov edi, sub_sir
+    mov ebx,0
+
+    repeta:
+    
+        cmpsb
+        jne not_egal
+
+        
+        inc bl
+        cmp bl, len_sub
+        jne continue
+        push ecx
+        mov ecx , len_sub
+
+        remove:
+        mov edx, esi
+        sub edx, ecx
+        mov byte [edx], 0
+        loop remove
+        
+        
+        pop ecx
+        
+        
+        
+      
+        
+        not_egal:
+        mov edi, sub_sir
+        mov bl,0
+        continue:
+
+    loop repeta
+    
     
     
 
-    repeta:
-        lodsd ;;; eax = numar din sir
-        mov bh, al ;  pun octetul in bh in caz ca e bun
-        mov ah ,0 ; dau clear la ah pentru ca acolo vine modulo 
-        div bl ; il impart cu 7
-        cmp ah,0 ; verific daca al % 7 == 0 
-        
-        jne nonmultiplu ; daca nu , ii dam skip
-        mov al, bh ;; octetul din bh salvat il pun inapoi pe al ca sa ii dau load in sirul d
-        stosb
-        
-       nonmultiplu:
-    loop repeta
-        
-        
+    
+    
+ 
 
 
     push    dword 0

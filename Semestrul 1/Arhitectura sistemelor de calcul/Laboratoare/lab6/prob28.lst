@@ -1,0 +1,66 @@
+     1                                  ;Dandu-se un sir de octeti si un subsir al sau, sa se elimine din primul sir toate aparitiile subsirului.
+     2                                  
+     3                                  bits 32
+     4                                  global start
+     5                                  
+     6                                  extern exit
+     7                                  import exit msvcrt.dll
+     8                                  
+     9                                  
+    10                                  segment data use32 class=data
+    11 00000000 121141230A29121A13      sir db  12h,11h,41h, 23h, 0ah, 29h , 12h, 1Ah, 13h
+    12                                  len_sir equ $-sir
+    13 00000009 121A13                  sub_sir db 12h, 1Ah, 13h
+    14                                  len_sub equ $-sub_sir
+    15                                  
+    16                                  
+    17                                  segment code use32 class=code
+    18                                      start:
+    19                                      
+    20 00000000 B909000000                  mov ecx, len_sir
+    21 00000005 BE[00000000]                mov esi, sir
+    22 0000000A BF[09000000]                mov edi, sub_sir
+    23 0000000F BB00000000                  mov ebx,0
+    24                                  
+    25                                      repeta:
+    26                                      
+    27 00000014 A6                              cmpsb
+    28 00000015 7517                            jne not_egal
+    29                                  
+    30                                          
+    31 00000017 FEC3                            inc bl
+    32 00000019 80FB03                          cmp bl, len_sub
+    33 0000001C 7517                            jne continue
+    34 0000001E 51                              push ecx
+    35 0000001F B903000000                      mov ecx , len_sub
+    36                                  
+    37                                          remove:
+    38 00000024 89F2                            mov edx, esi
+    39 00000026 29CA                            sub edx, ecx
+    40 00000028 C60200                          mov byte [edx], 0
+    41 0000002B E2F7                            loop remove
+    42                                          
+    43                                          
+    44 0000002D 59                              pop ecx
+    45                                          
+    46                                          
+    47                                          
+    48                                        
+    49                                          
+    50                                          not_egal:
+    51 0000002E BF[09000000]                    mov edi, sub_sir
+    52 00000033 B300                            mov bl,0
+    53                                          continue:
+    54                                  
+    55 00000035 E2DD                        loop repeta
+    56                                      
+    57                                      
+    58                                      
+    59                                  
+    60                                      
+    61                                      
+    62                                   
+    63                                  
+    64                                  
+    65 00000037 6A00                        push    dword 0
+    66 00000039 FF15[00000000]              call    [exit]
