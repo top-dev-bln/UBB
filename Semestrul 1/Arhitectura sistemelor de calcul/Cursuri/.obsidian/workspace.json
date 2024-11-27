@@ -25,12 +25,14 @@
             "id": "e2d007265211cc64",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-                "currentVersion": "1.7.6"
+                "file": "Docs 7-9 copy.md",
+                "mode": "source",
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "Release Notes 1.7.6"
+              "title": "Docs 7-9 copy"
             }
           },
           {
@@ -217,11 +219,11 @@
   },
   "active": "e2d007265211cc64",
   "lastOpenFiles": [
+    "Schema.jpg",
     "Curs 6.md",
     "Docs 7-9 copy.md",
     "Curs 7.md",
     "Curs 5.md",
-    "Schema.jpg",
     "2022_Complementul fata de 2.pdf",
     "Curs 1.md",
     "Curs 5.md",
@@ -229,7 +231,6 @@
     "2022_Complementul fata de 2.pdf",
     "Curs 3.md",
     "Curs 2.md",
-    "Schema.jpg",
     "Seminar 1.md",
     "WhatsApp Image 2024-10-16 at 17.42.39_feb1f3af.jpg",
     "WhatsApp Image 2024-10-09 at 15.42.07_4d0131ba.jpg",
