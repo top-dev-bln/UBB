@@ -156,7 +156,33 @@ Creați o aplicație care permite:
 |      | laboratoarele sunt:<br>Laboratorul 1 Problema 1 Descriere Scrieți o aplicație pentru gestiunea notelor și a problemelor de laborator pentru o disciplină. Deadline 2024-12-22 | se afiseaza lista cu probleme |
 
 
+#### **6. Afișare Detalii Laborator**
 
+|USER|CONSOLE|DESCRIERE|
+|---|---|---|
+||_MENIU CONSOLA_|Meniu principal|
+|6||Se selectează opțiunea de afișare detalii|
+||Introduceți număr laborator:|Se cere numărul laboratorului|
+|1||Utilizatorul introduce numărul 1|
+||Număr problemă:|Se cere numărul problemei|
+|1||Utilizatorul introduce problema 1|
+||Detalii laborator:  <br>[1] Tema: OOP. Deadline: 2024-12-15|Detaliile laboratorului sunt afișate|
+
+---
+
+#### **7. Asignare Laborator Student**
+
+|USER|CONSOLE|DESCRIERE|
+|---|---|---|
+||_MENIU CONSOLA_|Meniu principal|
+|7||Se selectează opțiunea de asignare|
+||Introduceți ID student:|Se cere ID-ul studentului|
+|1||Utilizatorul introduce ID-ul 1|
+||Introduceți număr laborator:|Se cere numărul laboratorului|
+|1||Utilizatorul introduce numărul 1|
+||Număr problemă:|Se cere numărul problemei|
+|1||Utilizatorul introduce problema 1|
+||==Laborator asignat cu succes!==|Confirmare|
 
 
 

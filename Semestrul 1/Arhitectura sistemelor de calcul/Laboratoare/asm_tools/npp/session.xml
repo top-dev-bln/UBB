@@ -1,7 +1,8 @@
 <NotepadPlus>
     <Session activeView="0">
-        <mainView activeIndex="0">
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1755" startPos="275" endPos="275" selMode="0" lang="Assembly" encoding="-1" filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab6\prob28.asm" backupFilePath="" originalFileLastModifTimestamp="1732146646" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="1142292480" mapWrapIndentMode="-1" mapIsWrap="no" />
+        <mainView activeIndex="1">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1128" startPos="0" endPos="0" selMode="0" lang="Assembly" encoding="-1" filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab6\prob13.asm" backupFilePath="" originalFileLastModifTimestamp="1732125378" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="6619184" mapWrapIndentMode="-1" mapIsWrap="no" />
+            <File firstVisibleLine="20" xOffset="0" scrollWidth="1260" startPos="0" endPos="0" selMode="0" lang="Assembly" encoding="-1" filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab6\prob28.asm" backupFilePath="" originalFileLastModifTimestamp="1732185779" mapFirstVisibleDisplayLine="-1" mapFirstVisibleDocLine="-1" mapLastVisibleDocLine="-1" mapNbLine="-1" mapHigherPos="-1" mapWidth="-1" mapHeight="-1" mapKByteInDoc="131839664" mapWrapIndentMode="-1" mapIsWrap="no" />
         </mainView>
         <subView activeIndex="0" />
     </Session>

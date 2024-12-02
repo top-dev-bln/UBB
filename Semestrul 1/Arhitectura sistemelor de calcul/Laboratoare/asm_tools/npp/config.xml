@@ -53,7 +53,7 @@
         <GUIConfig name="ScintillaGlobalSettings" enableMultiSelection="no" />
         <GUIConfig name="openSaveDir" value="0" defaultDirPath="" />
         <GUIConfig name="titleBar" short="no" />
-        <GUIConfig name="stylerTheme" path="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\asm_tools\npp\stylers.xml" />
+        <GUIConfig name="stylerTheme" path="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\asm_tools\npp\stylers.xml" />
         <GUIConfig name="wordCharList" useDefault="yes" charsAdded="" />
         <GUIConfig name="delimiterSelection" leftmostDelimiter="40" rightmostDelimiter="41" delimiterSelectionOnEntireDocument="no" />
         <GUIConfig name="multiInst" setting="0" />
@@ -66,7 +66,7 @@
             <ActiveTabs cont="0" activeTab="-1" />
             <ActiveTabs cont="1" activeTab="-1" />
             <ActiveTabs cont="2" activeTab="-1" />
-            <ActiveTabs cont="3" activeTab="0" />
+            <ActiveTabs cont="3" activeTab="-1" />
         </GUIConfig>
     </GUIConfigs>
     <ProjectPanels>
