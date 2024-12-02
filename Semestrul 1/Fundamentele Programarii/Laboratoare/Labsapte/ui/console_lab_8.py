@@ -17,16 +17,12 @@ class Consola:
         print("6. Afisare detalii laborator")
         print("7. Asignare laborator student")
         print("8. Notare laborator")
-        print("9. Afisare solutii")
-        print("10. Trimite solutie")
+        print("9. Afisare studenti cu note")
+        print("10. Afisare studenti picati")
         print("11. Sterge student")
         print("12. Sterge laborator")
         print("13. Modifica student")
         print("14. Modifica laborator")
-        print("15. Afisare studenti cu note")
-        print("16. Afisare studenti picati")
-        print("17. Media Notelor studentilor")
-        print("18. Afisare asignari")
         print("x. Iesire")
 
 
@@ -163,128 +159,33 @@ class Consola:
         except Exception as ex:
             print(ex)
 
-    def __asignare_laborator_student_ui(self):
-        try:
-            student_id = int(input("Enter student ID: "))
-            lab_number = int(input("Enter laboratory number: "))
-            problem_number = int(input("Enter problem number: "))
-            
-            self.__service_laboratoare.assign_laboratory(student_id, lab_number, problem_number)
-            print("Laboratory successfully assigned!")
-        except Exception as ex:
-            print(ex)
 
-    def __trimite_solutie_ui(self):
-        try:
-            student_id = int(input("Enter student ID: "))
-            lab_number = int(input("Enter laboratory number: "))
-            problem_number = int(input("Enter problem number: "))
-            solution = input("Enter your solution: ")
-            
-            self.__service_laboratoare.submit_solution(student_id, lab_number, problem_number, solution)
-            print("Solution submitted successfully!")
-        except Exception as ex:
-            print(ex)
+# lab 8
 
-    def __notare_laborator_ui(self):
-        try:
-            student_id = int(input("Enter student ID: "))
-            lab_number = int(input("Enter laboratory number: "))
-            problem_number = int(input("Enter problem number: "))
-            grade = float(input("Enter grade (0-10): "))
-            
-            if grade < 0 or grade > 10:
-                raise ValueError("Grade must be between 0 and 10")
-                
-            self.__service_laboratoare.grade_solution(student_id, lab_number, problem_number, grade)
-            print("Solution graded successfully!")
-        except Exception as ex:
-            print(ex)
+    def __generate_random_student_ui(self):
+        numar_studenti = int(input("introduceti numarul de studenti generati aleatoriu:"))
+        self.__service_studenti.generate_random_students(numar_studenti)
+        print("studenti generati random cu succes!")
 
-    def __afisare_solutii_ui(self):
-        try:
-            lab_number = int(input("Enter laboratory number (or 0 for all): "))
-            solutions = self.__service_laboratoare.get_solutions(lab_number if lab_number != 0 else None)
-            
-            if not solutions:
-                print("No solutions found!")
-                return
-                
-            print("\nSolutions:")
-            for solution in solutions:
-                print("\n" + str(solution))
-        except Exception as ex:
-            print(ex)
-
-    def __afisare_studenti_note_ui(self):
-        try:
-            lab_number = int(input("Enter laboratory number: "))
-            problem_number = int(input("Enter problem number: "))
-            students_grades = self.__service_laboratoare.get_students_grades_for_lab(lab_number, problem_number)
-            
-            if not students_grades:
-                print("No students found for this lab and problem!")
-                return
-                
-            print("\nStudents and their grades:")
-            for student_id, grade in students_grades:
-                grade_str = grade if grade is not None else "Not graded yet"
-                print(f"Student ID: {student_id}, Grade: {grade_str}")
-        except Exception as ex:
-            print(ex)
-
-    def __afisare_studenti_picati_ui(self):
-        try:
-            students_below_5 = self.__service_laboratoare.get_students_with_grades_below_5()
-            
-            if not students_below_5:
-                print("No students with grades below 5 found!")
-                return
-                
-            print("\nStudents with grades below 5:")
-            for student_id, lab_number, problem_number, grade in students_below_5:
-                print(f"Student ID: {student_id}, Lab: {lab_number}, Problem: {problem_number}, Grade: {grade}")
-        except Exception as ex:
-            print(ex)
+    def __generate_random_laborator_ui(self):
+        numar_laboratoare = int(input("introduceti numarul de laboratoare generati aleatoriu:"))
+        self.__service_laboratoare.generate_random_laboratoare(numar_laboratoare)
+        numar_labs = len(self.__service_laboratoare.get_all_laboratoare())
+        print(f"{numar_labs} laboratoare generate random cu succes!")
 
 
-    def __afisare_medii(self):
-        try:
-            students_avg = self.__service_laboratoare.get_students_with_average_grade()
-            
-            if not students_avg:
-                print("No students found!")
-                return
-                
-            print("\nStudents and their average grades:")
-            for student_id, avg in students_avg:
-                print(f"Student ID: {student_id}, Average grade: {avg}")
-        except Exception as ex:
-            print(ex)
-
-    def __afisare_asignari(self):
-        stud_id = int(input("Enter student ID: "))
-        try:
-            assignments = self.__service_laboratoare.get_assignments(stud_id)
-            
-            if not assignments:
-                print("No assignments found!")
-                return
-                
-            print("\nAssignments:")
-            for lab_number, problem_number in assignments:
-                print(f"Lab: {lab_number}, Problem: {problem_number}")
-        except Exception as ex:
-            print(ex)
-        
-        
 
     def run(self):
         is_running = True
+
+        
         while is_running:
             self.afiseaza_meniu()
             optiune = input(">>>").upper().strip()
             match optiune:
+                case '0':
+                    self.__generate_random_student_ui()
+                    self.__generate_random_laborator_ui()
                 case '1':
                     self.__adauga_student_ui()
                 case '2':
@@ -302,9 +203,9 @@ class Consola:
                 case '8':
                     self.__notare_laborator_ui()
                 case '9':
-                    self.__afisare_solutii_ui()
+                    self.__afisare_studenti_note_ui()
                 case '10':
-                    self.__trimite_solutie_ui()
+                    self.__afisare_studenti_picati_ui()
                 case '11':
                     self.__sterge_student_ui()
                 case '12':
@@ -313,13 +214,5 @@ class Consola:
                     self.__modifica_student_ui()
                 case '14':
                     self.__modifica_laborator_ui()
-                case '15':
-                    self.__afisare_studenti_note_ui()
-                case '16':
-                    self.__afisare_studenti_picati_ui()
-                case '17':
-                    self.__afisare_medii()
-                case '18':
-                    self.__afisare_asignari()
                 case 'X':
                     is_running = False
