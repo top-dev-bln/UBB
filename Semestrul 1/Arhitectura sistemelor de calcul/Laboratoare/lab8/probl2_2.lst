@@ -1,0 +1,160 @@
+     1                                  ; Codul de mai jos va deschide un fisier numit "ana.txt" din directorul curent, va citi un text scurt din acel fisier, apoi va afisa  in consola numarul de caractere citite si textul citit din fisier.
+     2                                  ; Programul va folosi functia fopen pentru deschiderea fisierului, functia fread pentru citirea din fisier si functia fclose pentru inchiderea fisierului creat.
+     3                                  ; Deoarece in apelul functiei fopen programul foloseste modul de acces "r", daca un fisier numele dat nu exista in directorul curent,  apelul functiei fopen nu va reusi (eroare). Detalii despre modurile de acces sun
+     4                                  
+     5                                  ; In acest program sirul de caractere in care se va citi textul din fisier trebuie sa aiba o lungime cu 1 mai mare decat numarul maxim  de elemente care vor fi citite din fisier deoarece acest sir va fi afisat in co
+     6                                  ; Orice sir de caractere folosit de functia printf trebuie sa fie terminat in 0, altfel afisarea nu va fi corecta.
+     7                                  ; Daca fisierul ar contine mai mult de <len> caractere si dimensiunea sirului destinatie era exact <len>, intregul sir ar fi fost completat cu valori citite din fisier, astfel sirul nu se mai termina cu valoarea 0.
+     8                                  
+     9                                  bits 32 
+    10                                  
+    11                                  global start        
+    12                                  
+    13                                  ; declare external functions needed by our program
+    14                                  extern exit, fopen, fread, fclose, printf
+    15                                  import exit msvcrt.dll  
+    16                                  import fopen msvcrt.dll  
+    17                                  import fread msvcrt.dll
+    18                                  import fclose msvcrt.dll
+    19                                  import printf msvcrt.dll
+    20                                  
+    21                                  ; our data is declared here (the variables needed by our program)
+    22                                  segment data use32 class=data
+    23 00000000 7465787475747A692E-         nume_fisier db "textutzi.txt", 0  ; numele fisierului care va fi creat
+    23 00000009 74787400           
+    24 0000000D 7200                        mod_acces db "r", 0          ; modul de deschidere a fisierului - 
+    25                                                                   ; r - pentru scriere. fisierul trebuie sa existe 
+    26                                      len equ 100                  ; numarul maxim de elemente citite din fisier.                            
+    27 0000000F 00<rept>                    text times (len+1) db 0      ; sirul in care se va citi textul din fisier (dimensiune len+1 explicata mai sus)
+    28 00000074 FFFFFFFF                    descriptor_fis dd -1         ; variabila in care vom salva descriptorul fisierului - necesar pentru a putea face referire la fisier
+    29 00000078 416D20676173697420-         format db "Am gasit %d consoane", 0  ; formatul - utilizat pentru afisarea textului citit din fisier
+    29 00000081 256420636F6E736F61-
+    29 0000008A 6E6500             
+    30                                                                   ; %s reprezinta un sir de caractere
+    31                                  
+    32                                  ; our code starts here
+    33                                  segment code use32 class=code
+    34                                      start:
+    35                                          ; apelam fopen pentru a deschide fisierul
+    36                                          ; functia va returna in EAX descriptorul fisierului sau 0 in caz de eroare
+    37                                          ; eax = fopen(nume_fisier, mod_acces)
+    38 00000000 68[0D000000]                    push dword mod_acces     
+    39 00000005 68[00000000]                    push dword nume_fisier
+    40 0000000A FF15[00000000]                  call [fopen]
+    41 00000010 83C408                          add esp, 4*2                ; eliberam parametrii de pe stiva
+    42                                  
+    43 00000013 A3[74000000]                    mov [descriptor_fis], eax   ; salvam valoarea returnata de fopen in variabila descriptor_fis
+    44                                          
+    45                                          ; verificam daca functia fopen a creat cu succes fisierul (daca EAX != 0)
+    46 00000018 83F800                          cmp eax, 0
+    47 0000001B 0F849C000000                    je final
+    48                                          
+    49                                          ; citim textul in fisierul deschis folosind functia fread
+    50                                          ; eax = fread(text, 1, len, descriptor_fis)
+    51 00000021 FF35[74000000]                  push dword [descriptor_fis]
+    52 00000027 6A64                            push dword len
+    53 00000029 6A01                            push dword 1
+    54 0000002B 68[0F000000]                    push dword text        
+    55 00000030 FF15[00000000]                  call [fread]
+    56 00000036 83C410                          add esp, 4*4                 ; dupa apelul functiei fread EAX contine numarul de caractere citite din fisier
+    57                                          
+    58                                          ; afisam numarul de caractere citite si textul citit
+    59                                          ; printf(format, eax, text)
+    60                                  
+    61                                          
+    62 00000039 89C1                            mov ecx, EAX
+    63 0000003B BB00000000                      mov ebx,0
+    64 00000040 BE[0F000000]                    mov esi, text
+    65                                          
+    66                                          
+    67                                          repeta:
+    68 00000045 AC                              LODSB ; AL - litera
+    69                                          
+    70 00000046 3C62                            cmp AL, 'b'
+    71 00000048 7452                            je consoana
+    72                                          
+    73 0000004A 3C63                            cmp AL, 'c'
+    74 0000004C 744E                            je consoana
+    75                                  
+    76 0000004E 3C64                            cmp AL, 'd'
+    77 00000050 744A                            je consoana
+    78                                  
+    79 00000052 3C66                            cmp AL, 'f'
+    80 00000054 7446                            je consoana
+    81                                  
+    82 00000056 3C67                            cmp AL, 'g'
+    83 00000058 7442                            je consoana
+    84                                  
+    85 0000005A 3C68                            cmp AL, 'h'
+    86 0000005C 743E                            je consoana
+    87                                  
+    88 0000005E 3C6A                            cmp AL, 'j'
+    89 00000060 743A                            je consoana
+    90                                  
+    91 00000062 3C6B                            cmp AL, 'k'
+    92 00000064 7436                            je consoana
+    93                                  
+    94 00000066 3C6C                            cmp AL, 'l'
+    95 00000068 7432                            je consoana
+    96                                  
+    97 0000006A 3C6D                            cmp AL, 'm'
+    98 0000006C 742E                            je consoana
+    99                                  
+   100 0000006E 3C6E                            cmp AL, 'n'
+   101 00000070 742A                            je consoana
+   102                                  
+   103 00000072 3C70                            cmp AL, 'p'
+   104 00000074 7426                            je consoana
+   105                                  
+   106 00000076 3C71                            cmp AL, 'q'
+   107 00000078 7422                            je consoana
+   108                                  
+   109 0000007A 3C72                            cmp AL, 'r'
+   110 0000007C 741E                            je consoana
+   111                                  
+   112 0000007E 3C73                            cmp AL, 's'
+   113 00000080 741A                            je consoana
+   114                                  
+   115 00000082 3C74                            cmp AL, 't'
+   116 00000084 7416                            je consoana
+   117                                  
+   118 00000086 3C76                            cmp AL, 'v'
+   119 00000088 7412                            je consoana
+   120                                  
+   121 0000008A 3C77                            cmp AL, 'w'
+   122 0000008C 740E                            je consoana
+   123                                  
+   124 0000008E 3C78                            cmp AL, 'x'
+   125 00000090 740A                            je consoana
+   126                                  
+   127 00000092 3C79                            cmp AL, 'y'
+   128 00000094 7406                            je consoana
+   129                                  
+   130 00000096 3C7A                            cmp AL, 'z'
+   131 00000098 7402                            je consoana
+   132                                  
+   133                                  
+   134 0000009A EB01                            jmp skip
+   135                                          consoana:
+   136 0000009C 43                              inc ebx
+   137                                          
+   138                                          
+   139                                          skip:
+   140 0000009D E2A6                            loop repeta
+   141                                          
+   142 0000009F 53                              push dword EBX
+   143 000000A0 68[78000000]                    push dword format
+   144 000000A5 FF15[00000000]                  call [printf]
+   145 000000AB 83C40C                          add esp, 4*3
+   146                                          
+   147                                          ; apelam functia fclose pentru a inchide fisierul
+   148                                          ; fclose(descriptor_fis)
+   149 000000AE FF35[74000000]                  push dword [descriptor_fis]
+   150 000000B4 FF15[00000000]                  call [fclose]
+   151 000000BA 83C404                          add esp, 4
+   152                                          
+   153                                        final:
+   154                                          
+   155                                          ; exit(0)
+   156 000000BD 6A00                            push    dword 0      
+   157 000000BF FF15[00000000]                  call    [exit]       
