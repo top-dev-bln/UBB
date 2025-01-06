@@ -11,8 +11,6 @@
         <Replace name="    " />
     </FindHistory>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\2muldivcusemn.asm" />
-        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16muldivfarasemn.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab3\16muldivcusemn.asm" />
         <File filename="C:\Users\TopDev\Desktop\neb1.asm" />
         <File filename="D:\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab4\problema16.asm" />
@@ -21,6 +19,8 @@
         <File filename="C:\Users\Top Dev Bln\Desktop\lab3_gelu.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\probl25.asm" />
         <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab8\probl2_1.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab8\probl2_2.asm" />
+        <File filename="C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 1\Arhitectura sistemelor de calcul\Laboratoare\lab8\textutzi.txt" />
     </History>
     <GUIConfigs>
         <GUIConfig name="ToolBar" visible="yes">standard</GUIConfig>
@@ -29,7 +29,7 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="yes" size="4" />
-        <GUIConfig name="AppPosition" x="-5" y="3" width="1100" height="961" isMaximized="yes" />
+        <GUIConfig name="AppPosition" x="586" y="0" width="1100" height="961" isMaximized="yes" />
         <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426">no</GUIConfig>
         <GUIConfig name="Auto-detection">yes</GUIConfig>
         <GUIConfig name="CheckHistoryFiles">no</GUIConfig>

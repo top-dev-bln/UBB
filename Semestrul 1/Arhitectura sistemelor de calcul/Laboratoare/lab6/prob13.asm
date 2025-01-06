@@ -26,11 +26,11 @@ segment code use32 class=code
         div bl ; il impart cu 7
         cmp ah,0 ; verific daca al % 7 == 0 
         
-        jne nonmultiplu ; daca nu , ii dam skip
+        jne repeta: ; daca nu , ii dam skip
         mov al, bh ;; octetul din bh salvat il pun inapoi pe al ca sa ii dau load in sirul d
         stosb
         
-       nonmultiplu:
+
     loop repeta
         
         

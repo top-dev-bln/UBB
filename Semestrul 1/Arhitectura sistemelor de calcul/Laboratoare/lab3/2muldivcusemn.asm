@@ -35,18 +35,17 @@ segment code use32 class=code
     mov eax, 2
     mov dx,0
     idiv bx ; ax = 2 / paranteza
-    
 
-    
-    mov edx,0
+    cwde ; eax = 2 / paranteza
+    sub eax, [d]
+
+    cdq ; edx:eax = 2 / paranteza - d
     add eax, [e]
     adc edx, [e+4]
+
+
     
-    sub eax, [d]
-    sbb edx , 0
-    
-    
-    
+
     
 
         push    dword 0

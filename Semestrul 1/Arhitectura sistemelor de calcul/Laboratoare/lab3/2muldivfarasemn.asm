@@ -29,20 +29,24 @@ segment code use32 class=code
     sub bx, 9 ; bx = (a+b*c-9)
     
     mov eax, 2
-    mov dx,0
     div bx ; ax = 2/ paranteza
+
+    mov bx, ax
+    mov eax, 0
+    mov ax, bx
+    sub eax, [d]
+
+    mov edx, 0
+
+    add eax, [e]
+    adc edx, [e+4]
+
     
 
     
-    mov edx,0
-    add eax, [e]
-    adc edx, [e+4]
+
     
-    sub eax, [d]
-    sbb edx , 0
-    
-    
-    
+  
     
 
         push    dword 0

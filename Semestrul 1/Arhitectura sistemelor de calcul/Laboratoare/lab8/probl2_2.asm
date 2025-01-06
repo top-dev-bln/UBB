@@ -55,8 +55,6 @@ segment code use32 class=code
         call [fread]
         add esp, 4*4                 ; dupa apelul functiei fread EAX contine numarul de caractere citite din fisier
         
-        ; afisam numarul de caractere citite si textul citit
-        ; printf(format, eax, text)
 
         
         mov ecx, EAX
@@ -139,7 +137,7 @@ segment code use32 class=code
         skip:
         loop repeta
         
-        push dword EBX
+        push  EBX
         push dword format
         call [printf]
         add esp, 4*3
