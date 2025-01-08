@@ -1,0 +1,54 @@
+     1                                  bits 32
+     2                                  global start        
+     3                                  
+     4                                  extern exit, scanf, printf
+     5                                  import exit msvcrt.dll
+     6                                  import scanf msvcrt.dll
+     7                                  import printf msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10                                  
+    11                                      
+    12 00000000 00000000                    citindo  dd 0
+    13 00000004 256400                      formator db "%d",0
+    14                                      
+    15                                  
+    16                                  
+    17                                  segment code use32 class=code
+    18                                      start:
+    19                                      
+    20 00000000 BB00000000                      mov ebx,0
+    21                                          
+    22                                          repeta:
+    23 00000005 68[00000000]                        push dword citindo
+    24 0000000A 68[04000000]                        push formator
+    25 0000000F FF15[00000000]                      call [scanf]
+    26 00000015 83C408                              add esp, 4*2
+    27                                              
+    28 00000018 BA00000000                          mov edx,0
+    29 0000001D 3915[00000000]                      cmp [citindo],edx
+    30 00000023 7410                                je gata_joaca
+    31                                              
+    32 00000025 391D[00000000]                      cmp [citindo], ebx
+    33 0000002B 7206                                jb continue
+    34 0000002D 8B1D[00000000]                      mov ebx, [citindo]
+    35                                              
+    36                                              
+    37                                              
+    38                                              
+    39                                              continue:
+    40 00000033 EBD0                            jmp repeta
+    41                                          
+    42                                          gata_joaca:
+    43                                          
+    44                                          
+    45                                          
+    46 00000035 53                              push ebx
+    47 00000036 68[04000000]                    push formator
+    48 0000003B FF15[00000000]                  call [printf]
+    49 00000041 83C408                          add esp, 4*2
+    50                                          
+    51                                  
+    52                                  
+    53 00000044 6A00                            push    dword 0
+    54 00000046 FF15[00000000]                  call    [exit]

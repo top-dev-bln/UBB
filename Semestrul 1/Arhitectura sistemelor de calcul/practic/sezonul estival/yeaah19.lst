@@ -1,0 +1,82 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  
+     4                                  
+     5                                  extern exit, scanf,printf
+     6                                  import exit msvcrt.dll
+     7                                  import scanf msvcrt.dll
+     8                                  import printf msvcrt.dll
+     9                                  
+    10                                  
+    11                                  segment data use32 class=data
+    12                                  
+    13 00000000 256400                      format db "%d",0
+    14 00000003 444100                      pozitiv db "DA",0
+    15 00000006 4E5500                      negativ db "NU",0
+    16                                      
+    17 00000009 00000000                    cuvant dd 0
+    18 0000000D 00000000                    octet dd 0
+    19                                  
+    20                                  
+    21                                  segment code use32 class=code
+    22                                  
+    23                                      start:
+    24                                      
+    25 00000000 68[0D000000]                    push dword octet
+    26 00000005 68[00000000]                    push dword format
+    27 0000000A FF15[00000000]                  call [scanf]
+    28 00000010 83C408                          add esp ,4*2
+    29                                          
+    30 00000013 68[09000000]                    push dword cuvant
+    31 00000018 68[00000000]                    push dword format
+    32 0000001D FF15[00000000]                  call [scanf]
+    33 00000023 83C408                          add esp ,4*2
+    34                                          
+    35                                        
+    36 00000026 8A15[0D000000]                  mov dl,[octet]
+    37 0000002C A1[09000000]                    mov eax,[cuvant]
+    38                                          
+    39 00000031 BB00000000                      mov ebx,0
+    40 00000036 B909000000                      mov ecx,9
+    41                                          
+    42                                          repeta:
+    43 0000003B 38D0                                cmp al,dl
+    44 0000003D 7508                                jne invalid
+    45 0000003F 7423                                je gasit
+    46                                              
+    47                                              
+    48                                       
+    49                                              continue:
+    50 00000041 D1E8                                shr eax,1
+    51 00000043 E2F6                            loop repeta
+    52                                          
+    53                                          
+    54                                  
+    55                                          
+    56 00000045 EB07                            jmp skip
+    57                                          invalid:
+    58 00000047 BB00000000                          mov ebx,0
+    59 0000004C EBF3                                jmp continue
+    60                                                
+    61                                          skip
+    61          ******************       warning: label alone on a line without a colon might be in error [-w+orphan-labels]
+    62                                         
+    63                                          
+    64                                          
+    65 0000004E 68[06000000]                    push negativ
+    66 00000053 FF15[00000000]                  call [printf]
+    67 00000059 83C408                          add esp, 4*2
+    68                                          
+    69 0000005C 6A00                            push    dword 0
+    70 0000005E FF15[00000000]                  call    [exit]
+    71                                          
+    72                                          
+    73                                          gasit:
+    74 00000064 68[03000000]                        push pozitiv
+    75 00000069 FF15[00000000]                      call [printf]
+    76 0000006F 83C408                              add esp, 4*2
+    77                                              
+    78 00000072 6A00                                push    dword 0
+    79 00000074 FF15[00000000]                      call    [exit]
+    80                                          
+    81                                          

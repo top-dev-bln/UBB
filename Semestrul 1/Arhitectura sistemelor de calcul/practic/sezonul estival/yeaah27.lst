@@ -1,0 +1,53 @@
+     1                                  bits 32
+     2                                  global start        
+     3                                  
+     4                                  extern exit,scanf,printf
+     5                                  import exit msvcrt.dll
+     6                                  import scanf msvcrt.dll
+     7                                  import printf msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10                                  
+    11 00000000 256300                      format db "%c",0
+    12 00000003 256400                      formator db "%d",0
+    13 00000006 00                          caracter db 0
+    14 00000007 6465206C61206D6F61-         sir db "de la moara pan la gara , am fumat inc-o tigara",0
+    14 00000010 72612070616E206C61-
+    14 00000019 2067617261202C2061-
+    14 00000022 6D2066756D61742069-
+    14 0000002B 6E632D6F2074696761-
+    14 00000034 726100             
+    15                                      len equ $-sir
+    16                                  
+    17                                  segment code use32 class=code
+    18                                      start:
+    19 00000000 68[06000000]                    push dword caracter
+    20 00000005 68[00000000]                    push format
+    21 0000000A FF15[00000000]                  call [scanf]
+    22 00000010 83C408                          add esp, 4*2
+    23                                          
+    24                                          
+    25                                          
+    26 00000013 BF[07000000]                    mov edi, sir
+    27 00000018 A0[06000000]                    mov al,[caracter]
+    28 0000001D B930000000                      mov ecx,len
+    29 00000022 BB00000000                      mov ebx,0
+    30 00000027 FC                              cld
+    31                                          
+    32                                          repet:
+    33 00000028 AE                                  scasb 
+    34 00000029 7501                                jne cont
+    35 0000002B 43                                  inc ebx
+    36                                              
+    37                                              cont:
+    38 0000002C E2FA                            loop repet
+    39                                          
+    40 0000002E 53                              push ebx
+    41 0000002F 68[03000000]                    push formator
+    42 00000034 FF15[00000000]                  call [printf]
+    43 0000003A 83C408                          add esp, 4*2
+    44                                          
+    45                                  
+    46                                  
+    47 0000003D 6A00                            push    dword 0
+    48 0000003F FF15[00000000]                  call    [exit]

@@ -1,0 +1,58 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  
+     4                                  
+     5                                  extern exit, scanf,printf
+     6                                  import exit msvcrt.dll
+     7                                  import scanf msvcrt.dll
+     8                                  import printf msvcrt.dll
+     9                                  
+    10                                  
+    11                                  segment data use32 class=data
+    12 00000000 436174203D2025642C-         mesaj db "Cat = %d, rest = %d",0
+    12 00000009 2072657374203D2025-
+    12 00000012 6400               
+    13 00000014 256400                      format db "%d",0
+    14 00000017 0000                        a dw 0
+    15 00000019 0000                        b dw 0
+    16                                  
+    17                                  
+    18                                  segment code use32 class=code
+    19                                  
+    20                                      start:
+    21                                      
+    22 00000000 68[17000000]                    push dword a
+    23 00000005 68[14000000]                    push dword format
+    24 0000000A FF15[00000000]                  call [scanf]
+    25 00000010 83C408                          add esp ,4*2
+    26                                          
+    27 00000013 68[19000000]                    push dword b
+    28 00000018 68[14000000]                    push dword format
+    29 0000001D FF15[00000000]                  call [scanf]
+    30 00000023 83C408                          add esp, 4*2
+    31 00000026 B800000000                      mov eax,0
+    32 0000002B BB00000000                      mov ebx,0
+    33 00000030 66A1[17000000]                  mov ax, [a]
+    34 00000036 668B1D[19000000]                mov bx, [b]
+    35 0000003D 6699                            cwd
+    36 0000003F 66F7FB                          idiv bx ;ax-cat dx-rest
+    37                                          
+    38                                          
+    39                                        
+    40                                          
+    41                                          
+    42 00000042 98                              cwde
+    43 00000043 89C3                            mov ebx, eax
+    44 00000045 6689D0                          mov ax,dx
+    45 00000048 98                              cwde
+    46                                          
+    47                                          
+    48 00000049 50                              push eax
+    49 0000004A 53                              push ebx
+    50 0000004B 68[00000000]                    push mesaj
+    51 00000050 FF15[00000000]                  call [printf]
+    52 00000056 83C40C                          add esp, 4*3
+    53                                          
+    54                                      
+    55 00000059 6A00                            push    dword 0
+    56 0000005B FF15[00000000]                  call    [exit]

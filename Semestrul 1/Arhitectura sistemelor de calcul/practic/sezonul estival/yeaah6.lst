@@ -1,0 +1,54 @@
+     1                                  bits 32
+     2                                  global start        
+     3                                  
+     4                                  extern exit, scanf, printf
+     5                                  import exit msvcrt.dll
+     6                                  import scanf msvcrt.dll
+     7                                  import printf msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 25642F25643D256400          mesaj db "%d/%d=%d",0
+    11 00000009 256400                      format db "%d",0
+    12 0000000C 00000000                    a dd 0 
+    13 00000010 0000                        b dw 0
+    14                                      
+    15                                  
+    16                                  segment code use32 class=code
+    17                                      start:
+    18                                      
+    19 00000000 68[0C000000]                    push dword a
+    20 00000005 68[09000000]                    push format
+    21 0000000A FF15[00000000]                  call [scanf]
+    22 00000010 83C404                          add esp, 4*1
+    23                                          
+    24 00000013 68[10000000]                    push dword b
+    25 00000018 68[09000000]                    push format
+    26 0000001D FF15[00000000]                  call [scanf]
+    27 00000023 83C404                          add esp, 4*1
+    28                                          
+    29 00000026 66A1[0C000000]                  mov ax, [a]
+    30 0000002C 668B15[0E000000]                mov dx, [a+2]
+    31                                          
+    32 00000033 668B1D[10000000]                mov bx, [b]
+    33 0000003A 66F7FB                          idiv bx; catul e in ax
+    34                                          
+    35 0000003D 98                              cwde ; catul e in eax
+    36 0000003E 50                              push eax
+    37                                          
+    38                                          
+    39 0000003F FF35[0C000000]                  push dword [a]
+    40 00000045 6689D8                          mov ax, bx
+    41 00000048 98                              cwde
+    42 00000049 50                              push eax
+    43                                          
+    44                                          
+    45 0000004A 68[00000000]                    push mesaj
+    46 0000004F FF15[00000000]                  call [printf]
+    47 00000055 83C408                          add esp, 4*2
+    48                                      
+    49                                      
+    50                                      
+    51                                  
+    52                                  
+    53 00000058 6A00                            push    dword 0
+    54 0000005A FF15[00000000]                  call    [exit]

@@ -1,0 +1,77 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  
+     4                                  
+     5                                  extern exit, scanf,printf
+     6                                  import exit msvcrt.dll
+     7                                  import scanf msvcrt.dll
+     8                                  import printf msvcrt.dll
+     9                                  
+    10                                  
+    11                                  segment data use32 class=data
+    12                                  
+    13                                      
+    14 00000000 256400                      form db "%d",0
+    15 00000003 2564203C20256400            fmic db"%d < %d",0
+    16 0000000B 2564203D20256400            fegal db"%d = %d",0
+    17 00000013 2564203E20256400            fmare db"%d > %d",0
+    18                                  
+    19                                      
+    20 0000001B 00000000                    a dd 0
+    21 0000001F 00000000                    b dd 0
+    22                                  
+    23                                  
+    24                                  segment code use32 class=code
+    25                                  
+    26                                      start:
+    27                                      
+    28 00000000 68[1B000000]                    push dword a
+    29 00000005 68[00000000]                    push dword form
+    30 0000000A FF15[00000000]                  call [scanf]
+    31 00000010 83C408                          add esp ,4*2
+    32                                          
+    33 00000013 68[1F000000]                    push dword b
+    34 00000018 68[00000000]                    push dword form
+    35 0000001D FF15[00000000]                  call [scanf]
+    36 00000023 83C408                          add esp ,4*2
+    37                                          
+    38 00000026 A1[1B000000]                    mov eax, [a]
+    39 0000002B 8B1D[1F000000]                  mov ebx, [b]
+    40 00000031 39D8                            cmp eax,ebx
+    41                                          
+    42 00000033 7732                            ja mare
+    43 00000035 7218                            jb mic
+    44                                          
+    45                                          
+    46                                          egal:
+    47 00000037 53                              push ebx
+    48 00000038 50                              push eax
+    49 00000039 68[0B000000]                    push dword fegal
+    50 0000003E FF15[00000000]                  call [printf]
+    51 00000044 83C408                          add esp, 4*2
+    52                                          
+    53 00000047 6A00                            push    dword 0
+    54 00000049 FF15[00000000]                  call    [exit]
+    55                                          
+    56                                          mic:
+    57 0000004F 53                              push ebx
+    58 00000050 50                              push eax
+    59 00000051 68[03000000]                    push dword fmic
+    60 00000056 FF15[00000000]                  call [printf]
+    61 0000005C 83C408                          add esp, 4*2
+    62                                          
+    63 0000005F 6A00                            push    dword 0
+    64 00000061 FF15[00000000]                  call    [exit]        
+    65                                          
+    66                                          mare:
+    67 00000067 53                              push ebx
+    68 00000068 50                              push eax
+    69 00000069 68[13000000]                    push dword fmare
+    70 0000006E FF15[00000000]                  call [printf]
+    71 00000074 83C408                          add esp, 4*2
+    72                                          
+    73                                    
+    74 00000077 6A00                            push    dword 0
+    75 00000079 FF15[00000000]                  call    [exit]
+    76                                          
+    77                                          

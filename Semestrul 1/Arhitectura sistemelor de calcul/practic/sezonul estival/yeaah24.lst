@@ -1,0 +1,78 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  
+     4                                  
+     5                                  extern exit, scanf,printf
+     6                                  import exit msvcrt.dll
+     7                                  import scanf msvcrt.dll
+     8                                  import printf msvcrt.dll
+     9                                  
+    10                                  
+    11                                  segment data use32 class=data
+    12                                  
+    13                                      
+    14 00000000 256400                      form db "%d",0
+    15 00000003 42696E6172793A2025-         binary_output db "Binary: %s", 10, 0
+    15 0000000C 730A00             
+    16 0000000F 30<rept>                    string times 32 db '0'
+    17 0000002F <res 00000001>              stop resb 1
+    18                                  
+    19                                      
+    20 00000030 00000000                    a dd 0
+    21 00000034 00000000                    b dd 0
+    22 00000038 11000000                    k dd 17
+    23                                  
+    24                                  
+    25                                  segment code use32 class=code
+    26                                  
+    27                                      start:
+    28                                      
+    29 00000000 68[30000000]                    push dword a
+    30 00000005 68[00000000]                    push dword form
+    31 0000000A FF15[00000000]                  call [scanf]
+    32 00000010 83C408                          add esp ,4*2
+    33                                          
+    34 00000013 68[34000000]                    push dword b
+    35 00000018 68[00000000]                    push dword form
+    36 0000001D FF15[00000000]                  call [scanf]
+    37 00000023 83C408                          add esp ,4*2
+    38                                          
+    39 00000026 A1[30000000]                    mov eax, [a] 
+    40 0000002B 2B05[34000000]                  sub eax, [b]
+    41                                          
+    42 00000031 8B1D[38000000]                  mov ebx, [k]
+    43 00000037 F7E3                            mul ebx
+    44                                          ; eax = (a-b)*k  fiindca avem numere mici nu trecem pe edx
+    45                                          
+    46 00000039 B920000000                      mov ecx, 32
+    47                                          
+    48 0000003E 8D3D[2E000000]                  lea edi, [string+31]
+    49                                          
+    50                                          
+    51                                          convert:
+    52 00000044 D1E8                                shr eax, 1
+    53 00000046 7202                                jc set
+    54                                              
+    55 00000048 EB03                                jmp next
+    56                                  
+    57                                              set:
+    58 0000004A C60731                                  mov byte [edi], '1'
+    59                                                  
+    60                                              next:
+    61 0000004D 4F                                      dec edi
+    62 0000004E E2F4                            loop convert
+    63                                          
+    64                                          
+    65                                          
+    66 00000050 68[0F000000]                    push dword string
+    67 00000055 68[03000000]                    push binary_output
+    68 0000005A FF15[00000000]                  call [printf]
+    69 00000060 83C408                          add esp, 4*2
+    70                                             
+    71                                        
+    72                                          
+    73                                    
+    74 00000063 6A00                            push    dword 0
+    75 00000065 FF15[00000000]                  call    [exit]
+    76                                          
+    77                                          
