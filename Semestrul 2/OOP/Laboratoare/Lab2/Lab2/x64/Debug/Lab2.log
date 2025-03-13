@@ -1,0 +1,10 @@
+﻿  main.c
+C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 2\OOP\Laboratoare\Lab2\main.c(17,14): warning C4473: 'scanf_s' : not enough arguments passed for format string
+      C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 2\OOP\Laboratoare\Lab2\main.c(17,14):
+      placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+      C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 2\OOP\Laboratoare\Lab2\main.c(17,14):
+      the missing variadic argument 2 is required by format string '%c'
+      C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 2\OOP\Laboratoare\Lab2\main.c(17,14):
+      this argument is used as a buffer size
+  
+  Lab2.vcxproj -> C:\Users\Top Dev Bln\Desktop\UBB\Semestrul 2\OOP\Laboratoare\Lab2\x64\Debug\Lab2.exe

@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{72E34043-97CD-417B-8DA6-A95D347DF173}|Laborator1CareMerge.vcxproj|C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{72E34043-97CD-417B-8DA6-A95D347DF173}|Laborator1CareMerge.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72E34043-97CD-417B-8DA6-A95D347DF173}|Laborator1CareMerge.vcxproj|C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\bro.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{72E34043-97CD-417B-8DA6-A95D347DF173}|Laborator1CareMerge.vcxproj|solutionrelative:bro.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "bro.c",
+              "DocumentMoniker": "C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\bro.c",
+              "RelativeDocumentMoniker": "bro.c",
+              "ToolTip": "C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\bro.c",
+              "RelativeToolTip": "bro.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-06T15:05:42.627Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.c",
+              "DocumentMoniker": "C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\main.c",
+              "RelativeDocumentMoniker": "main.c",
+              "ToolTip": "C:\\Users\\Top Dev Bln\\Desktop\\UBB\\Semestrul 2\\OOP\\lab1\\Laborator1CareMerge\\main.c",
+              "RelativeToolTip": "main.c",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAABAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-06T14:53:48.221Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
