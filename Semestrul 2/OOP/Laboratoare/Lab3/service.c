@@ -8,22 +8,28 @@
 
 
 
+
+
+
 int actualizareMasinaService(Repo *repo, const char *nr_inmatriculare, const char *model_nou, const char *categorie_noua) {
     //input : repo - pointer la Repository, nr_inmatriculare - pointer la sir de caractere, model_nou - pointer la sir de caractere, categorie_noua - pointer la sir de caractere
     //output : returneaza 1 daca masina a fost actualizata cu succes, 0 altfel,
     //Functia cauta masina cu numarul de inmatriculare dat si o actualizeaza cu datele introduse
-    int index = cautaMasinaDupaInmatriculare(repo, nr_inmatriculare);
-    if (index == -1) {
+
+
+    if (model_nou == NULL || strlen(model_nou) == 0 || categorie_noua == NULL || strlen(categorie_noua) == 0) {
         return 0;
     }
 
 
-    strncpy(repo->masini[index].model, model_nou, MAX_LEN - 1);
-    repo->masini[index].model[MAX_LEN - 1] = '\0';
-    strncpy(repo->masini[index].categorie, categorie_noua, MAX_LEN - 1);
-    repo->masini[index].categorie[MAX_LEN - 1] = '\0';
+    Masina m_nou;
+    strncpy(m_nou.model, model_nou, MAX_LEN - 1);
+    m_nou.model[MAX_LEN - 1] = '\0';
+    strncpy(m_nou.categorie, categorie_noua, MAX_LEN - 1);
+    m_nou.categorie[MAX_LEN - 1] = '\0';
 
-    return 1;
+
+    return actualizareMasinaRepo(repo, nr_inmatriculare, &m_nou);
 }
 int adaugaMasinaService(Repo *repo, const char *nr_inmatriculare, const char *model, const char *categorie) {
     //input : repo - pointer la Repository, nr_inmatriculare - pointer la sir de caractere, model - pointer la sir de caractere, categorie - pointer la sir de caractere

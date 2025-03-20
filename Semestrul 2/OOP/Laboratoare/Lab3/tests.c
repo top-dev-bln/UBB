@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 void setupMockRepo(Repo *repo) {
@@ -13,37 +14,50 @@ void setupMockRepo(Repo *repo) {
     adaugaMasinaService(repo, "TM99XYZ", "Mercedes", "SUV");
     adaugaMasinaService(repo, "GL20FRT", "Volkswagen", "Hatchback");
 }
-
 void test_adaugaMasinaService() {
     Repo repo;
     initRepo(&repo);
 
+    assert(adaugaMasinaService(&repo, "B123ABD", "Dacia", "SUV") == 1);
+    assert(adaugaMasinaService(&repo, "CS13LOL2", "BMW", "Sport") == 1);
+    assert(adaugaMasinaService(&repo, "AR16DEG", "Audi", "Sedan") == 1);
+    assert(adaugaMasinaService(&repo, "TM99XYA", "Mercedes", "SUV") == 1);
+    assert(adaugaMasinaService(&repo, "GL20FRT2", "Volkswagen", "Hatchback") == 1);
 
-    assert(adaugaMasinaService(&repo, "B123ABC", "Dacia", "SUV") == 1);
-    assert(repo.dim == 1);
-    assert(strcmp(repo.masini[0].nr_inmatriculare, "B123ABC") == 0);
+    assert(repo.dim == 5);
+
+    assert(adaugaMasinaService(&repo, "B123ABD", "Renault", "Sedan") == 0);
+    assert(repo.dim == 5);
+
+    assert(adaugaMasinaService(&repo, "B123ABE", "Dacia", "SUV") == 1);
+    assert(adaugaMasinaService(&repo, "CS13LOL3", "BMW", "Sport") == 1);
+    assert(adaugaMasinaService(&repo, "AR16DEH", "Audi", "Sedan") == 1);
+    assert(adaugaMasinaService(&repo, "TM99XYB", "Mercedes", "SUV") == 1);
+    assert(adaugaMasinaService(&repo, "GL20FRT3", "Volkswagen", "Hatchback") == 1);
+
+    assert(repo.dim == 10);
+
+    assert(strcmp(repo.masini[0].nr_inmatriculare, "B123ABD") == 0);
     assert(strcmp(repo.masini[0].model, "Dacia") == 0);
     assert(strcmp(repo.masini[0].categorie, "SUV") == 0);
 
+    assert(strcmp(repo.masini[4].nr_inmatriculare, "GL20FRT2") == 0);
+    assert(strcmp(repo.masini[4].model, "Volkswagen") == 0);
+    assert(strcmp(repo.masini[4].categorie, "Hatchback") == 0);
+
+    assert(adaugaMasinaService(&repo, "B123ABC", "Dacia", "SUV") == 1);
+    assert(repo.dim == 11);
+
+    assert(strcmp(repo.masini[10].nr_inmatriculare, "B123ABC") == 0);
+    assert(strcmp(repo.masini[10].model, "Dacia") == 0);
+    assert(strcmp(repo.masini[10].categorie, "SUV") == 0);
 
     assert(adaugaMasinaService(&repo, "B123ABC", "Renault", "Sedan") == 0);
-    assert(repo.dim == 1);
+    assert(repo.dim == 11);
+
+    elibereazaRepo(&repo);
 }
 
-void test_actualizareMasinaService() {
-    Repo repo;
-    setupMockRepo(&repo);
-
-
-    int index = cautaMasinaDupaInmatriculare(&repo, "B123ABC");
-    assert(index != -1);
-    assert(actualizareMasinaService(&repo, "B123ABC", "Dacia Logan", "Sedan") == 1);
-    assert(strcmp(repo.masini[index].model, "Dacia Logan") == 0);
-    assert(strcmp(repo.masini[index].categorie, "Sedan") == 0);
-
-
-    assert(actualizareMasinaService(&repo, "XXXXXXX", "Dacia", "SUV") == 0);
-}
 
 void test_inchiriereMasinaService() {
     Repo repo;
@@ -61,12 +75,13 @@ void test_inchiriereMasinaService() {
 
 
     inchiriereMasinaService(&repo, "XXXXXXX");
+    elibereazaRepo(&repo);
 }
 void test_filtrare() {
     Repo repo;
     setupMockRepo(&repo);
 
-    Masina filtered[MAX_MASINI];
+    Masina *filtered = (Masina*)malloc(repo.dim * sizeof(Masina));
     int count;
 
     count = filtrare(&repo, '1', "SUV", filtered);
@@ -82,8 +97,38 @@ void test_filtrare() {
 
     count = filtrare(&repo, '1', "Limuzina", filtered);
     assert(count == 0);
-}
 
+    free(filtered);
+    elibereazaRepo(&repo);
+}
+void test_actualizareMasina() {
+    Repo repo;
+    initRepo(&repo);
+
+    assert(actualizareMasinaService(&repo, "B123ABC", "Dacia Logan", "Sedan") == 0);
+
+    adaugaMasinaService(&repo, "B123ABC", "Dacia", "SUV");
+    adaugaMasinaService(&repo, "CS13LOL", "BMW", "Sport");
+
+    int index = cautaMasinaDupaInmatriculare(&repo, "B123ABC");
+    assert(index != -1);
+    assert(actualizareMasinaService(&repo, "B123ABC", "Dacia Logan", "Sedan") == 1);
+    assert(strcmp(repo.masini[index].model, "Dacia Logan") == 0);
+    assert(strcmp(repo.masini[index].categorie, "Sedan") == 0);
+    assert(strcmp(repo.masini[index].nr_inmatriculare, "B123ABC") == 0);
+
+    assert(actualizareMasinaService(&repo, "ZZ999ZZ", "Dacia", "SUV") == 0);
+
+    assert(actualizareMasinaService(&repo, "B123ABC", "", "Sedan") == 0);
+    assert(actualizareMasinaService(&repo, "B123ABC", "Dacia Logan", "") == 0);
+
+    assert(repo.dim == 2);
+    assert(strcmp(repo.masini[index].nr_inmatriculare, "B123ABC") == 0);
+    assert(strcmp(repo.masini[index].model, "Dacia Logan") == 0);
+    assert(strcmp(repo.masini[index].categorie, "Sedan") == 0);
+
+    elibereazaRepo(&repo);
+}
 void test_sortareMasini() {
     Repo repo;
     initRepo(&repo);
@@ -92,7 +137,7 @@ void test_sortareMasini() {
     assert(adaugaMasinaService(&repo, "CS13LOL", "BMW", "Sport") == 1);
     assert(adaugaMasinaService(&repo, "AR16DEF", "Audi", "Sedan") == 1);
 
-    Masina sorted[MAX_MASINI];
+    Masina *sorted = (Masina*)malloc(repo.dim * sizeof(Masina));
 
     int count = sortareMasini(&repo, '1', '1', sorted);
     assert(count == 3);
@@ -122,6 +167,7 @@ void test_sortareMasini() {
     assert(adaugaMasinaService(&repo, "Y456DEF", "Chevrolet", "Sedan") == 1);
 
     count = sortareMasini(&repo, '2', '1', sorted);
+
     assert(count == 5);
     assert(strcmp(sorted[0].categorie, "Convertible") == 0);
     assert(strcmp(sorted[1].categorie, "Sedan") == 0);
@@ -136,11 +182,15 @@ void test_sortareMasini() {
     assert(strcmp(sorted[2].categorie, "Sedan") == 0);
     assert(strcmp(sorted[3].categorie, "Sedan") == 0);
     assert(strcmp(sorted[4].categorie, "Convertible") == 0);
+
+
+    free(sorted);
+    elibereazaRepo(&repo);
 }
 
 void run_all_tests() {
     test_adaugaMasinaService();
-    test_actualizareMasinaService();
+    test_actualizareMasina();
     test_inchiriereMasinaService();
     test_filtrare();
     test_sortareMasini();

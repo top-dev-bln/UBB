@@ -15,6 +15,6 @@ typedef struct {
 } Masina;
 
 void creareMasina(Masina *m, const char *nr_inmatriculare, const char *model, const char *categorie);
-void afisareMasina(const Masina *m);
+
 
 #endif

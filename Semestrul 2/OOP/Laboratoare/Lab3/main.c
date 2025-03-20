@@ -17,7 +17,7 @@
 
 int main() {
     run_all_tests();
-    run();
+
 
 
     return 0;

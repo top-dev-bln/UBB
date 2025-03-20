@@ -1,6 +1,3 @@
-//
-// Created by Balan Andrei Daniel on 13.03.2025.
-//
 #include "ui.h"
 #include "service.h"
 #include <stdio.h>
@@ -24,6 +21,26 @@ void get_opt(char* opt) {
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF) {}
     system("clear");
+}
+
+
+
+
+void afisareMasina(const Masina *m) {
+
+    printf("Numar: %s, Model: %s, Categorie: %s, Status: %s\n",
+           m->nr_inmatriculare, m->model, m->categorie,
+           m->inchiriata ? "inchiriata" : "disponibila");
+}
+int afisareToateMasinile(const Repo *repo) {
+
+    if (repo->dim == 0) {
+        return 0;
+    }
+    for (int i = 0; i < repo->dim; i++) {
+        afisareMasina(&repo->masini[i]);
+    }
+    return 1;
 }
 
 void run() {
@@ -96,8 +113,7 @@ void run() {
                 printf("Masina cu numarul de inmatriculare %s a fost inchiriata cu succes!\n", nr_inmatriculare);
                 break;
             }
-
-            case '4':
+            case '4': {
                 printf("Vizualizare masini dupa un criteriu dat (categorie, model)\n");
                 printf("1. Filtrare dupa categorie\n");
                 printf("2. Filtrare dupa model\n");
@@ -112,21 +128,19 @@ void run() {
                 printf("Introduceti criteriul de filtrare: ");
                 scanf(" %49s", filtru);
 
+                Masina* filtered = (Masina*)malloc(repo.dim * sizeof(Masina));
+                int count = filtrare(&repo, subOpt, filtru, filtered);
 
-                Masina filtered[MAX_MASINI];
-            int count = filtrare(&repo,subOpt, filtru, filtered);
-
-            if (count == 0) {
-                printf("Nu exista masini care sa satisfaca criteriul de filtrare!\n");
-            } else {
-
-                for (int i = 0; i < count; i++) {
-                    afisareMasina(&filtered[i]);
+                if (count == 0) {
+                    printf("Nu exista masini care sa satisfaca criteriul de filtrare!\n");
+                } else {
+                    for (int i = 0; i < count; i++) {
+                        afisareMasina(&filtered[i]);
+                    }
                 }
-            }
-
-
+                free(filtered);
                 break;
+            }
             case '5': {
                 printf("Sortare masini dupa:\n");
                 printf("1. Model\n");
@@ -152,7 +166,7 @@ void run() {
                     break;
                 }
 
-                Masina sorted[MAX_MASINI];
+                Masina* sorted = (Masina*)malloc(repo.dim * sizeof(Masina));
                 int count = sortareMasini(&repo, subOpt, ordine, sorted);
 
                 if (count == 0) {
@@ -163,6 +177,7 @@ void run() {
                         afisareMasina(&sorted[i]);
                     }
                 }
+                free(sorted);
                 break;
             }
             case 'e':

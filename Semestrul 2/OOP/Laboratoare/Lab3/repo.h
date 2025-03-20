@@ -7,17 +7,18 @@
 
 #include "masina.h"
 
-#define MAX_MASINI 100
 
 typedef struct {
-    Masina masini[MAX_MASINI];
+    Masina *masini;
     int dim;
+    int capacitate;
 } Repo;
+
 
 void initRepo(Repo *repo);
 int actualizareMasinaRepo(Repo *repo, const char *nr_inmatriculare, const Masina *m_nou);
 int cautaMasinaDupaInmatriculare(const Repo *repo, const char *nr_inmatriculare);
 int adaugaMasinaRepo(Repo *repo, const Masina *m);
-int afisareToateMasinile(const Repo *repo);
+void elibereazaRepo(Repo *repo);
 
 #endif // REPO_H

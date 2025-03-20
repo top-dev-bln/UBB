@@ -17,10 +17,3 @@ void creareMasina(Masina *m, const char *nr_inmatriculare, const char *model, co
     m->inchiriata = 0;
 }
 
-void afisareMasina(const Masina *m) {
-    // input : m - pointer la masina
-    // output : - , afiseaza datele masinii
-    printf("Numar: %s, Model: %s, Categorie: %s, Status: %s\n",
-           m->nr_inmatriculare, m->model, m->categorie,
-           m->inchiriata ? "inchiriata" : "disponibila");
-}
