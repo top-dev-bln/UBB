@@ -1,0 +1,8 @@
+# ninja log v6
+2	35	1742460969953102361	CMakeFiles/Lab2.dir/repo.c.o	b4439f89c244f958
+1	43	1742460969952412025	CMakeFiles/Lab2.dir/ui.c.o	b858b83430d3d066
+1	35	1742460969952975319	CMakeFiles/Lab2.dir/service.c.o	b0d92637e736e5bb
+2	37	1742460969953253611	CMakeFiles/Lab2.dir/tests.c.o	b97ec67823a0ede2
+1	34	1742460969952820360	CMakeFiles/Lab2.dir/masina.c.o	eba9a3fd80d9be09
+43	71	1742460969994857231	Lab2	ec9c343e8a0b42aa
+0	25	1742412699735668717	CMakeFiles/Lab2.dir/main.c.o	e7a4d63cfc40ee2c
