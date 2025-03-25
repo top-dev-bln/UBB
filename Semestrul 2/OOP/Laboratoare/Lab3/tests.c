@@ -139,24 +139,25 @@ void test_sortareMasini() {
 
     Masina *sorted = (Masina*)malloc(repo.dim * sizeof(Masina));
 
+
     int count = sortareMasini(&repo, '1', '1', sorted);
     assert(count == 3);
     assert(strcmp(sorted[0].model, "Audi") == 0);
     assert(strcmp(sorted[1].model, "BMW") == 0);
     assert(strcmp(sorted[2].model, "Dacia") == 0);
-
+    sorted = (Masina*)realloc(sorted, repo.dim * sizeof(Masina));
     count = sortareMasini(&repo, '1', '2', sorted);
     assert(count == 3);
     assert(strcmp(sorted[0].model, "Dacia") == 0);
     assert(strcmp(sorted[1].model, "BMW") == 0);
     assert(strcmp(sorted[2].model, "Audi") == 0);
-
+    sorted = (Masina*)realloc(sorted, repo.dim * sizeof(Masina));
     count = sortareMasini(&repo, '2', '1', sorted);
     assert(count == 3);
     assert(strcmp(sorted[0].categorie, "Sedan") == 0);
     assert(strcmp(sorted[1].categorie, "Sport") == 0);
     assert(strcmp(sorted[2].categorie, "Suv") == 0);
-
+    sorted = (Masina*)realloc(sorted, repo.dim * sizeof(Masina));
     count = sortareMasini(&repo, '2', '2', sorted);
     assert(count == 3);
     assert(strcmp(sorted[0].categorie, "Suv") == 0);
@@ -165,7 +166,7 @@ void test_sortareMasini() {
 
     assert(adaugaMasinaService(&repo, "X123ABC", "Ford", "Convertible") == 1);
     assert(adaugaMasinaService(&repo, "Y456DEF", "Chevrolet", "Sedan") == 1);
-
+    sorted = (Masina*)realloc(sorted, repo.dim * sizeof(Masina));
     count = sortareMasini(&repo, '2', '1', sorted);
 
     assert(count == 5);
@@ -174,7 +175,7 @@ void test_sortareMasini() {
     assert(strcmp(sorted[2].categorie, "Sedan") == 0);
     assert(strcmp(sorted[3].categorie, "Sport") == 0);
     assert(strcmp(sorted[4].categorie, "Suv") == 0);
-
+    sorted = (Masina*)realloc(sorted, repo.dim * sizeof(Masina));
     count = sortareMasini(&repo, '2', '2', sorted);
     assert(count == 5);
     assert(strcmp(sorted[0].categorie, "Suv") == 0);

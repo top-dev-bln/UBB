@@ -81,7 +81,7 @@ int sortareMasini(Repo *repo, char criteriu, char ordine, Masina *sorted) {
         sorted[i] = repo->masini[i];
     }
 
-    // Bubble sort
+    // ok boomer
     for (int i = 0; i < repo->dim - 1; i++) {
         for (int j = 0; j < repo->dim - 1 - i; j++) {
             int cmp = 0;
