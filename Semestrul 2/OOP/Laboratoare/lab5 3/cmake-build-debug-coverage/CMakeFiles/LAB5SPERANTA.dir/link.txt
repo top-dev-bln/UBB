@@ -1,0 +1,1 @@
+/usr/bin/cc --coverage -fprofile-arcs -ftest-coverage -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror -g CMakeFiles/LAB5SPERANTA.dir/main.c.o CMakeFiles/LAB5SPERANTA.dir/ui.c.o CMakeFiles/LAB5SPERANTA.dir/controller.c.o CMakeFiles/LAB5SPERANTA.dir/oferta.c.o CMakeFiles/LAB5SPERANTA.dir/repo.c.o CMakeFiles/LAB5SPERANTA.dir/tests.c.o -o LAB5SPERANTA 

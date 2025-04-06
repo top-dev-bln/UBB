@@ -1,0 +1,3 @@
+/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug/CMakeFiles/LAB5SPERANTA.dir
+/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug/CMakeFiles/rebuild_cache.dir

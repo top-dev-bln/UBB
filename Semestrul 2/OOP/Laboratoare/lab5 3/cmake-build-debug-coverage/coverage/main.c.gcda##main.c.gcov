@@ -1,0 +1,16 @@
+        -:    0:Source:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/main.c
+        -:    0:Graph:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/main.c.gcno
+        -:    0:Data:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/main.c.gcda
+        -:    0:Runs:1
+        -:    1:﻿#include "ui.h"
+        -:    2:
+function main called 1 returned 100% blocks executed 100%
+        1:    3:int main(void){
+        -:    4:	/* Rulează aplicația */
+        1:    5:    testAll();
+        1:    5-block  0
+call    0 returned 1
+        1:    6:    run();
+call    0 returned 1
+        1:    7:    return 0;
+        -:    8:}

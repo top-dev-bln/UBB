@@ -1,0 +1,11 @@
+# ninja log v6
+3	413	1743689829182778802	CMakeFiles/Lab6.dir/ui.cpp.o	d270674bb2b97fb8
+3	323	1743689774499997422	CMakeFiles/Lab6.dir/repository.cpp.o	5e63e377389b224b
+1	239	1743691141022500728	CMakeFiles/Lab6.dir/tests.cpp.o	4983827bfcab2b23
+2	32	1743686830070970779	/Users/top.dev.bln/Documents/UBB/Semestrul;2/OOP/Laboratoare/Lab6/Lab6	28616dfbc64c65e9
+233	257	1743691166462085373	Lab6	f34b4e3dd97c5f99
+2	278	1743691124805721226	CMakeFiles/Lab6.dir/service.cpp.o	e6aecd0dac8677cf
+2	352	1743686393497246671	CMakeFiles/Lab6.dir/oferta.cpp.o	2f9c092eddb4c78f
+22	48	1743686783525525419	bin/Lab6	9bfda3363cae710b
+2	233	1743691166230785722	CMakeFiles/Lab6.dir/main.cpp.o	2e83d785b9ffe6d9
+2	42	1743934086574463851	build.ninja	5ced5f28c2d66768

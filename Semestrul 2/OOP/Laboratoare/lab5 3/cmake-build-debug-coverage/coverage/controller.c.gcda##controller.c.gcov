@@ -1,0 +1,464 @@
+        -:    0:Source:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/controller.c
+        -:    0:Graph:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/controller.c.gcno
+        -:    0:Data:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/controller.c.gcda
+        -:    0:Runs:1
+        -:    1:﻿#include "controller.h"
+        -:    2:#include <string.h>
+        -:    3:#include <stdlib.h>
+        -:    4:
+        -:    5:#include "oferta.h"
+        -:    6:#include "repo.h"
+        -:    7:
+function addOferta called 32 returned 100% blocks executed 100%
+       32:    8:int addOferta(MyList* v, MyList* undo_list, int id, char* tip,int suprafata, char* adresa, int pret) {
+        -:    9:	/*
+        -:   10:	*Creeaza o oferta noua si o adauga in lista v daca este valida.
+        -:   11:	Parametri:
+        -:   12:	v – pointer catre lista de oferte (MyList*).
+        -:   13:	id – identificator unic al ofertei (int).
+        -:   14:	tip – tipul ofertei (mare,munte sau city break) (char*).
+        -:   15:	suprafata – locatia ofertei (int).
+        -:   16:	adresa – data plecarii (char*).
+        -:   17:	pret – pretul ofertei (int).
+        -:   18:	Returneaza:
+        -:   19:	1 daca oferta a fost adaugata cu succes.
+        -:   20:	0 daca oferta este invalida si nu a fost adaugata.
+        -:   21:	 */
+       32:   22:	add(undo_list, copyList(v, copyOferta));
+       32:   22-block  0
+call    0 returned 32
+call    1 returned 32
+       32:   23:	if (findOferta(v, id) != -1)
+call    0 returned 32
+branch  1 taken 1 (fallthrough)
+branch  2 taken 31
+        -:   24:	{
+        1:   25:		return 0;
+        1:   25-block  0
+        -:   26:	}
+       31:   27:	Oferta* o = createOferta(id, tip, suprafata, adresa, pret);
+       31:   27-block  0
+call    0 returned 31
+       31:   28:	int c = valideazaOferta(o);
+call    0 returned 31
+       31:   29:	if (c == 1)
+branch  0 taken 31 (fallthrough)
+branch  1 taken 0
+        -:   30:	{
+       31:   31:		add(v, o);
+       31:   31-block  0
+call    0 returned 31
+        -:   32:	}
+       31:   33:	return c;
+       31:   33-block  0
+        -:   34:}
+        -:   35:
+function findOferta called 37 returned 100% blocks executed 100%
+       37:   36:int findOferta(MyList* v, int id) {
+        -:   37:	/*
+        -:   38:	*Cauta o oferta cu id-ul specificat in lista v.
+        -:   39:	Parametri:
+        -:   40:	v – pointer catre lista de oferte (MyList*).
+        -:   41:	id – identificatorul unic al ofertei cautate (int).
+        -:   42:	Returneaza:
+        -:   43:	Pozitia ofertei in lista (int) daca este gasita.
+        -:   44:	-1 daca oferta nu exista in lista.
+        -:   45:	 */
+       37:   46:	int poz_to_delete = -1;
+       75:   47:	for (int i = 0; i < v->length; i++) {
+       37:   47-block  0
+       38:   47-block  1
+       75:   47-block  2
+branch  0 taken 42
+branch  1 taken 33 (fallthrough)
+       42:   48:		Oferta* o = get(v, i);
+       42:   48-block  0
+call    0 returned 42
+       42:   49:		if (id == o->id) {
+branch  0 taken 4 (fallthrough)
+branch  1 taken 38
+        4:   50:			poz_to_delete = i;
+        4:   51:			break;
+        4:   51-block  0
+        -:   52:		}
+        -:   53:	}
+       37:   54:	return poz_to_delete;
+       37:   54-block  0
+        -:   55:}
+        -:   56:
+function modifyOferta called 2 returned 100% blocks executed 93%
+        2:   57:int modifyOferta(MyList* v, MyList* undo_list, int id, char* tip_nou, int suprafata_noua, char* adresa_noua, int pret_nou) {
+        -:   58:	/*
+        -:   59:	* Modifica datele unei oferte existente cu id-ul specificat.
+        -:   60:	Parametri:
+        -:   61:	v – pointer catre lista de oferte (MyList*).
+        -:   62:	id – identificatorul unic al ofertei care trebuie modificata (int).
+        -:   63:	tip_nou – noul tip al ofertei (char*).
+        -:   64:	suprafata_noua – noua suprafata (int).
+        -:   65:	adresa_noua – noua adresa (char*).
+        -:   66:	pret_nou – noul pret al ofertei (int).
+        -:   67:	Returneaza:
+        -:   68:	1 daca modificarea a fost realizata cu succes.
+        -:   69:	0 daca oferta nu a fost gasita si nu s-a modificat nimic.
+        -:   70:	 */
+        2:   71:	add(undo_list, copyList(v, copyOferta));
+        2:   71-block  0
+call    0 returned 2
+call    1 returned 2
+        2:   72:	int poz_to_delete = findOferta(v, id);
+call    0 returned 2
+        2:   73:	if (poz_to_delete != -1) {
+branch  0 taken 1 (fallthrough)
+branch  1 taken 1
+        1:   74:		Oferta* ofertaNoua = createOferta(id, tip_nou, suprafata_noua, adresa_noua, pret_nou);
+        1:   74-block  0
+call    0 returned 1
+        1:   75:		int valid = valideazaOferta(ofertaNoua);
+call    0 returned 1
+        1:   76:		if (valid != 1)
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+        -:   77:		{
+    #####:   78:			return valid;
+    %%%%%:   78-block  0
+        -:   79:		}
+        1:   80:		Oferta* o = get(v, poz_to_delete);
+        1:   80-block  0
+call    0 returned 1
+        1:   81:		destroyOferta(o);
+call    0 returned 1
+        1:   82:		setElem(v, poz_to_delete, ofertaNoua);
+call    0 returned 1
+        1:   83:		return 1;
+        -:   84:	}
+        1:   85:	return 0;
+        1:   85-block  0
+        -:   86:}
+        -:   87:
+function deleteOferta called 2 returned 100% blocks executed 100%
+        2:   88:int deleteOferta(MyList* v, MyList* undo_list, int id) {
+        -:   89:	/*
+        -:   90:	*Sterge o oferta cu id-ul dat din lista v, daca exista.
+        -:   91:	Parametri:
+        -:   92:	v – pointer catre lista de oferte (MyList*).
+        -:   93:	id – identificatorul unic al ofertei de sters (int).
+        -:   94:	Returneaza:
+        -:   95:	1 daca oferta a fost stearsa cu succes.
+        -:   96:	0 daca oferta nu a fost gasita.
+        -:   97:	 */
+        2:   98:	add(undo_list, copyList(v, copyOferta));
+        2:   98-block  0
+call    0 returned 2
+call    1 returned 2
+        2:   99:	int poz_to_delete = findOferta(v, id);
+call    0 returned 2
+        2:  100:	if (poz_to_delete != -1) {
+branch  0 taken 1 (fallthrough)
+branch  1 taken 1
+        1:  101:		Oferta* o = delete(v, poz_to_delete);
+        1:  101-block  0
+call    0 returned 1
+        1:  102:		destroyOferta(o);
+call    0 returned 1
+        1:  103:		return 1;
+        -:  104:	}
+        1:  105:	return 0;
+        1:  105-block  0
+        -:  106:}
+        -:  107:
+function areaFilter called 2 returned 100% blocks executed 100%
+        2:  108:MyList* areaFilter(MyList* v, int suprafata) {
+        -:  109:	/*
+        -:  110:	* Creeaza si returneaza o noua lista de oferte care au aceeasi destinatie ca cea specificata.
+        -:  111:	*
+        -:  112:	* Parametri:
+        -:  113:	* v – pointer catre lista de oferte (MyList*).
+        -:  114:	* suprafata – suprafata pe care dorim sa o filtram (char*).
+        -:  115:	*
+        -:  116:	* Returneaza:
+        -:  117:	* O lista noua care contine doar ofertele cu suprafata respectiva.
+        -:  118:	* O copie a listei initiale daca suprafata este negativa sau nula.
+        -:  119:	*/
+        -:  120:
+        2:  121:	if (suprafata <= 0) {
+        2:  121-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 1
+        1:  122:		return copyList(v, (ElemType(*)(ElemType))copyOferta);
+        1:  122-block  0
+call    0 returned 1
+        -:  123:	}
+        -:  124:
+        1:  125:	MyList* filteredList = createEmpty();
+        1:  125-block  0
+call    0 returned 1
+        -:  126:
+        4:  127:	for (int i = 0; i < v->length; i++) {
+        3:  127-block  0
+        4:  127-block  1
+branch  0 taken 3
+branch  1 taken 1 (fallthrough)
+        3:  128:		Oferta* o = get(v, i);
+        3:  128-block  0
+call    0 returned 3
+        3:  129:		if (o != NULL && o->suprafata == suprafata) {
+branch  0 taken 3 (fallthrough)
+branch  1 taken 0
+        3:  129-block  0
+branch  2 taken 2 (fallthrough)
+branch  3 taken 1
+        2:  130:			add(filteredList, createOferta(o->id, o->tip, o->suprafata, o->adresa, o->pret));
+        2:  130-block  0
+call    0 returned 2
+call    1 returned 2
+        -:  131:		}
+        -:  132:	}
+        -:  133:
+        1:  134:	return filteredList;
+        1:  134-block  0
+        -:  135:}
+        -:  136:
+        -:  137:
+function tipFilter called 2 returned 100% blocks executed 100%
+        2:  138:MyList* tipFilter(MyList* v, char* tip) {
+        -:  139:	/*
+        -:  140:	* Creeaza si returneaza o lista noua cu ofertele care au acelasi tip ca cel specificat.
+        -:  141:	*
+        -:  142:	* Parametri:
+        -:  143:	* v – pointer catre lista de oferte (MyList*).
+        -:  144:	* tip – tipul ofertei pentru filtrare (char*).
+        -:  145:	*
+        -:  146:	* Returneaza:
+        -:  147:	* O lista noua care contine doar ofertele cu tipul specificat.
+        -:  148:	*/
+        -:  149:
+        2:  150:	if (strcmp(tip, "") == 0) {
+        2:  150-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 1
+        1:  151:		return copyList(v, (ElemType(*)(ElemType))copyOferta);
+        1:  151-block  0
+call    0 returned 1
+        -:  152:	}
+        -:  153:
+        1:  154:	MyList* filteredList = createEmpty();
+        1:  154-block  0
+call    0 returned 1
+        -:  155:
+        4:  156:	for (int i = 0; i < v->length; i++) {
+        3:  156-block  0
+        4:  156-block  1
+branch  0 taken 3
+branch  1 taken 1 (fallthrough)
+        3:  157:		Oferta* o = get(v, i);
+        3:  157-block  0
+call    0 returned 3
+        3:  158:		if (o != NULL && strcmp(o->tip, tip) == 0) {
+branch  0 taken 3 (fallthrough)
+branch  1 taken 0
+        3:  158-block  0
+branch  2 taken 2 (fallthrough)
+branch  3 taken 1
+        2:  159:			add(filteredList, createOferta(o->id, o->tip, o->suprafata, o->adresa, o->pret));
+        2:  159-block  0
+call    0 returned 2
+call    1 returned 2
+        -:  160:		}
+        -:  161:	}
+        -:  162:
+        1:  163:	return filteredList;
+        1:  163-block  0
+        -:  164:}
+        -:  165:
+        -:  166:
+function pretFilter called 2 returned 100% blocks executed 100%
+        2:  167:MyList* pretFilter(MyList* v, int pret) {
+        -:  168:	/*
+        -:  169:	* Creeaza si returneaza o lista noua cu ofertele care au acelasi pret ca cel specificat.
+        -:  170:	*
+        -:  171:	* Parametri:
+        -:  172:	* v – pointer catre lista de oferte (MyList*).
+        -:  173:	* pret – pretul ofertei pentru filtrare (int).
+        -:  174:	*
+        -:  175:	* Returneaza:
+        -:  176:	* O lista noua care contine doar ofertele cu pretul specificat.
+        -:  177:	* O copie a listei initiale daca pret este negativ sau zero.
+        -:  178:	*/
+        -:  179:
+        2:  180:	if (pret <= 0) {
+        2:  180-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 1
+        1:  181:		return copyList(v, (ElemType(*)(ElemType))copyOferta);
+        1:  181-block  0
+call    0 returned 1
+        -:  182:	}
+        -:  183:
+        1:  184:	MyList* filteredList = createEmpty();
+        1:  184-block  0
+call    0 returned 1
+        -:  185:
+        4:  186:	for (int i = 0; i < v->length; i++) {
+        3:  186-block  0
+        4:  186-block  1
+branch  0 taken 3
+branch  1 taken 1 (fallthrough)
+        3:  187:		Oferta* o = get(v, i);
+        3:  187-block  0
+call    0 returned 3
+        3:  188:		if (o != NULL && o->pret == pret) {
+branch  0 taken 3 (fallthrough)
+branch  1 taken 0
+        3:  188-block  0
+branch  2 taken 2 (fallthrough)
+branch  3 taken 1
+        2:  189:			add(filteredList, createOferta(o->id, o->tip, o->suprafata, o->adresa, o->pret));
+        2:  189-block  0
+call    0 returned 2
+call    1 returned 2
+        -:  190:		}
+        -:  191:	}
+        -:  192:
+        1:  193:	return filteredList;
+        1:  193-block  0
+        -:  194:}
+        -:  195:
+function adressFilter called 3 returned 100% blocks executed 100%
+        3:  196:MyList* adressFilter(MyList* v, char* adresa)
+        -:  197:{
+        -:  198:	/* Creeaza si returneaza o lista noua cu ofertele care au aceeasi adresa ca cea specificata.
+        -:  199:	 * Parametri:
+        -:  200:	 * v - pointer catre lista de oferte (MyList*).
+        -:  201:	 * adresa - adresa pe care dorim sa o filtram (char*).
+        -:  202:	 * Returneaza:
+        -:  203:	 * O lista noua care contine doar ofertele cu adresa respectiva.
+        -:  204:	 * O copie a listei initiale daca adresa este invalida sau goala.
+        -:  205:	 */
+        3:  206:	if (esteAdresaValida(adresa) == 0 || adresa == NULL) {
+        3:  206-block  0
+call    0 returned 3
+branch  1 taken 2 (fallthrough)
+branch  2 taken 1
+        2:  206-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 2
+        1:  207:		return copyList(v, (ElemType(*)(ElemType))copyOferta);
+        1:  207-block  0
+call    0 returned 1
+        -:  208:	}
+        2:  209:	MyList* filteredList = createEmpty();
+        2:  209-block  0
+call    0 returned 2
+        8:  210:	for (int i = 0; i < v->length; i++) {
+        6:  210-block  0
+        8:  210-block  1
+branch  0 taken 6
+branch  1 taken 2 (fallthrough)
+        6:  211:		Oferta* o = get(v, i);
+        6:  211-block  0
+call    0 returned 6
+        6:  212:		if (strcmp(o->adresa,adresa) == 0) {
+branch  0 taken 3 (fallthrough)
+branch  1 taken 3
+        3:  213:			add(filteredList, createOferta(o->id, o->tip, o->suprafata, o->adresa, o->pret));
+        3:  213-block  0
+call    0 returned 3
+call    1 returned 3
+        -:  214:		}
+        -:  215:	}
+        2:  216:	return filteredList;
+        2:  216-block  0
+        -:  217:}
+        -:  218:
+        -:  219:
+function sortOferte called 3 returned 100% blocks executed 95%
+        3:  220:void sortOferte(MyList* v, int criteriu, int ordine) {
+        -:  221:	/* Sorteaza lista de oferte dupa un criteriu specificat.
+        -:  222:	 * Parametri:
+        -:  223:	 * v - pointer catre lista de oferte (MyList*).
+        -:  224:	 * criteriu - criteriul de sortare (int).
+        -:  225:	 * ordine - ordinea de sortare (int).
+        -:  226:	 */
+        9:  227:	for (int i = 0; i < v->length - 1; i++) {
+        3:  227-block  0
+        6:  227-block  1
+        9:  227-block  2
+branch  0 taken 6
+branch  1 taken 3 (fallthrough)
+       15:  228:		for (int j = i + 1; j < v->length; j++) {
+        6:  228-block  0
+        9:  228-block  1
+       15:  228-block  2
+branch  0 taken 9
+branch  1 taken 6 (fallthrough)
+        9:  229:			int conditie = 0;
+        9:  230:			Oferta* o1 = get(v, i);
+        9:  230-block  0
+call    0 returned 9
+        9:  231:			Oferta* o2 = get(v, j);
+call    0 returned 9
+        9:  232:			if (criteriu == 1) {
+branch  0 taken 6 (fallthrough)
+branch  1 taken 3
+        6:  233:				conditie = (ordine == 1) ? (o1->pret > o2->pret) : (o1->pret < o2->pret);
+        6:  233-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 3
+        3:  233-block  1
+        3:  233-block  2
+        6:  233-block  3
+        -:  234:			}
+        3:  235:			else if (criteriu == 2) {
+        3:  235-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 0
+       3*:  236:				conditie = (ordine == 1) ? (strcmp(o1->tip, o2->tip) > 0) : (strcmp(o1->tip, o2->tip) < 0);
+        3:  236-block  0
+branch  0 taken 3 (fallthrough)
+branch  1 taken 0
+        3:  236-block  1
+    %%%%%:  236-block  2
+        3:  236-block  3
+        -:  237:			}
+        9:  238:			if (conditie) {
+        9:  238-block  0
+branch  0 taken 5 (fallthrough)
+branch  1 taken 4
+        5:  239:				setElem(v, i, o2);
+        5:  239-block  0
+call    0 returned 5
+        5:  240:				setElem(v, j, o1);
+call    0 returned 5
+        -:  241:			}
+        -:  242:		}
+        -:  243:	}
+        3:  244:}
+        -:  245:
+        -:  246:
+        -:  247:
+function undo called 2 returned 100% blocks executed 100%
+        2:  248:int undo(MyList** v, MyList* undo_list) {
+        -:  249:	/* Functie de undo care revine la starea anterioara a listei de oferte.
+        -:  250:	 * Parametri:
+        -:  251:	 * v - pointer catre lista de oferte (MyList**).
+        -:  252:	 * undo_list - lista de oferte anterioara (MyList*).
+        -:  253:	 * Returneaza:
+        -:  254:	 * 1 daca undo a fost realizat cu succes.
+        -:  255:	 * 0 daca undo nu a fost realizat.
+        -:  256:	 */
+        2:  257:	if (size(undo_list) == 0) {
+        2:  257-block  0
+call    0 returned 2
+branch  1 taken 1 (fallthrough)
+branch  2 taken 1
+        1:  258:		return 0;
+        1:  258-block  0
+        -:  259:	}
+        1:  260:	destroy(*v, (void (*)(void*))destroyOferta); 
+        1:  260-block  0
+call    0 returned 1
+        1:  261:	*v = (MyList*)delete(undo_list, size(undo_list) - 1); 
+call    0 returned 1
+call    1 returned 1
+        1:  262:	return 1;
+        -:  263:}

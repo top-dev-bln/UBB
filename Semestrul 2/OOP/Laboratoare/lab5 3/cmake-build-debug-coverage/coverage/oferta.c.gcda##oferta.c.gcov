@@ -1,0 +1,186 @@
+        -:    0:Source:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/oferta.c
+        -:    0:Graph:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/oferta.c.gcno
+        -:    0:Data:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/oferta.c.gcda
+        -:    0:Runs:1
+        -:    1:﻿#include "oferta.h"
+        -:    2:#include <string.h>
+        -:    3:#include <stdio.h>
+        -:    4:#include <stdlib.h>
+        -:    5:#include <ctype.h>
+        -:    6:
+        -:    7:// Creează o ofertă (cu alocare dinamică pentru câmpuri)
+function createOferta called 125 returned 100% blocks executed 100%
+      125:    8:Oferta* createOferta(int id, const char* tip, int suprafata, const char* adresa, int pret) {
+        -:    9:	/* Creează o ofertă nouă cu alocare dinamică pentru câmpuri.
+        -:   10:	 * Parametri:
+        -:   11:	 * id - identificatorul unic al ofertei (int).
+        -:   12:	 * tip - tipul ofertei (char*).
+        -:   13:	 * suprafata - suprafata ofertei (int).
+        -:   14:	 * adresa - adresa ofertei (char*).
+        -:   15:	 * pret - prețul ofertei (int).
+        -:   16:     */
+      125:   17:    Oferta* o = (Oferta*)malloc(sizeof(Oferta));
+        -:   18:
+      125:   19:    o->id = id;
+      125:   20:    o->pret = pret;
+      125:   21:    o->suprafata = suprafata;
+        -:   22:
+      125:   23:    size_t tip_len = strlen(tip) + 1;
+      125:   24:    size_t adr_len = strlen(adresa) + 1;
+        -:   25:
+      125:   26:    o->tip = (char*)malloc(tip_len);
+      125:   27:    o->adresa = (char*)malloc(adr_len);
+        -:   28:
+        -:   29:    // Copiem datele în câmpurile alocate
+      125:   30:    strcpy(o->tip, tip);
+      125:   31:    strcpy(o->adresa, adresa);
+        -:   32:
+      125:   33:    return o;
+      125:   33-block  0
+        -:   34:}
+        -:   35:
+function destroyOferta called 125 returned 100% blocks executed 100%
+      125:   36:void destroyOferta(Oferta* o) {
+        -:   37:    /*Distruge oferta și eliberează memoria dinamică alocată
+        -:   38:	 * Parametri:
+        -:   39:	 * o - pointer la Oferta
+        -:   40:	 */
+      125:   41:	if (o != NULL) {
+      125:   41-block  0
+branch  0 taken 125 (fallthrough)
+branch  1 taken 0
+      125:   42:        free(o->tip);
+      125:   43:        free(o->adresa);
+      125:   44:        free(o);
+      125:   44-block  0
+        -:   45:    }
+      125:   46:}
+        -:   47:
+function esteAdresaValida called 43 returned 100% blocks executed 95%
+       43:   48:int esteAdresaValida(const char* address) {
+       43:   49:    int len = strlen(address);
+       43:   50:    if (len < 5) return 0;
+       43:   50-block  0
+branch  0 taken 2 (fallthrough)
+branch  1 taken 41
+        2:   50-block  1
+        -:   51:
+       41:   52:    int i = 0;
+      366:   53:    while (i < len && isalpha(address[i])) i++; 
+       41:   53-block  0
+      325:   53-block  1
+      366:   53-block  2
+branch  0 taken 366 (fallthrough)
+branch  1 taken 0
+      366:   53-block  3
+branch  2 taken 325
+branch  3 taken 41 (fallthrough)
+        -:   54:
+       41:   55:    if (i == 0 || address[i] != ',') return 0;
+       41:   55-block  0
+branch  0 taken 40 (fallthrough)
+branch  1 taken 1
+       40:   55-block  1
+branch  2 taken 0 (fallthrough)
+branch  3 taken 40
+        1:   55-block  2
+       40:   56:    i++;
+        -:   57:
+      40*:   58:    if (strncmp(&address[i], "nr.", 3) != 0) return 0; 
+       40:   58-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 40
+    %%%%%:   58-block  1
+       40:   59:    i += 3;
+        -:   60:
+       40:   61:    if (!isdigit(address[i])) return 0;
+       40:   61-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 39
+        1:   61-block  1
+        -:   62:
+       83:   63:    while (i < len && isdigit(address[i])) i++; 
+       39:   63-block  0
+       44:   63-block  1
+       83:   63-block  2
+branch  0 taken 44 (fallthrough)
+branch  1 taken 39
+       44:   63-block  3
+branch  2 taken 44
+branch  3 taken 0 (fallthrough)
+        -:   64:
+       39:   65:    return i == len;
+       39:   65-block  0
+        -:   66:}
+        -:   67:
+        -:   68:
+function valideazaOferta called 37 returned 100% blocks executed 100%
+       37:   69:int valideazaOferta(Oferta* o) {
+        -:   70:	/* Validează o ofertă
+        -:   71:	 * Parametri:
+        -:   72:	 * o - pointer la Oferta
+        -:   73:	 * Returnează:
+        -:   74:	 * 1 dacă oferta este validă
+        -:   75:	 * 2 dacă tipul ofertei nu este valid
+        -:   76:	 * 3 dacă suprafata este negativa
+        -:   77:	 * 4 dacă adresa nu este validă
+        -:   78:	 * 5 dacă prețul este negativ
+        -:   79: 	 */
+       37:   80:    if (strcmp(o->tip, "casa") != 0 && strcmp(o->tip, "apartament") != 0 && strcmp(o->tip, "teren") != 0) {
+       37:   80-block  0
+branch  0 taken 24 (fallthrough)
+branch  1 taken 13
+       24:   80-block  1
+branch  2 taken 13 (fallthrough)
+branch  3 taken 11
+       13:   80-block  2
+branch  4 taken 1 (fallthrough)
+branch  5 taken 12
+        1:   81:        return 2; 
+        1:   81-block  0
+        -:   82:    }
+        -:   83:
+       36:   84:    if (o->suprafata <= 0) {
+       36:   84-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 35
+        1:   85:        return 3;
+        1:   85-block  0
+        -:   86:    }
+        -:   87:
+       35:   88:    if (!esteAdresaValida(o->adresa)) {
+       35:   88-block  0
+call    0 returned 35
+branch  1 taken 1 (fallthrough)
+branch  2 taken 34
+        1:   89:        return 4; 
+        1:   89-block  0
+        -:   90:    }
+        -:   91:
+       34:   92:    if (o->pret <= 0) {
+       34:   92-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 33
+        1:   93:        return 5; 
+        1:   93-block  0
+        -:   94:    }
+        -:   95:
+       33:   96:    return 1; 
+       33:   96-block  0
+        -:   97:}
+        -:   98:
+function copyOferta called 56 returned 100% blocks executed 100%
+       56:   99:void* copyOferta(void* o)
+        -:  100:{
+        -:  101:	/* Copiază o ofertă
+        -:  102:	 * Parametri:
+        -:  103:	 * o - pointer la Oferta
+        -:  104:	 * Returnează:
+        -:  105:	 * pointer la o nouă ofertă
+        -:  106:	 */
+       56:  107:	Oferta* ofertaOriginala = (Oferta*)o;
+       56:  108:	return createOferta(ofertaOriginala->id, ofertaOriginala->tip, ofertaOriginala->suprafata, ofertaOriginala->adresa, ofertaOriginala->pret);
+       56:  108-block  0
+call    0 returned 56
+        -:  109:
+        -:  110:}

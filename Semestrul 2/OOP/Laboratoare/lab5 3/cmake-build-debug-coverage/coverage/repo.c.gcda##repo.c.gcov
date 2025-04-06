@@ -1,0 +1,185 @@
+        -:    0:Source:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/repo.c
+        -:    0:Graph:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/repo.c.gcno
+        -:    0:Data:/mnt/c/Users/Ovidiu/CLionProjects/LAB5SPERANTA/cmake-build-debug-coverage/CMakeFiles/LAB5SPERANTA.dir/repo.c.gcda
+        -:    0:Runs:1
+        -:    1:﻿#include "repo.h"
+        -:    2:#include <stdlib.h>
+        -:    3:#include "oferta.h"
+        -:    4:
+function createEmpty called 72 returned 100% blocks executed 100%
+       72:    5:MyList* createEmpty() {
+        -:    6:	/* Creează o listă goală
+        -:    7:	 * Returnează:
+        -:    8:	 * noul obiect de tip MyList
+        -:    9:     */
+       72:   10:    MyList* v = (MyList*)malloc(sizeof(MyList));
+       72:   11:    v->length = 0;
+       72:   12:    v->capacity = 10;
+       72:   13:	v->elems = (ElemType*)malloc(sizeof(ElemType) * (size_t)v->capacity);
+       72:   14:    return v;
+       72:   14-block  0
+        -:   15:}
+        -:   16:
+function destroy called 72 returned 100% blocks executed 100%
+       72:   17:void destroy(MyList* v, void(*destroyELem)(ElemType)) {
+        -:   18:	/* Distruge lista și eliberează memoria
+        -:   19:	 * Parametri:
+        -:   20:	 * v - pointer la lista de oferte (MyList*).
+        -:   21:	 * *destroyElem - pointer la funcția de distrugere a elementelor din listă
+        -:   22:	 */
+       72:   23:    if (v != NULL)
+       72:   23-block  0
+branch  0 taken 72 (fallthrough)
+branch  1 taken 0
+        -:   24:    {
+      224:   25:		for (int i = 0; i < v->length; i++) {
+       72:   25-block  0
+      224:   25-block  1
+branch  0 taken 152
+branch  1 taken 72 (fallthrough)
+      152:   26:			destroyELem(v->elems[i]);
+      152:   26-block  0
+call    0 returned 152
+        -:   27:		}
+       72:   28:		free(v->elems);
+       72:   29:		free(v);
+       72:   29-block  0
+        -:   30:    }
+       72:   31:}
+        -:   32:
+function destroyOfertaLista called 35 returned 100% blocks executed 100%
+       35:   33:void destroyOfertaLista(void* l) {
+        -:   34:	/* Distruge o listă de oferte și eliberează memoria alocată
+        -:   35:	 * Parametri:
+        -:   36:	 * l - pointer la lista de oferte (MyList*)
+        -:   37:	 */
+       35:   38:    if (l != NULL) {
+       35:   38-block  0
+branch  0 taken 35 (fallthrough)
+branch  1 taken 0
+       35:   39:        destroy((MyList*)l, (void (*)(void*))destroyOferta);
+       35:   39-block  0
+call    0 returned 35
+        -:   40:    }
+       35:   41:}
+        -:   42:
+        -:   43:
+        -:   44:
+function get called 109 returned 100% blocks executed 100%
+      109:   45:ElemType get(MyList* v, int poz) {
+        -:   46:	/* Returnează elementul de pe poziția 'poz'
+        -:   47:	 * Parametri:
+        -:   48:	 * v - pointer la lista de oferte (MyList*).
+        -:   49:	 * poz - poziția elementului (int).
+        -:   50:	 * Returnează:
+        -:   51:	 * elementul de pe poziția 'poz'
+        -:   52:	 */
+      109:   53:    return v->elems[poz];
+      109:   53-block  0
+        -:   54:}
+        -:   55:
+function setElem called 11 returned 100% blocks executed 100%
+       11:   56:ElemType setElem(MyList* v, int poz, ElemType el) {
+        -:   57:	/* Pune un element pe poziția 'poz'
+        -:   58:	 * Parametri:
+        -:   59:	 * v - pointer la lista de oferte (MyList*).
+        -:   60:	 * poz - poziția elementului (int).
+        -:   61:	 * el - elementul de adăugat (ElemType).
+        -:   62:	 * Returnează:
+        -:   63:	 * elementul înlocuit
+        -:   64:	 */
+       11:   65:    ElemType replacedElement = v->elems[poz];
+       11:   66:    v->elems[poz] = el;
+       11:   67:    return replacedElement;
+       11:   67-block  0
+        -:   68:}
+        -:   69:
+function size called 24 returned 100% blocks executed 100%
+       24:   70:int size(MyList* v) {
+        -:   71:	/* Returnează numărul de elemente în listă
+        -:   72:	 * Parametri:
+        -:   73:	 * v - pointer la lista de oferte (MyList*).
+        -:   74:	 * Returnează:
+        -:   75:	 * lungimea listei
+        -:   76:	 */
+       24:   77:    return v->length;
+       24:   77-block  0
+        -:   78:}
+        -:   79:
+function resize called 1 returned 100% blocks executed 100%
+        1:   80:void resize(MyList* v) {
+        -:   81:	/* Redimensionează lista dublând capacitatea
+        -:   82:	 * Parametri:
+        -:   83:	 * v - pointer la lista de oferte (MyList*).
+        -:   84:	 */
+        1:   85:    v->capacity *= 2;
+        1:   86:    v->elems = (ElemType*)realloc(v->elems, sizeof(ElemType) * (size_t)v->capacity);
+        1:   87:}
+        -:   88:
+function add called 154 returned 100% blocks executed 100%
+      154:   89:void add(MyList* v, ElemType el) {
+        -:   90:	/* Adaugă un element în listă
+        -:   91:	 * Parametri:
+        -:   92:	 * v - pointer la lista de oferte (MyList*).
+        -:   93:	 * el - elementul de adăugat (ElemType).
+        -:   94:	 */
+      154:   95:    if (v->length == v->capacity) {
+      154:   95-block  0
+branch  0 taken 1 (fallthrough)
+branch  1 taken 153
+        1:   96:        resize(v);
+        1:   96-block  0
+call    0 returned 1
+        -:   97:    }
+      154:   98:    v->elems[v->length] = el;
+      154:   99:    v->length++;
+      154:  100:}
+        -:  101:
+function delete called 2 returned 100% blocks executed 100%
+        2:  102:ElemType delete(MyList* v, int poz) {
+        -:  103:	/* Șterge un element de pe poziția 'poz'
+        -:  104:	 * Parametri:
+        -:  105:	 * v - pointer la lista de oferte (MyList*).
+        -:  106:	 * poz - poziția elementului de șters (int).
+        -:  107:	 * Returnează:
+        -:  108:	 * elementul șters
+        -:  109:	 */
+        2:  110:    ElemType deleted = v->elems[poz];
+        3:  111:    for (int i = poz; i < v->length - 1; i++) {
+        2:  111-block  0
+        3:  111-block  1
+branch  0 taken 1
+branch  1 taken 2 (fallthrough)
+        1:  112:        v->elems[i] = v->elems[i + 1];
+        1:  112-block  0
+        -:  113:    }
+        2:  114:    v->length--;
+        2:  115:    return deleted;
+        2:  115-block  0
+        -:  116:}
+        -:  117:
+function copyList called 41 returned 100% blocks executed 100%
+       41:  118:MyList* copyList(MyList* v, ElemType (*copyElem)(ElemType)) {
+        -:  119:	/* Creează o copie a listei
+        -:  120:	 * Parametri:
+        -:  121:	 * v - pointer la lista de oferte (MyList*).
+        -:  122:	 * *copyElem - pointer la funcția de copiere a elementelor din listă
+        -:  123:	 * Returnează:
+        -:  124:	 * copia listei
+        -:  125:	 */
+       41:  126:	MyList* newList = createEmpty();
+       41:  126-block  0
+call    0 returned 41
+       97:  127:	for (int i = 0; i < v->length; i++) {
+       97:  127-block  0
+branch  0 taken 56
+branch  1 taken 41 (fallthrough)
+       56:  128:		add(newList, copyElem(v->elems[i]));
+       56:  128-block  0
+call    0 returned 56
+call    1 returned 56
+        -:  129:	}
+       41:  130:	return newList;
+       41:  130-block  0
+        -:  131:}
+        -:  132:

@@ -1,0 +1,1 @@
+/usr/bin/cc  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/lab5neb.dir/main.c.o CMakeFiles/lab5neb.dir/oferta.c.o CMakeFiles/lab5neb.dir/controller.c.o CMakeFiles/lab5neb.dir/repo.c.o CMakeFiles/lab5neb.dir/tests.c.o CMakeFiles/lab5neb.dir/ui.c.o -o lab5neb

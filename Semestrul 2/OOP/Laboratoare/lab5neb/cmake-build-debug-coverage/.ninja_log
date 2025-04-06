@@ -1,0 +1,8 @@
+# ninja log v6
+0	32	1743678925686385364	CMakeFiles/lab5neb.dir/main.c.o	858e06cb286d7b73
+1	36	1743678925686804324	CMakeFiles/lab5neb.dir/repo.c.o	d5c65ba7d41f25e6
+1	38	1743678925687732871	CMakeFiles/lab5neb.dir/ui.c.o	b9ecae703dabffd5
+0	38	1743678925686709324	CMakeFiles/lab5neb.dir/controller.c.o	e6cf8efb40735130
+0	39	1743678925686592240	CMakeFiles/lab5neb.dir/oferta.c.o	41f25ec3eb7d5920
+1	50	1743678925687351161	CMakeFiles/lab5neb.dir/tests.c.o	891ca01fa08e1e43
+50	86	1743678925736034888	lab5neb	aa6fa7d25f609ccc
