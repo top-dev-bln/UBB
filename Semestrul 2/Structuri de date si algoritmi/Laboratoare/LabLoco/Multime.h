@@ -7,6 +7,8 @@
 
 
 typedef int TElem;
+typedef bool (*Conditie)(TElem);
+
 
 class Multime {
 	friend class IteratorMultime;
@@ -20,6 +22,8 @@ public:
 	Multime();
 
 
+
+
 	bool adauga(TElem e);
 
 	bool sterge(TElem e);
@@ -29,6 +33,8 @@ public:
 	int dim() const;
 
 	bool vida() const;
+
+	void filtreaza(Conditie cond);
 
 	IteratorMultime iterator() const;
 

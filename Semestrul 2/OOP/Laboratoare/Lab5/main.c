@@ -1,4 +1,3 @@
-#include <crtdbg.h>
 
 #include "ui.h"
 #include "tests.h"
@@ -12,7 +11,7 @@ int main(void)
 	 */
 
 	Ruleaza_Teste();
-	//Ruleaza_Meniu();
-	_CrtDumpMemoryLeaks();
+	Ruleaza_Meniu();
+
 	return 0;
 }

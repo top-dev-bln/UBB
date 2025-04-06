@@ -15,7 +15,7 @@
 		Repository* repo = (Repository*)malloc(sizeof(Repository));
 		Controller ctrl = Creeaza_Controller(repo);
 		Initializeaza_Repo(repo);
-		Adauga_Valori_Repo(&ctrl);
+		//Adauga_Valori_Repo(&ctrl); vrajeala sa bage cateva la mema
 		
 
 
@@ -32,7 +32,7 @@
 			char optiune;
 
 			printf(">>>> ");
-			scanf_s("%c", &optiune, 1);
+			scanf("%c", &optiune, 1);
 			while (getchar() != '\n');
 			switch (optiune)
 			{
@@ -47,16 +47,16 @@
 				char tip[20], adresa[50];
 				int suprafata, pret;
 				printf("Tip: ");
-				scanf_s("%s", tip, (unsigned)sizeof(tip));
+				scanf("%s", tip, (unsigned)sizeof(tip));
 				while (getchar() != '\n');
 				printf("Suprafata: ");
-				scanf_s("%d", &suprafata);
+				scanf("%d", &suprafata);
 				while (getchar() != '\n');
 				printf("Adresa: ");
-				scanf_s("%s", adresa, (unsigned)sizeof(adresa));
+				scanf("%s", adresa, (unsigned)sizeof(adresa));
 				while (getchar() != '\n');
 				printf("Pret: ");
-				scanf_s("%d", &pret);
+				scanf("%d", &pret);
 				while (getchar() != '\n');
 				int eroare = Adauga_Oferta_Controller(&ctrl, tip, suprafata, adresa, pret);
 				if (eroare == 2)
@@ -92,16 +92,16 @@
 				char tip[20], adresa[50];
 				int suprafata, pret;
 				printf("Tip: ");
-				scanf_s("%s", tip, (unsigned)sizeof(tip));
+				scanf("%s", tip, (unsigned)sizeof(tip));
 				while (getchar() != '\n');
 				printf("Suprafata: ");
-				scanf_s("%d", &suprafata);
+				scanf("%d", &suprafata);
 				while (getchar() != '\n');
 				printf("Adresa: ");
-				scanf_s("%s", adresa, (unsigned)sizeof(adresa));
+				scanf("%s", adresa, (unsigned)sizeof(adresa));
 				while (getchar() != '\n');
 				printf("Pret: ");
-				scanf_s("%d", &pret);
+				scanf("%d", &pret);
 				while (getchar() != '\n');
 
 				int verif = Valideaza_Exista_Oferta(adresa, ctrl.repo);
@@ -145,7 +145,7 @@
 			{
 				char adresa[50];
 				printf("Adresa: ");
-				scanf_s("%s", adresa, (unsigned)sizeof(adresa));
+				scanf("%s", adresa, (unsigned)sizeof(adresa));
 				while (getchar() != '\n');
 				int eroare = Sterge_Oferta_Controller(&ctrl, adresa);
 				if (eroare == 2)
@@ -161,7 +161,7 @@
 			case '4':
 				printf("Crescator / Descrescator? \n");
 				char directie[20];
-				scanf_s("%s", directie, (unsigned)sizeof(directie));
+				scanf("%s", directie, (unsigned)sizeof(directie));
 				while (getchar() != '\n');
 				Repository* ordonat = NULL;
 				if (strncmp(directie,"crescator", sizeof(directie) - 1) == 0)
@@ -189,11 +189,11 @@
 			case '5':
 				printf("Criteriu(suprafata, tip, pret): ");
 				char criteriu[20];
-				scanf_s("%s", criteriu, (unsigned)sizeof(criteriu));
+				scanf("%s", criteriu, (unsigned)sizeof(criteriu));
 				while (getchar() != '\n');
 				printf("Valoare: ");
 				char valoare[20];
-				scanf_s("%s", valoare, (unsigned)sizeof(valoare));
+				scanf("%s", valoare, (unsigned)sizeof(valoare));
 				while (getchar() != '\n');
 				Repository* filtrat = Filtrare(&ctrl, criteriu, valoare);
 				if (filtrat == NULL || filtrat->lungime == 0)

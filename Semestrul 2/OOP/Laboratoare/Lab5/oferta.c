@@ -14,10 +14,16 @@ Oferta* Creeaza_Oferta(const char* tip, int suprafata, const char* adresa, int p
      */
     Oferta* o = (Oferta*)malloc(sizeof(Oferta));
     o->tip = (char*)malloc((strlen(tip) + 1) * sizeof(char));
-    strcpy_s(o->tip, strlen(tip) + 1, tip);
+
+    o->tip = (char*)malloc(strlen(tip) + 1);
+    if (o->tip != NULL) {
+        strcpy(o->tip, tip);
+    }
     o->suprafata = suprafata;
-    o->adresa = (char*)malloc((strlen(adresa) + 1) * sizeof(char));
-    strcpy_s(o->adresa, strlen(adresa) + 1, adresa);
+    o->adresa = (char*)malloc(strlen(adresa) + 1);
+    if (o->adresa != NULL) {
+        strcpy(o->adresa, adresa);
+    }
     o->pret = pret;
     return o;
 }
@@ -74,13 +80,16 @@ int Get_Pret(Oferta* o)
 
 void Set_Tip(Oferta* o, const char* tip)
 {
-    /* Seteaza tipul imobilului
+    /* Setează tipul imobilului
      * o: pointer la Oferta
      * tip: noul tip
      */
     free(o->tip);
-    o->tip = (char*)malloc((strlen(tip) + 1) * sizeof(char));
-    strcpy_s(o->tip, strlen(tip) + 1, tip);
+
+    o->tip = (char*)malloc(strlen(tip) + 1);
+    if (o->tip != NULL) {
+        strcpy(o->tip, tip);
+    }
 }
 
 void Set_Suprafata(Oferta* o, int suprafata)
@@ -94,13 +103,16 @@ void Set_Suprafata(Oferta* o, int suprafata)
 
 void Set_Adresa(Oferta* o, const char* adresa)
 {
-    /* Seteaza adresa imobilului
+    /* Setează adresa imobilului
      * o: pointer la Oferta
-     * adresa: noua adresa
+     * adresa: noua adresă
      */
     free(o->adresa);
-    o->adresa = (char*)malloc((strlen(adresa) + 1) * sizeof(char));
-    strcpy_s(o->adresa, strlen(adresa) + 1, adresa);
+
+    o->adresa = (char*)malloc(strlen(adresa) + 1);
+    if (o->adresa != NULL) {
+        strcpy(o->adresa, adresa);
+    }
 }
 
 void Set_Pret(Oferta* o, int pret)
