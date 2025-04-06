@@ -5,16 +5,25 @@
 #include "service.h"
 
 
+
 void Service::addOferta(const std::string& denumire, const std::string& tip, float distanta, float pret) {
-    repo.addOferta(Oferta(denumire, tip, distanta, pret));
+    if (validator.isValidDenumire(denumire) && validator.isValidTip(tip) && validator.isValidDistanta(distanta) && validator.isValidPret(pret) && !validator.isrepetata(denumire, tip, distanta, pret)) {
+        repo.addOferta(Oferta(denumire, tip, distanta, pret));
+    }
 }
 
 void Service::modifyOferta(const std::string& denumire, const std::string& tip, float distanta, float pret) {
-    repo.modifyOferta(denumire, tip, distanta, pret);
+    if (validator.isValidDenumire(denumire) && validator.isValidTip(tip) && validator.isValidDistanta(distanta) && validator.isValidPret(pret) && validator.isExista(denumire)) {
+        repo.modifyOferta(denumire, tip, distanta, pret);
+    }
+
 }
 
 void Service::deleteOferta(const std::string& denumire) {
-    repo.deleteOferta(denumire);
+    if (validator.isValidDenumire(denumire) && validator.isExista(denumire)) {
+        repo.deleteOferta(denumire);
+    }
+
 }
 
 [[nodiscard]] std::vector<Oferta> Service::getAllOferte() const {
@@ -22,6 +31,7 @@ void Service::deleteOferta(const std::string& denumire) {
 }
 
 [[nodiscard]] std::vector<Oferta> Service::filterByDestinatie(const std::string& destinatie) const {
+
     std::vector<Oferta> result;
     const std::vector<Oferta>& oferte = repo.getAllOferte();
 
@@ -37,15 +47,21 @@ void Service::deleteOferta(const std::string& denumire) {
 
 
 [[nodiscard]] std::vector<Oferta> Service::filterByPret(float pret) const {
-    std::vector<Oferta> result;
-    const std::vector<Oferta>& oferte = repo.getAllOferte();
-    for (const Oferta& oferta : oferte) {
-        if (oferta.getPret() <= pret) {
-            result.push_back(oferta);
+    if (validator.isValidPret(pret)) {
+        std::vector<Oferta> result;
+        const std::vector<Oferta>& oferte = repo.getAllOferte();
+        for (const Oferta& oferta : oferte) {
+            if (oferta.getPret() <= pret) {
+                result.push_back(oferta);
+            }
         }
+        return result;
     }
-    return result;
+
+
 }
+
+
 [[nodiscard]] std::vector<Oferta> Service::sortByDenumire() const {
     auto sorted = repo.getAllOferte();
     std::sort(sorted.begin(), sorted.end(), [](const Oferta& a, const Oferta& b) {
@@ -77,6 +93,9 @@ void Service::deleteOferta(const std::string& denumire) {
 }
 
 [[nodiscard]] Oferta Service::searchOferta(const std::string& denumire) const {
-    return repo.searchOferta(denumire);
+    if (validator.isValidDenumire(denumire)) {
+        return repo.searchOferta(denumire);
+    }
+
 }
 

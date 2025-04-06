@@ -14,12 +14,12 @@ private:
     Repository& repository;
 
 public:
-    const bool isValidDenumire(const std::string& denumire);
-    const bool isValidTip(const std::string& tip);
-    const bool isValidDistanta(float distanta);
-    const bool isValidPret(float pret);
-    const bool isrepetata(const std::string& denumire, const std::string& tip, float distanta, float pret);
-    const bool isExista(const std::string& denumire, const std::string& tip, float distanta, float pret);
+    bool isValidDenumire(const std::string& denumire) const;
+    bool isValidTip(const std::string& tip);
+    bool isValidDistanta(float distanta);
+    bool isValidPret(float pret) const;
+    bool isrepetata(const std::string& denumire, const std::string& tip, float distanta, float pret);
+    bool isExista(const std::string& denumire);
 
 
     explicit Validator(Repository& repo) : repository(repo) {}

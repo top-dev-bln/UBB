@@ -9,12 +9,15 @@
 #include <vector>
 #include "oferta.h"
 #include "repository.h"
+#include "validator.h"
 
 class Service {
 private:
-    Repository repo;
+    Repository& repo;
+    Validator& validator;
 
 public:
+    Service(Repository& repo, Validator& validator) : repo(repo), validator(validator) {}
     void addOferta(const std::string& denumire, const std::string& tip, float distanta, float pret);
     void modifyOferta(const std::string& denumire, const std::string& tip, float distanta, float pret);
     void deleteOferta(const std::string& denumire);

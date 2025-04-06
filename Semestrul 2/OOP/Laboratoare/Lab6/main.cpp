@@ -2,11 +2,12 @@
 #include "tests.h"
 #include "service.h"
 
-
 int main() {
     testall();
-    Service servic;
-    UI ui(servic);
-    ui.run();
+    //Repository repo;
+    //Validator validator(repo);
+    //Service servic(repo, validator);
+    //UI ui(servic);
+    //ui.run();
     return 0;
 }
