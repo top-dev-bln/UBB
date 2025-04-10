@@ -41,4 +41,5 @@ Oferta Repository::searchOferta(const std::string& denumire) const {
             return it.element();
         }
     }
+    throw std::out_of_range("Nu exista oferta cu aceasta denumire!");
 }

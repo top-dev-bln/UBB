@@ -99,6 +99,7 @@ template <typename T>
         return elems[index];
     }
 
+    throw std::out_of_range("Index invalid!");
 }
 
 template <typename T>
@@ -132,7 +133,7 @@ T& IteratorVector<T>::element() const {
     if (valid()) {
         return v.elems[poz];
     }
-
+    throw std::invalid_argument("Element invalid!");
 }
 
 #endif //VECTORDINAMIC_H

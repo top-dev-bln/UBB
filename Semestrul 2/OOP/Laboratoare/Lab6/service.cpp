@@ -131,5 +131,7 @@ void Service::deleteOferta(const std::string& denumire) {
         return repo.searchOferta(denumire);
     }
 
+    throw std::out_of_range("Oferta cu aceasta denumire nu exista!");
+
 }
 

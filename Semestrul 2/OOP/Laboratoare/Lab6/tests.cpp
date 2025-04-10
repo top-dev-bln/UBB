@@ -32,6 +32,8 @@ void test_repository() {
 
 
     auto it = repo.begin();
+
+
     assert(it.valid());
     assert(it.element().getDenumire() == "Palma de Mallorca");
     it.next();
@@ -39,6 +41,8 @@ void test_repository() {
     assert(it.element().getDenumire() == "Barcelona");
     it.next();
     assert(!it.valid());
+
+
 
     repo.modifyOferta("Palma de Mallorca", "insula", 2.8, 120000);
     auto modified = repo.searchOferta("Palma de Mallorca");
@@ -54,13 +58,26 @@ void test_repository() {
     assert(it4.element().getDenumire() == "Palma de Mallorca");
     it4.next();
     assert(!it4.valid());
-}
+
+    repo.deleteOferta("Barcelona");
+
+
+        try {
+            repo.searchOferta("OfertaInexistenta");
+            assert(false);
+        } catch (const std::out_of_range& e) {
+            assert(true);
+        }
+    }
+
 
 
 void test_service() {
     Repository repo_test;
     Validator validator_test(repo_test);
     Service servic_test(repo_test, validator_test);
+
+
 
     servic_test.addOferta("Palma de Mallorca", "plaja", 2.5, 100000);
     servic_test.addOferta("Barcelona", "oras", 3.0, 50000);
@@ -177,7 +194,19 @@ void test_validator() {
 
 
 void test_erase_direct() {
+
+
+
+
     VectorDinamic<Oferta> vec;
+    auto it1 = IteratorVector<Oferta>(vec, 0);
+    try {
+        (void) it1.element();
+        assert(false);
+    } catch (const std::invalid_argument&) {
+        assert(true);
+    };
+
     vec.push_back(Oferta("a", "a", 1, 1));
     vec.push_back(Oferta("b", "b", 2, 2));
     vec.push_back(Oferta("c", "c", 3, 3));
@@ -188,6 +217,16 @@ void test_erase_direct() {
     assert(vec.size() == 2);
     assert(vec.get_element(0).getDenumire() == "b");
     assert(vec.get_element(1).getDenumire() == "c");
+
+    try {
+        VectorDinamic<int> v;
+        v.get_element(0);
+        assert(false);
+    } catch (const std::out_of_range& e) {
+        assert(true);
+    }
+
+
 }
 
 
