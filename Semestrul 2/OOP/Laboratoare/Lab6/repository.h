@@ -2,18 +2,20 @@
 #define REPOSITORY_H
 
 #include <vector>
-#include <string>
+#include "VectorDinamic.h"
 #include "oferta.h"
 
 class Repository {
 private:
-    std::vector<Oferta> oferte;
+    VectorDinamic<Oferta> oferte;
 
 public:
     void addOferta(const Oferta& oferta);
-    void modifyOferta(const std::string& denumire, const std::string& tip, float distanta, float pret);
+    void modifyOferta(const std::string& denumire, const std::string& tip, float distanta, float pret) const;
     void deleteOferta(const std::string& denumire);
-    [[nodiscard]] const std::vector<Oferta>& getAllOferte() const;
+    [[nodiscard]] IteratorVector<Oferta> begin() const;
+    [[nodiscard]] IteratorVector<Oferta> end() const;
+
     [[nodiscard]] Oferta searchOferta(const std::string& denumire) const;
 };
 

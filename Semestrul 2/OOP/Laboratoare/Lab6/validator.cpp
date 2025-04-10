@@ -34,8 +34,10 @@ bool Validator::isValidPret(float pret) const {
     return true;
 }
 
+
 bool Validator::isrepetata(const std::string& denumire, const std::string& tip, float distanta, float pret) {
-    for (const auto& oferta : repository.getAllOferte()) {
+    for (auto it = repository.begin(); it.valid(); it.next()) {
+        const Oferta& oferta = it.element();
         if (oferta.getDenumire() == denumire && oferta.getTip() == tip && oferta.getDistanta() == distanta && oferta.getPret() == pret) {
             return true;
         }
@@ -44,13 +46,16 @@ bool Validator::isrepetata(const std::string& denumire, const std::string& tip, 
 }
 
 bool Validator::isExista(const std::string& denumire) {
-    for (const auto& oferta : repository.getAllOferte()) {
-        if (oferta.getDenumire() == denumire ) {
+    for (auto it = repository.begin(); it.valid(); it.next()) {
+        const Oferta& oferta = it.element();
+        if (oferta.getDenumire() == denumire) {
             return true;
         }
     }
     return false;
 }
+
+
 Validator::~Validator() = default;
 
 

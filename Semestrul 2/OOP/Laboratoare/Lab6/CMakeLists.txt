@@ -20,4 +20,5 @@ add_executable(Lab6 main.cpp
         repository.cpp
         validator.cpp
         validator.h
+        VectorDinamic.h
 )

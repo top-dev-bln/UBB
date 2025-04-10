@@ -9,6 +9,7 @@
 #include "repository.h"
 
 
+
 class Validator {
 private:
     Repository& repository;

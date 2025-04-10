@@ -21,12 +21,15 @@ public:
     void addOferta(const std::string& denumire, const std::string& tip, float distanta, float pret);
     void modifyOferta(const std::string& denumire, const std::string& tip, float distanta, float pret);
     void deleteOferta(const std::string& denumire);
-    [[nodiscard]] std::vector<Oferta> getAllOferte() const;
-    [[nodiscard]] std::vector<Oferta> filterByDestinatie(const std::string& destinatie) const;
-    [[nodiscard]] std::vector<Oferta> filterByPret(float pret) const;
-    [[nodiscard]] std::vector<Oferta> sortByDenumire() const;
-    [[nodiscard]] std::vector<Oferta> sortByDestinatie() const;
-    [[nodiscard]] std::vector<Oferta> sortByTipAndPret() const;
+
+    [[nodiscard]] IteratorVector<Oferta> begin() const ;
+    [[nodiscard]] IteratorVector<Oferta> end() const ;
+
+    [[nodiscard]] VectorDinamic<Oferta> filterByDestinatie(const std::string& destinatie) const;
+    [[nodiscard]] VectorDinamic<Oferta> filterByPret(float pret) const;
+    [[nodiscard]] VectorDinamic<Oferta> sortByDenumire() const;
+    [[nodiscard]] VectorDinamic<Oferta> sortByDestinatie() const;
+    [[nodiscard]] VectorDinamic<Oferta> sortByTipAndPret() const;
     [[nodiscard]] Oferta searchOferta(const std::string& denumire) const;
 };
 

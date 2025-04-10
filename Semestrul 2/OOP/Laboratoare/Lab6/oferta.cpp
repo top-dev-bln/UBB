@@ -8,7 +8,7 @@
 
 
 
-
+    Oferta::Oferta()= default;
 
 
     Oferta::Oferta(std::string denumire, std::string tip, float distanta, float pret)

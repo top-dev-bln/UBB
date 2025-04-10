@@ -6,6 +6,7 @@
 #include "repository.h"
 #include "service.h"
 #include <cassert>
+#include <iostream>
 
 void test_oferta() {
     Oferta of1("Palma de Mallorca", "plaja", 2.5, 100000);
@@ -29,8 +30,15 @@ void test_repository() {
     repo.addOferta(Oferta("Palma de Mallorca", "plaja", 2.5, 100000));
     repo.addOferta(Oferta("Barcelona", "oras", 3.0, 50000));
 
-    auto all = repo.getAllOferte();
-    assert(all.size() == 2);
+
+    auto it = repo.begin();
+    assert(it.valid());
+    assert(it.element().getDenumire() == "Palma de Mallorca");
+    it.next();
+    assert(it.valid());
+    assert(it.element().getDenumire() == "Barcelona");
+    it.next();
+    assert(!it.valid());
 
     repo.modifyOferta("Palma de Mallorca", "insula", 2.8, 120000);
     auto modified = repo.searchOferta("Palma de Mallorca");
@@ -39,10 +47,15 @@ void test_repository() {
     assert(modified.getPret() == 120000);
 
     repo.deleteOferta("Barcelona");
-    all = repo.getAllOferte();
-    assert(all.size() == 1);
-    assert(all[0].getDenumire() == "Palma de Mallorca");
+
+
+    auto it4 = repo.begin();
+    assert(it4.valid());
+    assert(it4.element().getDenumire() == "Palma de Mallorca");
+    it4.next();
+    assert(!it4.valid());
 }
+
 
 void test_service() {
     Repository repo_test;
@@ -52,8 +65,18 @@ void test_service() {
     servic_test.addOferta("Palma de Mallorca", "plaja", 2.5, 100000);
     servic_test.addOferta("Barcelona", "oras", 3.0, 50000);
 
-    auto all = servic_test.getAllOferte();
-    assert(all.size() == 2);
+    auto it = servic_test.begin();
+    assert(it.valid());
+    assert(it.element().getDenumire() == "Palma de Mallorca");
+    it.next();
+    assert(it.valid());
+    assert(it.element().getDenumire() == "Barcelona");
+    it.next();
+    assert(!it.valid());
+
+    auto it2 = servic_test.begin();
+    assert(it2.valid());
+    assert(it2.element().getDenumire() == "Palma de Mallorca");
 
     servic_test.modifyOferta("Palma de Mallorca", "insula", 2.8, 120000);
     auto modified = servic_test.searchOferta("Palma de Mallorca");
@@ -62,32 +85,49 @@ void test_service() {
     assert(modified.getPret() == 120000);
 
     servic_test.deleteOferta("Barcelona");
-    all = servic_test.getAllOferte();
-    assert(all.size() == 1);
-    assert(all[0].getDenumire() == "Palma de Mallorca");
+
+    auto it3 = servic_test.begin();
+    int count = 0;
+    while (it3.valid()) {
+        count++;
+        it3.next();
+    }
+    assert(count == 1);  // Ar trebui să fie doar o ofertă
+    auto it4 = servic_test.begin();
+    assert(it4.valid());
+    assert(it4.element().getDenumire() == "Palma de Mallorca");
 
     servic_test.addOferta("Madrid", "oras", 4.0, 60000);
     auto filteredByPret = servic_test.filterByPret(100000);
     assert(filteredByPret.size() == 1);
 
     auto filteredByDestinatie = servic_test.filterByDestinatie("Madrid");
-    assert(filteredByDestinatie.size() == 1);
-    assert(filteredByDestinatie[0].getDenumire() == "Madrid");
+    auto itfiltrare = filteredByDestinatie.begin();
+    assert(itfiltrare.valid());
+    assert(itfiltrare.element().getDenumire() == "Madrid");
+
+    servic_test.addOferta("a","a",1,1);
 
     auto sortedByDenumire = servic_test.sortByDenumire();
-    assert(sortedByDenumire[0].getDenumire() == "Madrid");
+    auto itsortDen = sortedByDenumire.begin();
+    assert(itsortDen.valid());
+    assert(itsortDen.element().getDenumire() == "Madrid");
 
     auto sortedByDestinatie = servic_test.sortByDestinatie();
-    assert(sortedByDestinatie[0].getTip() == "insula");
+    auto itsortDest = sortedByDestinatie.begin();
+    assert(itsortDest.valid());
+    assert(itsortDest.element().getTip() == "a");
 
     servic_test.addOferta("Madrid", "ceva fain", 4.0, 60000);
-
     servic_test.addOferta("Madrid", "ceva fain", 4.0, 50000);
     auto sortedByTipAndPret = servic_test.sortByTipAndPret();
-    assert(sortedByTipAndPret[0].getDenumire() == "Madrid");
+    auto itsortTipPret = sortedByTipAndPret.begin();
+    assert(itsortTipPret.valid());
+    assert(itsortTipPret.element().getDenumire() == "a");
+
+    servic_test.addOferta("b","b",1,1);
+    servic_test.deleteOferta("b");
 }
-
-
 void test_validator() {
     Repository repo_test;
     Validator validator_test(repo_test);
@@ -132,11 +172,30 @@ void test_validator() {
 
 
 
+
 }
+
+
+void test_erase_direct() {
+    VectorDinamic<Oferta> vec;
+    vec.push_back(Oferta("a", "a", 1, 1));
+    vec.push_back(Oferta("b", "b", 2, 2));
+    vec.push_back(Oferta("c", "c", 3, 3));
+
+    auto it = vec.begin();  // poz = 0
+    vec.erase(it);
+
+    assert(vec.size() == 2);
+    assert(vec.get_element(0).getDenumire() == "b");
+    assert(vec.get_element(1).getDenumire() == "c");
+}
+
+
 void testall() {
     test_oferta();
     test_repository();
     test_service();
     test_validator();
+    test_erase_direct();
 }
 

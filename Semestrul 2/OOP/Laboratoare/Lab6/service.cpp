@@ -3,6 +3,7 @@
 //
 
 #include "service.h"
+#include "VectorDinamic.h"
 
 
 
@@ -26,17 +27,31 @@ void Service::deleteOferta(const std::string& denumire) {
 
 }
 
-[[nodiscard]] std::vector<Oferta> Service::getAllOferte() const {
-    return repo.getAllOferte();
+[[nodiscard]] IteratorVector<Oferta> Service::begin() const {
+    return repo.begin();
 }
 
-[[nodiscard]] std::vector<Oferta> Service::filterByDestinatie(const std::string& destinatie) const {
 
-    std::vector<Oferta> result;
-    const std::vector<Oferta>& oferte = repo.getAllOferte();
+[[nodiscard]] VectorDinamic<Oferta> Service::filterByDestinatie(const std::string& destinatie) const {
+    VectorDinamic<Oferta> result;
 
-    for (const Oferta& oferta : oferte) {
+    for (auto it = repo.begin(); it.valid(); it.next()) {
+        const Oferta& oferta = it.element();
         if (oferta.getDenumire() == destinatie) {
+            result.push_back(oferta);
+        }
+    }
+
+    return result;
+}
+
+
+
+[[nodiscard]] VectorDinamic<Oferta> Service::filterByPret(float pret) const {
+    VectorDinamic<Oferta> result;
+    for (auto it = repo.begin(); it.valid(); it.next()) {
+        const Oferta& oferta = it.element();
+        if (oferta.getPret() < pret) {
             result.push_back(oferta);
         }
     }
@@ -45,50 +60,69 @@ void Service::deleteOferta(const std::string& denumire) {
 
 
 
+[[nodiscard]] VectorDinamic<Oferta> Service::sortByDenumire() const {
+    VectorDinamic<Oferta> sorted;
 
-[[nodiscard]] std::vector<Oferta> Service::filterByPret(float pret) const {
-    if (validator.isValidPret(pret)) {
-        std::vector<Oferta> result;
-        const std::vector<Oferta>& oferte = repo.getAllOferte();
-        for (const Oferta& oferta : oferte) {
-            if (oferta.getPret() <= pret) {
-                result.push_back(oferta);
-            }
-        }
-        return result;
+    for (auto it = repo.begin(); it.valid(); it.next()) {
+        sorted.push_back(it.element());
     }
 
 
-}
+    for (auto it1 = sorted.begin(); it1.valid(); it1.next()) {
+        for (auto it2 = it1; it2.valid(); it2.next()) {
+            if (it1.element().getDenumire() > it2.element().getDenumire()) {
 
+                Oferta temp = it1.element();
+                it1.element() = it2.element();
+                it2.element() = temp;
+            }
+        }
+    }
 
-[[nodiscard]] std::vector<Oferta> Service::sortByDenumire() const {
-    auto sorted = repo.getAllOferte();
-    std::sort(sorted.begin(), sorted.end(), [](const Oferta& a, const Oferta& b) {
-        return a.getDenumire() < b.getDenumire();
-    });
     return sorted;
 }
 
-[[nodiscard]] std::vector<Oferta> Service::sortByDestinatie() const {
-    auto sorted = repo.getAllOferte();
-    std::sort(sorted.begin(), sorted.end(), [](const Oferta& a, const Oferta& b) {
-        return a.getTip() < b.getTip();
-    });
+[[nodiscard]] VectorDinamic<Oferta> Service::sortByDestinatie() const {
+    VectorDinamic<Oferta> sorted;
+
+    for (auto it = repo.begin(); it.valid(); it.next()) {
+        sorted.push_back(it.element());
+    }
+
+
+    for (auto it1 = sorted.begin(); it1.valid(); it1.next()) {
+        for (auto it2 = it1; it2.valid(); it2.next()) {
+            if (it1.element().getTip() > it2.element().getTip()) {
+                // Swap elements
+                Oferta temp = it1.element();
+                it1.element() = it2.element();
+                it2.element() = temp;
+            }
+        }
+    }
+
     return sorted;
 }
 
-[[nodiscard]] std::vector<Oferta> Service::sortByTipAndPret() const {
-    auto sorted = repo.getAllOferte();
-    std::sort(sorted.begin(), sorted.end(), [](const Oferta& a, const Oferta& b) {
-        if (a.getTip() < b.getTip()) {
-            return true;
+[[nodiscard]] VectorDinamic<Oferta> Service::sortByTipAndPret() const {
+    VectorDinamic<Oferta> sorted;
+
+    for (auto it = repo.begin(); it.valid(); it.next()) {
+        sorted.push_back(it.element());
+    }
+
+    for (auto it1 = sorted.begin(); it1.valid(); it1.next()) {
+        for (auto it2 = it1; it2.valid(); it2.next()) {
+            if (it1.element().getTip() > it2.element().getTip() ||
+                (it1.element().getTip() == it2.element().getTip() && it1.element().getPret() > it2.element().getPret())) {
+
+                Oferta temp = it1.element();
+                it1.element() = it2.element();
+                it2.element() = temp;
+            }
         }
-        if (a.getTip() > b.getTip()) {
-            return false;
-        }
-        return a.getPret() < b.getPret();
-    });
+    }
+
     return sorted;
 }
 

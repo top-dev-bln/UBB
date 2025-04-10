@@ -5,6 +5,7 @@
 #include <iostream>
 #include "ui.h"
 
+
 void UI::printMenu() {
     std::cout << "Alege o optiune:\n ";
     std::cout << "1. Adauga oferta\n";
@@ -60,8 +61,8 @@ void UI::uiDelete() {
 }
 
 void UI::printAllOferte() {
-    auto oferte = servic.getAllOferte();
-    for (const auto& oferta : oferte) {
+    for (auto it = servic.begin(); it.valid(); it.next()) {
+        const auto& oferta = it.element();
         std::cout << "Denumire: " << oferta.getDenumire()
                   << ", Tip: " << oferta.getTip()
                   << ", Distanta: " << oferta.getDistanta()
@@ -81,28 +82,31 @@ void UI::uiFilter() {
         std::cout << "Introduceti destinatia: ";
         std::cin >> destinatie;
         auto filtered = servic.filterByDestinatie(destinatie);
-        for (const auto& oferta : filtered) {
-            std::cout << "Denumire: " << oferta.getDenumire()
-                      << ", Tip: " << oferta.getTip()
-                      << ", Distanta: " << oferta.getDistanta()
-                      << ", Pret: " << oferta.getPret() << '\n';
+        auto it = filtered.begin();
+        while (it.valid()) {
+            std::cout << "Denumire: " << it.element().getDenumire()
+                      << ", Tip: " << it.element().getTip()
+                      << ", Distanta: " << it.element().getDistanta()
+                      << ", Pret: " << it.element().getPret() << '\n';
+            it.next();
         }
     } else if (filterOpt == '2') {
         float pret;
         std::cout << "Introduceti pretul: ";
         std::cin >> pret;
         auto filtered = servic.filterByPret(pret);
-        for (const auto& oferta : filtered) {
-            std::cout << "Denumire: " << oferta.getDenumire()
-                      << ", Tip: " << oferta.getTip()
-                      << ", Distanta: " << oferta.getDistanta()
-                      << ", Pret: " << oferta.getPret() << '\n';
+        auto it = filtered.begin();
+        while (it.valid()) {
+            std::cout << "Denumire: " << it.element().getDenumire()
+                      << ", Tip: " << it.element().getTip()
+                      << ", Distanta: " << it.element().getDistanta()
+                      << ", Pret: " << it.element().getPret() << '\n';
+            it.next();
         }
     } else {
         std::cout << "Optiune invalida!\n";
     }
 }
-
 void UI::uiSort() {
     char sortOpt;
     std::cout << "Sortare dupa denumire/destinatie/tip+pret\n";
@@ -111,7 +115,7 @@ void UI::uiSort() {
     std::cout << "3. Sortare dupa tip+pret\n";
     std::cin >> sortOpt;
 
-    std::vector<Oferta> sorted;
+    VectorDinamic<Oferta> sorted;
     if (sortOpt == '1') {
         sorted = servic.sortByDenumire();
     } else if (sortOpt == '2') {
@@ -123,11 +127,13 @@ void UI::uiSort() {
         return;
     }
 
-    for (const auto& oferta : sorted) {
-        std::cout << "Denumire: " << oferta.getDenumire()
-                  << ", Tip: " << oferta.getTip()
-                  << ", Distanta: " << oferta.getDistanta()
-                  << ", Pret: " << oferta.getPret() << '\n';
+    auto it = sorted.begin();
+    while (it.valid()) {
+        std::cout << "Denumire: " << it.element().getDenumire()
+                  << ", Tip: " << it.element().getTip()
+                  << ", Distanta: " << it.element().getDistanta()
+                  << ", Pret: " << it.element().getPret() << '\n';
+        it.next();
     }
 }
 
