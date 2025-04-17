@@ -4,10 +4,10 @@
 
 int main() {
     testall();
-    //Repository repo;
-    //Validator validator(repo);
-    //Service servic(repo, validator);
-    //UI ui(servic);
-    //ui.run();
+    Repository repo;
+    Validator validator(repo);
+    Service servic(repo, validator);
+    UI ui(servic);
+    ui.run();
     return 0;
 }

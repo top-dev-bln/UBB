@@ -51,43 +51,43 @@ build cmake_object_order_depends_target_Lab5: phony || .
 
 build CMakeFiles/Lab5.dir/main.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/main.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/main.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/controller.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/controller.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/controller.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/repo.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/repo.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/repo.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/tests.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/tests.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/tests.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/ui.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/ui.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/ui.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/validator.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/validator.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/validator.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/oferta.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/top.dev.bln/Documents/UBB/Semestrul$ 2/OOP/Laboratoare/Lab5/oferta.c || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/oferta.c.o.d
-  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu11 -arch arm64 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
@@ -100,7 +100,7 @@ build CMakeFiles/Lab5.dir/oferta.c.o: C_COMPILER__Lab5_unscanned_Debug /Users/to
 # Link the executable Lab5
 
 build Lab5: C_EXECUTABLE_LINKER__Lab5_Debug CMakeFiles/Lab5.dir/main.c.o CMakeFiles/Lab5.dir/controller.c.o CMakeFiles/Lab5.dir/repo.c.o CMakeFiles/Lab5.dir/tests.c.o CMakeFiles/Lab5.dir/ui.c.o CMakeFiles/Lab5.dir/validator.c.o CMakeFiles/Lab5.dir/oferta.c.o
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
+  FLAGS = -g -arch arm64
   OBJECT_DIR = CMakeFiles/Lab5.dir
   POST_BUILD = :
   PRE_LINK = :
